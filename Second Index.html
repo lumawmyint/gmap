@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Tools Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #3f37c9;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --success: #4cc9f0;
+            --border-radius: 12px;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7ff;
+            color: var(--dark);
+            line-height: 1.6;
+            padding: 2rem 1rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--success));
+            border-radius: 2px;
+        }
+        
+        h1 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+        
+        .subtitle {
+            color: var(--gray);
+            font-weight: 400;
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .tool-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .tool-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 1.8rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            text-align: center;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+            display: block;
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary), var(--success));
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tool-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .tool-title {
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 1.2rem;
+            display: block;
+            margin-bottom: 0.5rem;
+            transition: var(--transition);
+        }
+        
+        .tool-card:hover .tool-title {
+            color: var(--primary-dark);
+        }
+        
+        .tool-description {
+            color: var(--gray);
+            margin-top: 0.8rem;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        @media (max-width: 768px) {
+            .tool-container {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Financial Tools Dashboard</h1>
+        <p class="subtitle">Quick access to all available calculators and tools</p>
+    </header>
+    
+    <div class="tool-container">
+        <a href="Final VIP(Use this one).html" class="tool-card">
+            <div class="tool-icon">
+                <i class="fas fa-chalkboard-teacher"></i>
+            </div>
+            <span class="tool-title">Mentor Tool</span>
+            <p class="tool-description">Mentor သုံးရန်</p>
+        </a>
+        
+        <a href="withdrawl calculation Upgraded V3.html" class="tool-card">
+            <div class="tool-icon">
+                <i class="fas fa-calculator"></i>
+            </div>
+            <span class="tool-title">Withdrawal Calculator</span>
+            <p class="tool-description">Withdraw amount တွက်ပြရန် အတွက် သုံးရန်</p>
+        </a>
+        
+        <a href="CS - checkingwithemail(Final Version).html" class="tool-card">
+            <div class="tool-icon">
+                <i class="fas fa-headset"></i>
+            </div>
+            <span class="tool-title">CS Backstage</span>
+            <p class="tool-description">Credit Score ဖိုးတောင်းရန် အတွက် သုံးရန်</p>
+        </a>
+        
+        <a href="VIP2.html" class="tool-card">
+            <div class="tool-icon">
+                <i class="fas fa-crown"></i>
+            </div>
+            <span class="tool-title">VIP 2</span>
+            <p class="tool-description">VIP2 ဖိုးတောင်းရန် အတွက် သုံးရန်</p>
+        </a>
+        
+        <a href="CreditScore.html" class="tool-card">
+            <div class="tool-icon">
+                <i class="fas fa-credit-card"></i>
+            </div>
+            <span class="tool-title">Credit Score Analyzer</span>
+            <p class="tool-description">Credit Score မှာ score မပြည့်တာကို တွက်ပြရန်အတွက် သုံးရန်</p>
+        </a>
+
+        <a href="ဘာလာလာ အမှားပြ  new.html" class="tool-card">
+            <div class="tool-icon">
+                <i class="fas fa-exchange-alt"></i>
+            </div>
+            <span class="tool-title">Refund Code Checker</span>
+            <p class="tool-description">Refund Code မမှန်ကြောင်း ပြသရန်အတွက် သုံးရန်</p>
+        </a>
+    </div>
+
+    <script>
+        // Add animation to cards on load
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.tool-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.animation = `fadeInUp 0.5s ease forwards ${index * 0.1}s`;
+            });
+            
+            // Add the keyframes dynamically
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes fadeInUp {
+                    from {
+                        opacity: 0;
+                        transform: translateY(20px);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+        });
+    </script>
+</body>
+</html>

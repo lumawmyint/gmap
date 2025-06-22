@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ameriprise Back-Office Management System</title>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <style>
+        :root {
+            --bg-dark: #b3e4e4;
+            --bg-darker: #08162e;
+            --bg-panel: #24282e;
+            --bg-panel-light: #2d3239;
+            --text-primary: #e1e7ec;
+            --text-secondary: #b8c2cc;
+            --accent-blue: #d5f3de;
+            --accent-blue-dark: #3a7bc8;
+            --border-dark: #343a42;
+            --border-light: #3e444d;
+            --alert-warning: rgba(255, 230, 0, 0.185);
+            --alert-warning-border: #ffc107;
+            --table-header: #2d3239;
+            --table-row: #2a2f36;
+            --button-primary: #4d9ef7;
+            --button-hover: #3a7bc8;
+            --button-active: #2a5d9c;
+            --input-bg: #2d3239;
+            --input-border: #3e444d;
+            --input-focus: rgba(77, 158, 247, 0.2);
+        }
+
+        /* Base Styles */
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.5;
+            font-size: 14px;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1400px;
+            margin: 20px auto;
+            background-color: var(--bg-panel);
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        /* Header Section */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 24px;
+            background-color: var(--bg-darker);
+            border-bottom: 1px solid var(--border-dark);
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            color: var(--text-primary);
+        }
+
+        .timestamp {
+            font-size: 16px;
+            color: rgb(152, 209, 87);
+            font-family: 'Roboto Mono', monospace;
+            letter-spacing: 0.5px;
+        }
+
+        /* Welcome Message */
+        .welcome-message {
+            /*padding: 14px 24px; */
+            font-size: 16px;
+            /*background-color: var(--bg-panel-light);*/
+            /*/border-bottom: 1px solid var(--border-dark); */
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        /* Navigation Tables */
+        .nav-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0;
+            font-size: 13px;
+        }
+
+        .nav-table td {
+            padding: 12px 16px;
+            border: 1px solid var(--border-dark);
+            text-align: center;
+            transition: all 0.15s ease;
+            position: relative;
+        }
+
+        .nav-table tr:first-child td {
+            background-color: var(--bg-darker);
+            font-weight: 600;
+            color: var(--accent-blue);
+            border-bottom: 1px solid var(--border-dark);
+        }
+
+        .nav-table td:hover {
+            background-color: rgba(77, 158, 247, 0.08);
+            cursor: pointer;
+        }
+
+        .nav-table td:active {
+            background-color: rgba(77, 158, 247, 0.15);
+        }
+
+        /* Alert Box */
+        .alert-box {
+            margin: 20px 24px;
+            padding: 16px 20px;
+            background-color: var(--alert-warning);
+            border-left: 4px solid var(--alert-warning-border);
+            border-radius: 0 4px 4px 0;
+        }
+
+        .alert-title {
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            font-size: 15px;
+        }
+
+        .alert-title:before {
+            content: "⚠";
+            margin-right: 10px;
+            font-size: 16px;
+        }
+
+        .alert-content {
+            padding-left: 26px;
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+
+        .alert-content ul {
+            margin: 12px 0;
+            padding-left: 20px;
+        }
+
+        .alert-content li {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        .alert-content em {
+            font-style: italic;
+            color: var(--text-primary);
+        }
+
+        /* Info Table */
+        .info-table {
+            width: calc(100% - 48px);
+            margin: 24px;
+            border-collapse: collapse;
+            border: 1px solid var(--border-dark);
+        }
+
+        .info-table th {
+            background-color: var(--table-header);
+            padding: 14px 16px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--accent-blue);
+            border-bottom: 2px solid var(--border-dark);
+            font-size: 13.5px;
+        }
+
+        .info-table td {
+            padding: 16px;
+            border-bottom: 1px solid var(--border-dark);
+            vertical-align: top;
+            background-color: var(--table-row);
+            color: var(--text-secondary);
+        }
+
+        .info-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .info-table ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .info-table li {
+            margin-bottom: 8px;
+        }
+
+        /* Interactive Elements */
+        .editable-email {
+            color: var(--accent-blue);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 500;
+            font-size: 17px;
+            position: relative;
+        }
+
+        .editable-email:hover {
+            color: var(--button-hover);
+            text-decoration: underline;
+        }
+
+        .editable-email:after {
+            content: "✅";
+            margin-left: 6px;
+            font-size: 12px;
+            opacity: 0.7;
+        }
+
+        .button {
+            background-color: var(--button-primary);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 12.5px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+
+        .button:hover {
+            background-color: var(--button-hover);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .button:active {
+            background-color: var(--button-active);
+            transform: translateY(1px);
+        }
+
+        /* Form Elements */
+        #email-edit {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            padding: 12px 24px;
+            background-color: var(--bg-panel-light);
+            border-top: 1px solid var(--border-dark);
+        }
+
+        #email-input {
+            flex-grow: 1;
+            padding: 9px 14px;
+            border: 1px solid var(--border-dark);
+            border-radius: 4px;
+            font-size: 13.5px;
+            background-color: var(--bg-panel);
+            color: var(--text-primary);
+            outline: none;
+        }
+
+        #email-input:focus {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 2px rgba(77, 158, 247, 0.2);
+        }
+
+        /* Credit Score Form */
+        .credit-score-form {
+            margin: 20px 24px;
+            padding: 20px;
+            background-color: var(--bg-panel-light);
+            border-radius: 4px;
+            border: 1px solid var(--border-dark);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .form-control {
+            width: 20%;
+            padding: 8px 12px;
+            background-color: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 4px;
+            color: var(--text-primary);
+            font-size: 14px;
+        }
+
+        .form-control:focus {
+            border-color: var(--accent-blue);
+            outline: none;
+            box-shadow: 0 0 0 2px var(--input-focus);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+
+        .form-col {
+            flex: 1;
+        }
+
+        .result-box {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: rgba(77, 158, 247, 0.1);
+            border-left: 4px solid var(--accent-blue);
+            border-radius: 0 4px 4px 0;
+        }
+
+        .result-value {
+            font-weight: 600;
+            color: var(--accent-blue);
+        }
+
+        /* Utility Classes */
+        .hidden {
+            display: none;
+        }
+
+        /* Divider */
+        hr {
+            border: 0;
+            height: 1px;
+            background-color: var(--border-dark);
+            margin: 20px 0;
+        }
+
+        /* Specific styling for the credit score info cell */
+        .credit-score-info {
+            width: 60%; /* Adjust percentage as needed */
+            max-width: 500px; /* Optional maximum width */
+            min-width: 300px; /* Optional minimum width */
+        }
+
+        #current-score, #payment-amount, #payment-amount, #points-lost, #per-point-value, #color, #payment-amount-2 {
+            color: #e2ce1ade;              /* Amber/orange color for warning */
+            font-weight: 600;
+            font-size: large;
+            font-family: 'Roboto Mono', monospace; /* Monospace for numbers */                         
+        }
+
+        .screenshot-button {
+            /*display: block; */
+            margin: 15px auto;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #7256b3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .container {
+                margin: 0;
+                border-radius: 0;
+            }
+        
+            .nav-table td {
+                padding: 10px 8px;
+                font-size: 12px;
+            }
+            
+            .alert-content {
+                padding-left: 0;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <button class="screenshot-button" onclick="captureMain()">📸 Capture SS </button>
+    <div id="notification" style="display: none; position: fixed; top: 20px; right: 20px; background: #3f47b4; color: white; padding: 15px; border-radius: 5px; z-index: 1000;">
+        Image copied to clipboard!
+    </div>
+    <div class="container">
+        <div class="header">
+            <div class="welcome-message">Welcome to the Ameriprise back-office management system</div>
+            <div class="timestamp" id="timestamp"></div>
+        </div>       
+        
+        
+        <table class="nav-table">
+            <tr>
+                <td>UFL Overview</td>
+                <td>CIR</td>
+                <td>OPM</td>
+                <td>M M</td>
+            </tr>
+        </table>
+        
+        <table class="nav-table">
+            <tr>
+                <td>UFL Overview</td>
+                <td>○</td>
+                <td id="user-email" class="editable-email">salmantanveer494@gmail.com</td>
+                <td><button class="button">Reset</button></td>
+                <td>ETE</td>
+                <td>Is Admin</td>
+                <td>Is ML</td>
+                <td>Is Guest</td>
+            </tr>
+        </table>
+        
+        <table class="nav-table">
+            <tr>
+                <td>Member Info</td>
+                <td>WDR</td>
+                <td>Deposit</td>
+                <td>GRec</td>
+                <td>BCLink</td>
+                <td>UVQuery</td>
+                <td>CSing</td>
+                <td>LIPI</td>
+                <td>BPIC</td>
+                <td>Noble Records</td>
+                <td>MVConfig</td>
+            </tr>
+        </table>
+        
+        <hr>
+        
+        <h2 style="margin: 0 24px;">SYSTEM MESSAGE</h2>
+        
+        <div class="alert-box">
+            <div class="alert-title">Dear Ameriprise user : <span id="display-email"> abcd1234@gmail.com</span></div>
+            <div class="alert-content">
+                <ul>
+                    <li>During one of the task operations the system detected an error, resulting in a drop in your credit score from <span id='color'>100</span> to <span id="current-score">90</span>. To proceed with your withdrawal, please restore your credit score by paying ₹<span id="payment-amount">150,000</span> (<span id="points-lost">10</span> Points × ₹<span id="per-point-value">15,000</span>).</li>
+                    <li>After restoring the credit score <span id='color'>to 100</span>, customer service will assist you with the withdrawal of funds to your bank account.</li>
+                    <li>This deduction serves as a warning. Once the payment of ₹<span id="payment-amount-2">150,000</span> is completed, customer service will be able to assist you with the withdrawal of your funds to the bank account                         </em></li>
+                </ul>
+            </div>
+        </div>       
+        
+        
+        <table class="info-table">
+            <tr>
+                <th>CSE</th>
+                <th>CSA</th>
+                <th>CSV</th>
+            </tr>
+            <tr>
+                <td class="credit-score-info">Credit score is based on all aspects of the data and design of the credit system, in essence, "credit score" is a set of credit systems, the platform's behavioural records. The comprehensive processing and evaluation of massive information data may include: five dimensional user credit history, behavioural preferences, performance ability, identity traits, and personal connections. Based on Internet financial data and data cooperation with public institutions such as the public security network and partners, which is different from traditional credit data. <em>By analysing a large amount of online transaction and behavioural data, Credit Score can help Internet financial enterprises to provide users with quick credit and cash instalment services.</em></td>
+                <td>
+                    <ul>
+                        <li>Widespread Named Users</li>
+                        <li>Unique Data Value</li>
+                        <li>Powerful Data Capability</li>
+                        <li>Convenient Scenario Application</li>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li>CSRNC</li>
+                        <li>CEE</li>
+                        <li>I+C</li>
+                        <li>PF</li>
+                        <li>BCC</li>
+                    </ul>
+                </td>
+            </tr>
+        </table>
+
+        
+    </div>
+
+    <div class="credit-score-form">
+            <h3 style="margin-top: 0;">Credit Score Configuration and Email</h3>
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="form-group">
+                        <label for="original-score">Original Credit Score</label>
+                        <input type="number" id="original-score" class="form-control" value="100" min="1" max="1000">
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="form-group">
+                        <label for="current-score-input">Current Credit Score</label>
+                        <input type="number" id="current-score-input" class="form-control" value="90" min="1" max="1000">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="per-point-cost">Amount per point (₹)</label>
+                <input type="number" id="per-point-cost" class="form-control" value="15000" min="1">
+            </div>
+            <button id="calculate-btn" class="button">Calculate Payment</button>
+            
+            <div id="calculation-result" class="result-box hidden">
+                <h4 style="margin-top: 0;">Calculation Result</h4>
+                <p>Points to restore: <span id="calculated-points" class="result-value">10</span></p>
+                <p>Amount per point: ₹<span id="calculated-per-point" class="result-value">15,000</span></p>
+                <p>Total payment required: ₹<span id="calculated-total" class="result-value">150,000</span></p>
+            </div>
+            <br>
+            <div id="email-edit" class="hidden">
+            <input type="text" id="email-input" value="abcd1234@gmail.com">
+            <button class="button" onclick="saveEmail()">Save</button>
+            <button class="button" onclick="cancelEdit()">Cancel</button>
+        </div>
+        </div>
+        
+        
+
+    <script>
+        // Update timestamp with current date and time
+        function updateTimestamp() {
+            const now = new Date();
+            const options = { 
+                hour: '2-digit', 
+                minute: '2-digit',
+                hour12: false
+            };
+            const timeStr = now.toLocaleTimeString([], options);
+            const dateStr = now.toLocaleDateString();
+            document.getElementById('timestamp').textContent = `${timeStr} ${dateStr}`;
+        }
+        
+        // Update timestamp immediately and then every minute
+        updateTimestamp();
+        setInterval(updateTimestamp, 60000);
+        
+        // Email editing functionality
+        document.getElementById('user-email').addEventListener('click', function() {
+            document.getElementById('email-edit').classList.remove('hidden');
+            document.getElementById('user-email').classList.add('hidden');
+        });
+        
+        function saveEmail() {
+            const newEmail = document.getElementById('email-input').value;
+            document.getElementById('user-email').textContent = newEmail;
+            document.getElementById('display-email').textContent = newEmail;
+            document.getElementById('email-edit').classList.add('hidden');
+            document.getElementById('user-email').classList.remove('hidden');
+        }
+        
+        function cancelEdit() {
+            document.getElementById('email-edit').classList.add('hidden');
+            document.getElementById('user-email').classList.remove('hidden');
+        }
+        
+        // Credit score calculation functionality
+        document.getElementById('calculate-btn').addEventListener('click', function() {
+            const originalScore = parseInt(document.getElementById('original-score').value);
+            const currentScore = parseInt(document.getElementById('current-score-input').value);
+            const perPointCost = parseInt(document.getElementById('per-point-cost').value);
+            
+            if (isNaN(originalScore) || isNaN(currentScore) || isNaN(perPointCost)) {
+                alert('Please enter valid numbers for all fields');
+                return;
+            }
+            
+            if (currentScore > originalScore) {
+                alert('Current score cannot be higher than original score');
+                return;
+            }
+            
+            const pointsLost = originalScore - currentScore;
+            const totalPayment = pointsLost * perPointCost;
+            
+            // Update the calculation result box
+            document.getElementById('calculated-points').textContent = pointsLost;
+            document.getElementById('calculated-per-point').textContent = formatNumber(perPointCost);
+            document.getElementById('calculated-total').textContent = formatNumber(totalPayment);
+            document.getElementById('calculation-result').classList.remove('hidden');
+            
+            // Update the alert message
+            document.getElementById('current-score').textContent = currentScore;
+            document.getElementById('points-lost').textContent = pointsLost;
+            document.getElementById('per-point-value').textContent = formatNumber(perPointCost);
+            document.getElementById('payment-amount').textContent = formatNumber(totalPayment);
+            document.getElementById('payment-amount-2').textContent = formatNumber(totalPayment);
+        });
+        
+        // Helper function to format numbers with commas
+        function formatNumber(num) {
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+        
+        // Initialize the calculation on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('calculate-btn').click();
+        });
+
+        // Improved screenshot functions
+        async function captureMain() {
+            try {
+                // Check if clipboard-write permission is granted
+                const permissionStatus = await navigator.permissions.query({
+                    name: 'clipboard-write'
+                });
+                
+                if (permissionStatus.state === 'granted' || permissionStatus.state === 'prompt') {
+                    const element = document.querySelector('.container');
+                    await captureElement(element, ' ');
+                } else {
+                    showToast('❌ Clipboard permission not granted');
+                }
+            } catch (err) {
+                console.error('Permission check failed:', err);
+                // Fallback to trying anyway
+                const element = document.querySelector('.container');
+                await captureElement(element, 'Main Container');
+            }
+        }
+
+        // Generic capture function with improved error handling
+        async function captureElement(element, sectionName = '') {
+            if (!element) {
+                alert('Element not found for screenshot');
+                return;
+            }
+
+            const originalBoxShadow = element.style.boxShadow;
+            element.style.boxShadow = 'none';
+
+            try {
+                const canvas = await html2canvas(element, {
+                    backgroundColor: "#24282e", // Match your container's background
+                    scale: 1, // Start with 1 for better compatibility
+                    logging: true, // Enable to see console logs
+                    useCORS: true,
+                    allowTaint: true,
+                    scrollX: 0,
+                    scrollY: 0,
+                    windowWidth: element.scrollWidth,
+                    windowHeight: element.scrollHeight
+                });
+
+                // Convert canvas to blob
+                canvas.toBlob(async (blob) => {
+                    try {
+                        await navigator.clipboard.write([
+                            new ClipboardItem({ 'image/png': blob })
+                        ]);
+                        showToast(`📋 ${sectionName} Screenshot copied to clipboard!`);
+                    } catch (err) {
+                        console.error('Clipboard write failed:', err);
+                        // Fallback to saving as image file
+                        saveAsImage(canvas, sectionName);
+                    }
+                }, 'image/png');
+            } catch (err) {
+                console.error('Screenshot failed:', err);
+                showToast(`❌ Failed to capture ${sectionName}: ${err.message}`);
+            } finally {
+                element.style.boxShadow = originalBoxShadow;
+            }
+        }
+
+        // Fallback function to save as image file
+        function saveAsImage(canvas, name) {
+            const link = document.createElement('a');
+            link.download = `${name || 'screenshot'}-${new Date().toISOString()}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            showToast(`📋 ${name} screenshot saved as file (clipboard not available)`);
+        }
+
+        // Toast notification function
+        function showToast(message) {
+            const toast = document.getElementById('notification');
+            toast.textContent = message;
+            toast.style.display = 'block';
+            
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Code Verification System</title>
+    <style>
+        /* Reused styles from your existing system */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+        
+        .container {
+            width: 80%;
+            margin: 30px auto;
+            background: white;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            position: relative;
+        }
+        
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        
+        .header img {
+            width: 120px;
+            height: 110px;
+            border-radius: 1px;
+            margin: 5px;
+        }
+        
+        h1 {
+            font-size: 36px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .hr-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .hr-line {
+            flex-grow: 1;
+            border-top: 4px solid #333;
+        }
+        
+        .message {
+            padding: 0 20px;
+            font-weight: bold;
+            color: #333;
+            font-size: 28px;
+        }
+        
+        .verification-box {
+            background-color: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 20px auto;
+            max-width: 600px;
+            text-align: center;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #495057;
+        }
+        
+        .input-group input {
+            width: 60%;
+            padding: 12px 15px;
+            font-size: 16px;
+            border: 2px solid #6a0dad;
+            border-radius: 5px;
+            text-align: center;
+            margin: 0 auto;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            background-color: #6a0dad;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin: 10px;
+        }
+        
+        .btn:hover {
+            background-color: #5a0b9d;
+        }
+        
+        .result-message {
+            margin-top: 25px;
+            padding: 15px;
+            border-radius: 5px;
+            font-size: 18px;
+            display: none;
+        }
+        
+        .error-message {
+            background-color: #ffebee;
+            border-left: 5px solid #f44336;
+            color: #d32f2f;
+            text-align: left;
+        }
+        
+        .success-message {
+            background-color: #e8f5e9;
+            border-left: 5px solid #4caf50;
+            color: #2e7d32;
+            text-align: left;
+        }
+        
+        .system-info {
+            font-size: 14px;
+            color: #7f8c8d;
+            margin-top: 30px;
+        }
+        
+        .secure-icon {
+            color: #28a745;
+            margin-left: 5px;
+        }
+        
+        #datetime {
+            font-size: 18px;
+            color: #6a0dad;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="thumbnail1.jpg" alt="Thumbnail 1">
+            <img src="thumbnail2.jpg" alt="Thumbnail 2">
+            <img src="thumbnail3.jpg" alt="Thumbnail 3">
+            <img src="thumbnail4.jpg" alt="Thumbnail 4">
+            <img src="thumbnail5.jpg" alt="Thumbnail 5">
+            <img src="thumbnail6.jpg" alt="Thumbnail 6">
+        </div>
+        
+        <h1>Task Code Verification System</h1>
+        
+        <div class="hr-container">
+            <div class="hr-line"></div>
+            <div class="message">Enter Your Code</div>
+            <div class="hr-line"></div>
+        </div>
+        
+        <div class="verification-box">
+            <div class="input-group">
+                <label for="task-code">Enter Task Initiation Code:</label>
+                <input type="text" id="task-code" placeholder="XXXX-XXXX-XXXX">
+            </div>
+            
+            <button class="btn" onclick="verifyCode()">Check Code</button>
+            
+            <div id="result-message" class="result-message error-message">
+                <strong>System Alert:</strong><br>
+                <span id="message-text"></span>
+            </div>
+        </div>
+        
+        <div class="system-info">
+            <span class="secure-icon">🔒</span> Secure Connection Established | 
+            Session ID: <span id="sessionId">AMPS-4892-2025</span> | 
+            <span id="datetime"></span>
+        </div>
+    </div>
+    
+    <script>
+        // Update session ID and datetime on load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Generate random session ID
+            const randomNum = Math.floor(1000 + Math.random() * 9000);
+            document.getElementById('sessionId').textContent = `AMPS-${randomNum}-2025`;
+            
+            // Update datetime
+            updateDateTime();
+            setInterval(updateDateTime, 1000);
+        });
+        
+        function updateDateTime() {
+            const now = new Date();
+            const formattedDate = now.toLocaleDateString('en-US', { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+            const formattedTime = now.toLocaleTimeString('en-US', { 
+                hour: '2-digit', 
+                minute: '2-digit', 
+                second: '2-digit', 
+                hour12: true 
+            });
+            
+            document.getElementById('datetime').textContent = formattedDate + ' ' + formattedTime;
+        }
+        
+        function verifyCode() {
+            const codeInput = document.getElementById('task-code').value.trim();
+            const resultDiv = document.getElementById('result-message');
+            const messageText = document.getElementById('message-text');
+            
+            // Show loading state
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'result-message';
+            messageText.textContent = "Verifying code...";
+            
+            // Simulate server verification delay
+            setTimeout(function() {
+                if (codeInput === "") {
+                    messageText.textContent = "Please enter a valid task initiation code.";
+                    resultDiv.className = 'result-message error-message';
+                } else {
+                    // This is where you'd normally check against a database
+                    // For this demo, we'll simulate a specific response
+                    const enteredAmount = parseFloat(codeInput) || 0;
+                    
+                    if (enteredAmount < 3000) {
+                        const additionalNeeded = 3000 - enteredAmount;
+                        messageText.innerHTML = `
+                            A payment code for amount: 1000 is invalid for task initiation.<br><br>
+                            <strong>Task 15 requires to start with minimum 3000.</strong><br><br>
+                            1000 + 2000 = 3000.<br><br>
+                            So, you can add on 2000 and you will get the task code and you will be able to start the task.
+                        `;
+                        resultDiv.className = 'result-message error-message';
+                    } else {
+                        messageText.innerHTML = `
+                            <strong>Code verified successfully!</strong><br><br>
+                            Your task initiation code: <strong>TASK-${Math.floor(1000 + Math.random() * 9000)}-2025</strong><br><br>
+                            You may now proceed with the task. System will allocate resources shortly.
+                        `;
+                        resultDiv.className = 'result-message success-message';
+                    }
+                }
+            }, 1500);
+        }
+    </script>
+</body>
+</html>
