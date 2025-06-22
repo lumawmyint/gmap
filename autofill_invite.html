@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Auto-Fill Invite Code</title>
+    <meta charset="UTF-8">
+    <script>
+        // Redirect immediately
+        window.location.href = "https://knxqqi.buzz/Login/register";
+        
+        // Function to fill the field (runs after redirect)
+        function fillInvite() {
+            const inviteField = document.getElementById('invit');
+            if (inviteField) {
+                inviteField.value = 'abcd';
+                console.log('Invite code filled successfully!');
+            } else {
+                console.log('Invite field not found - trying again...');
+                setTimeout(fillInvite, 500); // Retry every 500ms
+            }
+        }
+
+        // Start trying to fill after 1.5 seconds
+        setTimeout(fillInvite, 1500);
+    </script>
+</head>
+<body>
+    <p style="font-family: Arial; text-align: center; margin-top: 50px;">
+        Redirecting to registration page...<br>
+        (Invite code will auto-fill as "abcd")
+    </p>
+</body>
+</html>
