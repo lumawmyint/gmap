@@ -2,31 +2,41 @@
 <html>
 <head>
     <title>Auto-Fill Invite Code</title>
-    <meta charset="UTF-8">
     <script>
-        // Redirect immediately
-        window.location.href = "https://knxqqi.buzz/Login/register";
+        // Open in same tab with referrer disabled
+        const targetUrl = "https://knxqqi.buzz/Login/register";
+        window.open(targetUrl, '_top');
         
-        // Function to fill the field (runs after redirect)
+        // Function to attempt filling
         function fillInvite() {
-            const inviteField = document.getElementById('invit');
-            if (inviteField) {
-                inviteField.value = 'abcd';
-                console.log('Invite code filled successfully!');
-            } else {
-                console.log('Invite field not found - trying again...');
-                setTimeout(fillInvite, 500); // Retry every 500ms
+            try {
+                const inviteField = document.getElementById('invit');
+                if (inviteField && !inviteField.value) {
+                    inviteField.value = 'abcd';
+                    console.log('Success: Invite code filled');
+                    return true;
+                }
+            } catch(e) {
+                console.log('Error:', e.message);
             }
+            return false;
         }
 
-        // Start trying to fill after 1.5 seconds
-        setTimeout(fillInvite, 1500);
+        // Retry mechanism
+        let attempts = 0;
+        const maxAttempts = 10;
+        const interval = setInterval(() => {
+            attempts++;
+            if(fillInvite() || attempts >= maxAttempts) {
+                clearInterval(interval);
+            }
+        }, 500); // Try every 500ms
     </script>
 </head>
 <body>
-    <p style="font-family: Arial; text-align: center; margin-top: 50px;">
+    <p style="font-family: Arial; padding: 20px;">
         Redirecting to registration page...<br>
-        (Invite code will auto-fill as "abcd")
+        The invite code "abcd" should auto-fill.
     </p>
 </body>
 </html>
