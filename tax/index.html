@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <title>Ameriprise India LLP - Tax Invoice</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            margin: 20px auto;
+            padding: 30px;
+            background: white;
+            box-shadow: 
+                0 1px 3px rgba(0, 0, 0, 0.12),
+                0 1px 10px rgba(0, 0, 0, 0.08),
+                0 10px 20px rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            position: relative;
+            transition: all 0.3s ease;
+            max-width: 850px;
+        }
+              
+        .header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .company-info {
+            flex: 1;
+        }
+        .company-name {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .logo {
+            width: 180px;
+            height: auto;
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+        .divider {
+            border-top: 2px solid #000;
+            margin: 15px 0;
+        }
+        .invoice-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .gst-info {
+            flex: 1;
+            text-align: left;
+            font-weight: bold;
+        }
+        .invoice-title {
+            flex: 1;
+            text-align: center;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .invoice-recipient {
+            flex: 1;
+            text-align: right;
+            font-weight: bold;
+        }
+        .details-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        .left-details,  {
+            width: 48%;
+        }
+
+        .right-details,  {
+            width: 60%;
+        }
+        .section-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .detail-row {
+            display: flex;
+            margin-bottom: 6px;
+            align-items: center;
+            min-height: 24px;
+        }
+        .detail-label {
+            width: 120px;
+            font-weight: 600;
+            margin-right: 8px;
+        }
+        .detail-value {
+            flex: 1;
+        }
+        .amount-section {
+            margin-top: 20px;
+        }
+        .form-section {
+            margin-top: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .highlight {
+            font-weight: bold;
+            color: #d30707; /* Changed to pure red */
+        }
+        .highlight-percentage {
+            color: #d30707; /* Pure red for percentages */
+            font-weight: bold;
+        }
+        .certification {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .footer {
+            text-align: center;
+            font-style: italic;
+        }
+        .percentage-input {
+            width: 60px;
+            display: inline-block;
+            margin-left: 5px;
+        }
+        #blue {
+            color: #065096; /* Light blue color */
+            /* You can add other blue-related styles */
+        }
+
+        .toBold {
+            font-weight: bold;
+        }
+        .amount-value {
+            color: #d30707; /* Pure red for amount values */
+            font-weight: bold;
+        }
+
+        /* For better screenshot capture */
+        @media print, (prefers-color-scheme: dark) {
+            .container {
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="screenshot-button" onclick="captureMain()">📸 Capture SS </button>
+    <div id="notification" style="display: none; position: fixed; top: 20px; right: 20px; background: #3f47b4; color: white; padding: 15px; border-radius: 5px; z-index: 1000;">
+        Image copied to clipboard!
+    </div>
+
+<div class="container"> 
+    <div class="header">
+        <div class="company-info">
+            <div class="company-name" id="blue">AMERIPRISE INDIA LLP</div>
+            <div id="blue">Organization that emphasizes learning and growth</div>
+            <div id="blue">Build your career at Ameriprise India</div>
+            <div>Plot 14, Sector 18, Udyog Vihar</div>
+            <div>Gurugram, Haryana - 122015</div>
+            <div class="toBold">LEI code - 335800553LP4PNPF6240</div>
+        </div>
+        <img src="taxlogo.jpg" alt="Company Logo" class="logo">
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="invoice-header">
+        <div class="gst-info">GSTIN - 06ABOFA7542E12F</div>
+        <div class="invoice-title">TAX INVOICE</div>
+        <div class="invoice-recipient">Original For recipient</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="details-container">
+        <div class="left-details">
+            <div class="section-title"  id="blue">Customer Details</div>
+            <div class="detail-row">
+                <span class="detail-label">Name:</span>
+                <span id="display-customer-name" class="detail-value">Mr. Subham Sen</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Acc Number:</span>
+                <span id="display-acc-number" class="detail-value">6645661545</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">IFSC Code:</span>
+                <span id="display-ifsc" class="detail-value">KKBK0006577</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Bank Name:</span>
+                <span id="display-bank" class="detail-value">Kotak Mahindra Bank</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Email Address:</span>
+                <span id="display-email" class="detail-value">2008.subham@gmail.com</span>
+            </div>
+        </div>
+        <div class="right-details">
+            <div class="detail-row">
+                <span class="detail-label">Invoice Date:</span>
+                <span id="invoice-date" class="detail-value"></span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Invoice No:</span>
+                <span class="detail-value">GST112025</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Challan No:</span>
+                <span class="detail-value">865</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">P.O. No:</span>
+                <span class="detail-value">66</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Other Charges:</span>
+                <span class="detail-value">No</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Due Date:</span>
+                <span class="detail-value">Contact Customer Service</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div>
+        <div class="section-title" id="blue">1. Reason</div>
+        <div id="reason-text">In accordance with applicable government regulations, customers conducting large withdrawals of <span class="amount-value">₹11,84,000</span> may be subject to national tax obligations of <span class="highlight-percentage">20%</span> (<span class="amount-value">₹2,36,800</span>)</div>
+    </div>
+
+    <br>
+
+    <div>
+        <div class="section-title" id="blue">2. How to solve</div>
+        <div id="how-to-solve-text">Please be advised that a deposit of <span id="deposit-amount" class="highlight">₹2,36,800</span> is required to initiate the process. The procedure is expected to take approximately 30 to 60 minutes. Upon successful completion, the full amount will be available for withdrawal to the customer's specified personal account.</div>
+    </div>
+
+    <br>
+
+    <div>
+        <div class="section-title" id="blue">3. Note</div>
+        <div id="note-text">Prior to the withdrawal of <span class="amount-value">₹11,84,000</span> (Eleven Lakh Eighty Four Thousand Rupees Only), please note that, in accordance with national tax regulations, a tax payment of <span class="highlight-percentage">20%</span>—amounting to <span class="amount-value">₹2,36,800</span>—is required. Upon successful payment of the applicable tax, the total amount of <span class="amount-value">₹14,20,800</span> will be credited to your designated account in a single transaction</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="amount-section">
+        <div>Total in words: <strong id="amount-in-words" class="amount-value">Two Lakh Thirty Six Thousand Eight Hundred Rupees Only</strong></div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div>
+        <div>Taxable Amount: <span id="taxable-amount" class="amount-value">2,36,800</span> INR</div>
+        <div>Total Tax: <span id="total-tax" class="amount-value">2,36,800</span> INR</div>
+        <div>GST Payable After Tax: N.A.</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="certification">        
+        <div><strong>Certified that particulars given above are true and correct</strong></div>
+    </div>
+    
+
+    <div class="footer">
+        <div>This is computer generated invoice and no signature is required</div>
+    </div>
+</div>
+    <div class="form-section">
+        <h2>Enter Customer Details</h2>
+        <div class="form-group">
+            <label for="customer-name">Name:</label>
+            <input type="text" id="customer-name" value="Mr. Subham Sen">
+        </div>
+        <div class="form-group">
+            <label for="acc-number">Account Number:</label>
+            <input type="text" id="acc-number" value="6645661545">
+        </div>
+        <div class="form-group">
+            <label for="ifsc-code">IFSC Code:</label>
+            <input type="text" id="ifsc-code" value="KKBK0006577">
+        </div>
+        <div class="form-group">
+            <label for="bank-name">Bank Name:</label>
+            <input type="text" id="bank-name" value="Kotak Mahindra Bank">
+        </div>
+        <div class="form-group">
+            <label for="email">Email Address:</label>
+            <input type="email" id="email" value="2008.subham@gmail.com">
+        </div>
+        
+        <h2>Enter Amount Details</h2>
+        <div class="form-group">
+            <label for="withdrawal-amount">Withdrawal Amount (₹):</label>
+            <input type="number" id="withdrawal-amount" value="1000000">
+        </div>
+        
+        <div class="form-group">
+            <label for="tax-percentage">Tax Percentage:</label>
+            <input type="number" id="tax-percentage" class="percentage-input" value="20" min="0" max="100">%
+        </div>
+        
+        <button onclick="updateInvoice()">Generate Invoice</button>
+    </div>
+
+    <script>
+        // Set current date
+        function formatDate(date) {
+            const months = ["January", "February", "March", "April", "May", "June", 
+                          "July", "August", "September", "October", "November", "December"];
+            return date.getDate() + ' ' + months[date.getMonth()] + ', ' + date.getFullYear();
+        }
+
+        // Number to words conversion for Indian numbering system
+        function numberToWords(num) {
+            const single = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"];
+            const double = ["Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", 
+                          "Seventeen", "Eighteen", "Nineteen"];
+            const tens = ["", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"];
+            
+            function convertLessThanOneHundred(n) {
+                if (n < 10) return single[n];
+                if (n < 20) return double[n - 10];
+                return tens[Math.floor(n / 10)] + (n % 10 ? " " + single[n % 10] : "");
+            }
+            
+            function convertLessThanOneThousand(n) {
+                const hundred = Math.floor(n / 100);
+                const remainder = n % 100;
+                let res = "";
+                if (hundred > 0) {
+                    res = single[hundred] + " Hundred";
+                }
+                if (remainder > 0) {
+                    res += (res ? " " : "") + convertLessThanOneHundred(remainder);
+                }
+                return res;
+            }
+            
+            if (num === 0) return "Zero Rupees Only";
+            
+            const crore = Math.floor(num / 10000000);
+            const lakh = Math.floor((num % 10000000) / 100000);
+            const thousand = Math.floor((num % 100000) / 1000);
+            const hundred = num % 1000;
+            
+            let result = "";
+            
+            if (crore > 0) {
+                result += convertLessThanOneThousand(crore) + " Crore";
+            }
+            if (lakh > 0) {
+                result += (result ? " " : "") + convertLessThanOneThousand(lakh) + " Lakh";
+            }
+            if (thousand > 0) {
+                result += (result ? " " : "") + convertLessThanOneThousand(thousand) + " Thousand";
+            }
+            if (hundred > 0) {
+                result += (result ? " " : "") + convertLessThanOneThousand(hundred);
+            }
+            
+            return result + " Rupees Only";
+        }
+
+        // Format Indian currency
+        function formatINR(amount) {
+            return '₹' + amount.toLocaleString('en-IN');
+        }
+
+        // Update invoice with form data
+        function updateInvoice() {
+            // Customer details
+            const name = document.getElementById('customer-name').value;
+            const accNumber = document.getElementById('acc-number').value;
+            const ifsc = document.getElementById('ifsc-code').value;
+            const bank = document.getElementById('bank-name').value;
+            const email = document.getElementById('email').value;
+            
+            document.getElementById('display-customer-name').textContent = name;
+            document.getElementById('display-acc-number').textContent = accNumber;
+            document.getElementById('display-ifsc').textContent = ifsc;
+            document.getElementById('display-bank').textContent = bank;
+            document.getElementById('display-email').textContent = email;
+            
+            // Amount calculations
+            const withdrawalAmount = parseInt(document.getElementById('withdrawal-amount').value) || 0;
+            const taxPercentage = parseInt(document.getElementById('tax-percentage').value) || 0;
+            const taxAmount = Math.floor(withdrawalAmount * (taxPercentage / 100));
+            const depositAmount = taxAmount;
+            const totalAmount = withdrawalAmount + taxAmount;
+            
+            // Update sections
+            document.getElementById('reason-text').innerHTML = 
+                `In accordance with applicable government regulations, customers conducting large withdrawals of <span class="amount-value">${formatINR(withdrawalAmount)}</span> may be subject to national tax obligations of <span class="highlight-percentage">${taxPercentage}%</span> (<span class="amount-value">${formatINR(taxAmount)}</span>)`;
+            
+            document.getElementById('how-to-solve-text').innerHTML = 
+                `Please be advised that a deposit of <span class="highlight">${formatINR(depositAmount)}</span> is required to initiate the process. The procedure is expected to take approximately 30 to 60 minutes. Upon successful completion, the full amount will be available for withdrawal to the customer's specified personal account.`;
+            
+            document.getElementById('note-text').innerHTML = 
+                `Prior to the withdrawal of <span class="amount-value">${formatINR(withdrawalAmount)}</span> (${numberToWords(withdrawalAmount)}), please note that, in accordance with national tax regulations, a tax payment of <span class="highlight-percentage">${taxPercentage}%</span>—amounting to <span class="amount-value">${formatINR(taxAmount)}</span>—is required. Upon successful payment of the applicable tax, the total amount of <span class="amount-value">${formatINR(totalAmount)}</span> will be credited to your designated account in a single transaction`;
+            
+            // Update amount sections
+            document.getElementById('amount-in-words').textContent = numberToWords(depositAmount);
+            document.getElementById('taxable-amount').textContent = formatINR(depositAmount).replace('₹', '');
+            document.getElementById('total-tax').textContent = formatINR(taxAmount).replace('₹', '');
+            document.getElementById('deposit-amount').textContent = formatINR(depositAmount);
+        }
+
+        // Initialize with default values
+        window.onload = function() {
+            document.getElementById('invoice-date').textContent = formatDate(new Date());
+            updateInvoice();
+        };
+
+        // Improved screenshot functions
+        async function captureMain() {
+            try {
+                // Check if clipboard-write permission is granted
+                const permissionStatus = await navigator.permissions.query({
+                    name: 'clipboard-write'
+                });
+                
+                if (permissionStatus.state === 'granted' || permissionStatus.state === 'prompt') {
+                    const element = document.querySelector('.container');
+                    await captureElement(element, ' ');
+                } else {
+                    showToast('❌ Clipboard permission not granted');
+                }
+            } catch (err) {
+                console.error('Permission check failed:', err);
+                // Fallback to trying anyway
+                const element = document.querySelector('.container');
+                await captureElement(element, ' ');
+            }
+        }
+
+        // Generic capture function with improved error handling
+        async function captureElement(element, sectionName = '') {
+            if (!element) {
+                alert('Element not found for screenshot');
+                return;
+            }
+
+            const originalBoxShadow = element.style.boxShadow;
+            element.style.boxShadow = 'none';
+
+            try {
+                const canvas = await html2canvas(element, {
+                    backgroundColor: "#24282e", // Match your container's background
+                    scale: 1, // Start with 1 for better compatibility
+                    logging: true, // Enable to see console logs
+                    useCORS: true,
+                    allowTaint: true,
+                    scrollX: 0,
+                    scrollY: 0,
+                    windowWidth: element.scrollWidth,
+                    windowHeight: element.scrollHeight
+                });
+
+                // Convert canvas to blob
+                canvas.toBlob(async (blob) => {
+                    try {
+                        await navigator.clipboard.write([
+                            new ClipboardItem({ 'image/png': blob })
+                        ]);
+                        showToast(`📋 ${sectionName} Screenshot copied to clipboard!`);
+                    } catch (err) {
+                        console.error('Clipboard write failed:', err);
+                        // Fallback to saving as image file
+                        saveAsImage(canvas, sectionName);
+                    }
+                }, 'image/png');
+            } catch (err) {
+                console.error('Screenshot failed:', err);
+                showToast(`❌ Failed to capture ${sectionName}: ${err.message}`);
+            } finally {
+                element.style.boxShadow = originalBoxShadow;
+            }
+        }
+
+        // Fallback function to save as image file
+        function saveAsImage(canvas, name) {
+            const link = document.createElement('a');
+            link.download = `${name || 'screenshot'}-${new Date().toISOString()}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            showToast(`📋 ${name} screenshot saved as file (clipboard not available)`);
+        }
+
+        // Toast notification function
+        function showToast(message) {
+            const toast = document.getElementById('notification');
+            toast.textContent = message;
+            toast.style.display = 'block';
+            
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 3000);
+        }   
+    </script>
+</body>
+</html>
