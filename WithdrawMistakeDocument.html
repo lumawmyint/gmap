@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <title>Confidentiality Coverage Agreement</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+            font-size: 21px;
+        }
+
+        .container {
+            margin: 20px auto;
+            padding: 30px;
+            background: white;
+            box-shadow: 
+                0 1px 3px rgba(0, 0, 0, 0.12),
+                0 1px 10px rgba(0, 0, 0, 0.08),
+                0 10px 20px rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            position: relative;
+            transition: all 0.3s ease;
+            max-width: 850px;
+        }
+        
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #d9534f;
+            font-size: 32px;
+        }
+        
+        h2, h3 {
+            color: #3498db;
+            margin-top: 25px;
+        }
+
+        .highlight {
+            font-weight: bold;
+            color: #e74c3c;
+        }
+        
+        .signature-container {
+            margin-top: 1px;
+            text-align: right;
+        }
+        
+        .signature-text {
+            font-style: italic;
+            margin-top: 5px;
+        }
+        
+        .date {
+            text-align: right;
+            margin-top: 10px;
+            color: #7f8c8d;
+        }
+        
+        .form-container {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        input[type="text"], input[type="email"], input[type="number"], select, textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-top: 5px;
+        }
+        
+        textarea {
+            height: 80px;
+            resize: vertical;
+        }
+        
+        .total-display {
+            font-weight: bold;
+            font-size: 1.1em;
+            margin: 15px 0;
+            padding: 10px;
+            background-color: #e8f4fc;
+            border-radius: 4px;
+        }
+
+        .screenshot-button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px 0;
+            cursor: pointer;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .screenshot-button:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .screenshot-button:active {
+            background-color: #3e8e41;
+            transform: translateY(0);
+            box-shadow: 0 2px 3px rgba(0,0,0,0.2);
+        }
+
+        .screenshot-button::before {
+            content: "📸";
+            margin-right: 8px;
+            font-size: 18px;
+        }
+
+        .money {
+            font-weight: bold;
+            color: #e74c3c;
+        }
+        
+        .reference-id {
+            font-family: monospace;
+            font-size: 1.1em;
+        }
+
+        .header {
+            display: flex;
+            justify-content: center; /* Centers horizontally */
+            align-items: center;     /* Centers vertically */
+            text-align: center;      /* Additional centering for text elements */
+            padding: 10px 0;        /* Adds some space around */
+        }
+
+        .logo {
+            max-width: 430px;       /* Adjust this value to your preferred size */
+            height: auto;           /* Maintains aspect ratio */
+            display: block;         /* Ensures proper spacing */
+        }
+
+        
+    </style>
+</head>
+<body>
+
+    <button class="screenshot-button" onclick="captureMain()">Capture SS</button>
+    <div id="notification" style="display: none; position: fixed; top: 20px; right: 20px; background: #3f47b4; color: white; padding: 15px; border-radius: 5px; z-index: 1000;">
+        Image copied to clipboard!
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <div class="company-info">                
+            </div>
+            <img src="Ameriprise.jpg" alt="Company Logo" class="logo">
+        </div>
+        <h1>Confidentiality Coverage Agreement</h1>
+        
+        <h3>User Account : <span id="userEmail" class="highlight">himavijj87@gmail.com</span></h3>
+        
+        <h3>Current Status: <span class="highlight">Withdrawal Suspended (Risk Control Hold)</span></h3>
+        <p class="reference-id">Reference ID: <span id="referenceId">AMF-20250624-INR619000</span></p>
+        
+        <p>Dear Valued Member,</p>
+        
+        <p>Our records indicate your recent withdrawal request for <span class="money">₹<span id="mainAmountDisplay">619,000</span></span> could not be processed due to non-compliance with exchange protocols. This has triggered a temporary account suspension for security review.</p>
+        
+        <p><strong>Required Actions:</strong></p>
+        <ul>
+            <li>Immediately contact your customer service</li>
+            <li>Settle the risk control clearance fee: <span class="money">₹<span id="calculatedAmount">309,500</span></span> (<span id="percentageValue">50</span>% of last balance amount)</li>
+            <li>Submit new withdrawal request after account reactivation</li>
+        </ul>
+        
+        <p><strong>Transaction Details:</strong></p>
+        <ul>
+            <li><strong>Required Deposit Amount:</strong> <span class="money">₹<span id="depositAmount">309,500</span></span></li>
+            <li><strong>Total Withdrawal Amount:</strong> <span class="money">₹<span id="mainAmountDisplay2">619,000</span></span> + <span class="money">₹<span id="calculatedAmount2">309,500</span></span> = <span class="money">₹<span id="totalAmount">928,500</span></span></li>
+        </ul>
+        
+        <div class="signature-container">
+            <img src="signature.jpg" alt="Official Signature" class="signature-image">
+            <div class="signature-text">Ameriprise Venture Capital-Finance Department<br>Signed by the Branch Manager</div>
+            <div class="date" id="currentDate"></div>
+            <br>
+        </div>
+
+
+        <p> <span class="money">Note: Please complete the payment as soon as possible in the system within the stipulated time, to avoid unnecessary losses caused by overtime</span></p>
+    </div>
+    
+    <div class="form-container">
+        <h2>Content Editor</h2>
+        
+        <div class="form-group">
+            <label for="emailInput">Email Address:</label>
+            <input type="email" id="emailInput" placeholder="Enter email address" value="himavijj87@gmail.com">
+        </div>
+        
+        <div class="form-group">
+            <label for="mainAmount">Main Amount (₹):</label>
+            <input type="number" id="mainAmount" placeholder="Enter amount" value="500000">
+        </div>
+        
+        <div class="form-group">
+            <label for="percentageInput">Percentage (%):</label>
+            <input type="number" id="percentageInput" placeholder="Enter percentage" value="50" min="0" max="100">
+        </div>
+        
+        <div class="total-display">
+            Calculated Fee: <span class="money">₹<span id="displayCalculatedAmount">309,500</span></span>
+        </div>
+
+        
+    </div>
+
+    <script>
+
+        // Set current date
+        const now = new Date();
+        const options = { day: 'numeric', month: 'long', year: 'numeric' };
+        document.getElementById('currentDate').textContent = now.toLocaleDateString('en-US', options);
+
+        // Function to format date as YYYYMMDD
+        function getFormattedDate() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            return `${year}${month}${day}`;
+        }
+
+        // Function to update all dynamic content
+        function updateContent() {
+            // Update email
+            const email = document.getElementById('emailInput').value.trim();
+            document.getElementById('userEmail').textContent = email || '[Email address]';
+            
+            // Get values
+            const mainAmount = parseFloat(document.getElementById('mainAmount').value) || 0;
+            const percentage = parseFloat(document.getElementById('percentageInput').value) || 0;
+            const calculatedAmount = Math.round(mainAmount * (percentage / 100));
+            const totalAmount = mainAmount + calculatedAmount;
+            
+            // Format amounts with Indian commas
+            const formattedMain = mainAmount.toLocaleString('en-IN');
+            const formattedCalculated = calculatedAmount.toLocaleString('en-IN');
+            const formattedTotal = totalAmount.toLocaleString('en-IN');
+            
+            // Update displayed values
+            document.getElementById('mainAmountDisplay').textContent = formattedMain;
+            document.getElementById('mainAmountDisplay2').textContent = formattedMain;
+            document.getElementById('calculatedAmount').textContent = formattedCalculated;
+            document.getElementById('calculatedAmount2').textContent = formattedCalculated;
+            document.getElementById('depositAmount').textContent = formattedCalculated;
+            document.getElementById('totalAmount').textContent = formattedTotal;
+            document.getElementById('percentageValue').textContent = percentage;
+            document.getElementById('displayCalculatedAmount').textContent = formattedCalculated;
+            
+            // Update reference ID
+            const datePart = getFormattedDate();
+            document.getElementById('referenceId').textContent = `AMF-${datePart}-INR${mainAmount}`;
+        }
+        
+        // Add event listeners
+        document.getElementById('emailInput').addEventListener('input', updateContent);
+        document.getElementById('mainAmount').addEventListener('input', updateContent);
+        document.getElementById('percentageInput').addEventListener('input', updateContent);
+        
+        // Initialize
+        updateContent();
+
+        // Screenshot function
+        async function captureMain() {
+            try {
+                const element = document.querySelector('.container');
+                const screenshotBtn = document.querySelector('.screenshot-button');
+                screenshotBtn.style.display = 'none';
+                
+                const canvas = await html2canvas(element, {
+                    backgroundColor: "#ffffff",
+                    scale: 2,
+                    logging: false,
+                    useCORS: true
+                });
+
+                canvas.toBlob(async (blob) => {
+                    try {
+                        await navigator.clipboard.write([
+                            new ClipboardItem({ 'image/png': blob })
+                        ]);
+                        showToast('📋 Screenshot copied to clipboard!');
+                    } catch (err) {
+                        const link = document.createElement('a');
+                        link.download = `agreement-${new Date().toISOString()}.png`;
+                        link.href = canvas.toDataURL();
+                        link.click();
+                        showToast('📋 Screenshot saved as file');
+                    }
+                }, 'image/png');
+            } catch (err) {
+                console.error('Screenshot failed:', err);
+                showToast('❌ Failed to capture screenshot');
+            } finally {
+                const screenshotBtn = document.querySelector('.screenshot-button');
+                if (screenshotBtn) screenshotBtn.style.display = 'block';
+            }
+        }
+
+        // Toast notification function
+        function showToast(message) {
+            const toast = document.getElementById('notification');
+            toast.textContent = message;
+            toast.style.display = 'block';
+            
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 3000);
+        }   
+    </script>
+</body>
+</html>
