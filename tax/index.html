@@ -83,11 +83,11 @@
             justify-content: space-between;
             margin-bottom: 15px;
         }
-        .left-details,  {
+        .left-details  {
             width: 48%;
         }
 
-        .right-details,  {
+        .right-details  {
             width: 60%;
         }
         .section-title {
@@ -202,7 +202,7 @@
             <div id="blue">Build your career at Ameriprise India</div>
             <div>Plot 14, Sector 18, Udyog Vihar</div>
             <div>Gurugram, Haryana - 122015</div>
-            <div class="toBold">LEI code - 335800553LP4PNPF6240</div>
+            <div class="toBold">LEI code - 335800553LP4PNPFG240</div>
         </div>
         <img src="taxlogo.jpg" alt="Company Logo" class="logo">
     </div>
@@ -210,7 +210,7 @@
     <div class="divider"></div>
 
     <div class="invoice-header">
-        <div class="gst-info">GSTIN - 06ABOFA7542E12F</div>
+        <div class="gst-info">GSTIN - 06ABOFA7542E1ZF</div>
         <div class="invoice-title">TAX INVOICE</div>
         <div class="invoice-recipient">Original For recipient</div>
     </div>
@@ -280,7 +280,7 @@
 
     <div>
         <div class="section-title" id="blue">2. How to solve</div>
-        <div id="how-to-solve-text">Please be advised that a deposit of <span id="deposit-amount" class="highlight">₹2,36,800</span> is required to initiate the process. The procedure is expected to take approximately 30 to 60 minutes. Upon successful completion, the full amount will be available for withdrawal to the customer's specified personal account.</div>
+        <div id="how-to-solve-text">Please be advised that a deposit of <span id="deposit-amount" class="highlight">₹2,36,800</span> is required to initiate the process. The procedure is expected to take approximately 30 to 60 minutes. Upon successful completion, the full amount will be available for withdrawal to the customer's specified personal account</div>
     </div>
 
     <br>
@@ -443,7 +443,7 @@
                 `In accordance with applicable government regulations, customers conducting large withdrawals of <span class="amount-value">${formatINR(withdrawalAmount)}</span> may be subject to national tax obligations of <span class="highlight-percentage">${taxPercentage}%</span> (<span class="amount-value">${formatINR(taxAmount)}</span>)`;
             
             document.getElementById('how-to-solve-text').innerHTML = 
-                `Please be advised that a deposit of <span class="highlight">${formatINR(depositAmount)}</span> is required to initiate the process. The procedure is expected to take approximately 30 to 60 minutes. Upon successful completion, the full amount will be available for withdrawal to the customer's specified personal account.`;
+                `Please be advised that a deposit of <span class="highlight">${formatINR(depositAmount)}</span> is required to initiate the process. The procedure is expected to take approximately 30 to 60 minutes. Upon successful completion, the full amount will be available for withdrawal to the customer's specified personal account`;
             
             document.getElementById('note-text').innerHTML = 
                 `Prior to the withdrawal of <span class="amount-value">${formatINR(withdrawalAmount)}</span> (${numberToWords(withdrawalAmount)}), please note that, in accordance with national tax regulations, a tax payment of <span class="highlight-percentage">${taxPercentage}%</span>—amounting to <span class="amount-value">${formatINR(taxAmount)}</span>—is required. Upon successful payment of the applicable tax, the total amount of <span class="amount-value">${formatINR(totalAmount)}</span> will be credited to your designated account in a single transaction`;
