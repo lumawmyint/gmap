@@ -14,7 +14,7 @@
             margin: 0 auto;
             padding: 20px;
             background-color: #f9f9f9;
-            font-size: 22px;
+            font-size: 21px;
         }
 
         .container {
@@ -44,7 +44,7 @@
         
         h2, h3 {
             color: #3498db;
-            margin-top: 25px;
+            /*margin-top: 25px;*/
         }
 
         .highlight {
@@ -85,12 +85,18 @@
             font-weight: bold;
         }
         
-        input[type="text"], input[type="email"], input[type="number"] {
+        input[type="text"], input[type="email"], input[type="number"], select, textarea {
             width: 100%;
             padding: 8px;
             border: 1px solid #ddd;
             border-radius: 4px;
             box-sizing: border-box;
+            margin-top: 5px;
+        }
+        
+        textarea {
+            height: 80px;
+            resize: vertical;
         }
         
         .total-display {
@@ -141,9 +147,20 @@
             font-weight: bold;
             color: #e74c3c;
         }
+        
+        #customPurposeContainer {
+            margin-top: 10px;
+            display: none;
+        }
 
         .header {
             text-align: center;
+        }
+
+        .signature-image {
+            max-width: 250px;
+            height: auto;
+            margin-bottom: 10px;
         }
     </style>
 </head>
@@ -157,16 +174,16 @@
     <div class="container">
         <div class="header">
             <div class="company-info">
-                <br>
+                
             </div>
             <img src="Ameriprise.jpg" alt="Company Logo" class="logo">
         </div>
         
         <h3><strong>Subject:</strong> Approval of Corporate Assistance Fund – <span class="highlight">Urgent Action Required</span></h3>
         
-        <p>Dear Valued Member <span id="userEmail" class="highlight">[Email address]</span> <span class="highlight">,</span></p>
+        <p>Dear Valued Member <span id="userEmail" class="highlight">[Email address]</span>,</p>
         
-        <p>We have reviewed your request regarding insufficient funds for the completion of your current speculative mission. Upon verification, and considering your prior cooperation with our company, along with strong endorsement from Instructor Atharv Deshmukh, we have approved a corporate assistance fund of <span id="percentageValue" class="highlight">25</span> <span class="highlight">%</span>, which is <span class="rupee">₹</span><span id="calculatedAmount" class="highlight">67,500</span> to assist in restoring the credit score to 100.</p>
+        <p>We have reviewed your request regarding insufficient funds for the completion of your current speculative mission. Upon verification, and considering your prior cooperation with our company, along with strong endorsement from <span id="instructorName">Instructor Atharv Deshmukh</span>, we have approved a corporate assistance fund of <span id="percentageValue" class="highlight">25</span>%, which is <span class="rupee">₹</span><span id="calculatedAmount" class="highlight">67,500</span> <span id="purposeText">to assist in restoring the credit score to 100</span>.</p>
         
         <p>Please note that the remaining payment amount of <span class="rupee">₹</span><span id="remainingAmount" class="highlight">67,500</span> must be completed within the stipulated timeframe to avoid any penalties.</p>
         
@@ -188,13 +205,32 @@
         </div>
         
         <div class="form-group">
-            <label for="mainAmount">Required Recharge Amount (₹):</label>
+            <label for="instructorInput">Instructor Name:</label>
+            <input type="text" id="instructorInput" placeholder="Enter instructor name" value="Instructor Atharv Deshmukh">
+        </div>
+        
+        <div class="form-group">
+            <label for="mainAmount">Main Amount (₹):</label>
             <input type="number" id="mainAmount" placeholder="Enter amount" value="270000">
         </div>
         
         <div class="form-group">
             <label for="percentageInput">Percentage (%):</label>
             <input type="number" id="percentageInput" placeholder="Enter percentage" value="25" min="0" max="100">
+        </div>
+        
+        <div class="form-group">
+            <label for="purposeSelect">Purpose of Assistance:</label>
+            <select id="purposeSelect" class="form-control">
+                <option value="to assist in restoring the credit score to 100">Restore credit score to 100</option>
+                <option value="to assist in completing the last order">Complete the last order</option>
+                <option value="to assist in repairing to complete the last order">Repair to complete last order</option>
+                <option value="to assist in unfreezing your account">Unfreeze your account</option>
+                <option value="custom">Custom Purpose</option>
+            </select>
+            <div id="customPurposeContainer">
+                <textarea id="customPurpose" placeholder="Enter custom purpose text"></textarea>
+            </div>
         </div>
         
         <div class="total-display">
@@ -210,14 +246,22 @@
         
         // Get form elements
         const emailInput = document.getElementById('emailInput');
+        const instructorInput = document.getElementById('instructorInput');
         const mainAmountInput = document.getElementById('mainAmount');
         const percentageInput = document.getElementById('percentageInput');
+        const purposeSelect = document.getElementById('purposeSelect');
+        const customPurposeContainer = document.getElementById('customPurposeContainer');
+        const customPurposeTextarea = document.getElementById('customPurpose');
         
         // Function to update all dynamic content
         function updateContent() {
             // Update email
             const email = emailInput.value.trim();
             document.getElementById('userEmail').textContent = email || '[Email address]';
+            
+            // Update instructor name
+            const instructor = instructorInput.value.trim();
+            document.getElementById('instructorName').textContent = instructor || 'Instructor';
             
             // Calculate amounts
             const mainAmount = parseFloat(mainAmountInput.value) || 0;
@@ -229,12 +273,36 @@
             document.getElementById('calculatedAmount').textContent = calculatedAmount.toLocaleString('en-IN');
             document.getElementById('remainingAmount').textContent = calculatedAmount.toLocaleString('en-IN');
             document.getElementById('displayCalculatedAmount').textContent = calculatedAmount.toLocaleString('en-IN');
+            
+            // Update purpose text
+            let purposeText = "";
+            const selectedPurpose = purposeSelect.value;
+            
+            if (selectedPurpose === "custom") {
+                purposeText = customPurposeTextarea.value.trim();
+                if (!purposeText) {
+                    purposeText = "to assist with your request"; // Default if custom is empty
+                }
+            } else {
+                purposeText = selectedPurpose;
+            }
+            
+            document.getElementById('purposeText').textContent = purposeText;
         }
+        
+        // Toggle custom textarea visibility
+        purposeSelect.addEventListener('change', function() {
+            customPurposeContainer.style.display = this.value === "custom" ? "block" : "none";
+            updateContent();
+        });
         
         // Add event listeners
         emailInput.addEventListener('input', updateContent);
+        instructorInput.addEventListener('input', updateContent);
         mainAmountInput.addEventListener('input', updateContent);
         percentageInput.addEventListener('input', updateContent);
+        purposeSelect.addEventListener('change', updateContent);
+        customPurposeTextarea.addEventListener('input', updateContent);
         
         // Initialize
         updateContent();
