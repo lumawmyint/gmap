@@ -14,7 +14,7 @@
             margin: 0 auto;
             padding: 20px;
             background-color: #f9f9f9;
-            font-size: 19px; /* Increased from typical 15/16px */
+            font-size: 19px;
         }
 
         .container {
@@ -32,33 +32,27 @@
             transition: all 0.3s ease;
             max-width: 850px;
         }
-        /*
-        .container {
-            background-color: white;
-            padding: 30px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            position: relative;
+        
+        h1, h2, h3 {
+            color: #2c3e50;
         }
-            */
         
         h1 {
-            color: #2c3e50;
             border-bottom: 2px solid #eee;
             padding-bottom: 10px;
         }
         
-        h2 {
-            color: #3498db;
-            margin-top: 25px;
-        }
-        
-        h3 {
+        h2, h3 {
             color: #3498db;
             margin-top: 25px;
         }
 
         .highlight {
+            font-weight: bold;
+            color: #e74c3c;
+        }
+        
+        .highlight-amount {
             font-weight: bold;
             color: #e74c3c;
         }
@@ -120,7 +114,7 @@
         }
 
         .screenshot-button {
-            background-color: #4CAF50; /* Green background */
+            background-color: #4CAF50;
             border: none;
             color: white;
             padding: 10px 20px;
@@ -137,7 +131,7 @@
         }
 
         .screenshot-button:hover {
-            background-color: #45a049; /* Darker green on hover */
+            background-color: #45a049;
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
@@ -149,13 +143,13 @@
         }
 
         .screenshot-button::before {
-        content: "📸";
-        margin-right: 8px;
-        font-size: 18px;
+            content: "📸";
+            margin-right: 8px;
+            font-size: 18px;
         }
 
         .red-comma {
-        color: red;
+            color: red;
         }
 
         .header {
@@ -169,17 +163,20 @@
         }
 
         #blue {
-            color: #065096; /* Light blue color */
-            /* You can add other blue-related styles */
+            color: #065096;
             font-size: 30px;
             font-weight: bold;
         }
 
+        .rupee {
+            font-weight: bold;
+            color: #e74c3c;
+        }
     </style>
 </head>
 <body>
 
-    <button class="screenshot-button" onclick="captureMain()">Capture SS </button>
+    <button class="screenshot-button" onclick="captureMain()">Capture SS</button>
     <div id="notification" style="display: none; position: fixed; top: 20px; right: 20px; background: #3f47b4; color: white; padding: 15px; border-radius: 5px; z-index: 1000;">
         Image copied to clipboard!
     </div>
@@ -192,13 +189,13 @@
             <img src="Ameriprise.jpg" alt="Company Logo" class="logo">
         </div>
         
-        <h3><strong>Subject:</strong> Approval of Billing Request - <span class="highlight"> Large-Amount Settlement Channel Required</span></h3>
+        <h3><strong>Subject:</strong> Approval of Billing Request - <span class="highlight">Large-Amount Settlement Channel Required</span></h3>
         
         <p>Dear User <span id="userEmail" class="highlight">[Email address will be entered and will be displayed dynamically]</span><span class="red-comma">,</span></p>
         
-        <p>Your billing request has been approved. However, since your settlement amount exceeds the standard limit and thus you are required to pay ₹<span id="additionalFee">89,120</span> to activate <span class="highlight">VIP 2</span> Large-Amount Settlement Channel up to <span class="highlight">10 lakhs.</span></p>
+        <p>Your billing request has been approved. However, since your settlement amount exceeds the standard limit and thus you are required to pay <span class="rupee">₹</span><span id="additionalFee" class="highlight">89,120</span> to activate <span class="highlight">VIP 2</span> Large-Amount Settlement Channel up to <span class="highlight">10 lakhs.</span></p>
         
-        <p><strong>Total Settlement Fee:</strong> ₹<span id="enteredAmount">0</span> + ₹<span id="displayAdditionalFee">89,120</span> = <span id="totalAmount" class="highlight">₹89,120</span></p>
+        <p><strong>Total Settlement Fee:</strong> <span class="rupee">₹</span><span id="enteredAmount" class="highlight-amount">0</span> + <span class="rupee">₹</span><span id="displayAdditionalFee" class="highlight">89,120</span> = <span class="rupee">₹</span><span id="totalAmount" class="highlight">89,120</span></p>
         
         <p>The India Enforcement Directorate (ED) emphasizes the importance of using larger settlement channels for high-value transactions to prevent illegal money laundering [<a href="https://enforcementdirectorate.gov.in" target="_blank">https://enforcementdirectorate.gov.in</a>]. Failure to activate this channel will result in the withholding of all your funds, and you may face legal consequences under anti-money laundering regulations.</p>
         
@@ -232,7 +229,7 @@
         </div>
         
         <div class="total-display">
-            Calculated Total: <span id="calculatedTotal">₹89,120</span>
+            Calculated Total: <span class="rupee">₹</span><span id="calculatedTotal" class="highlight">89,120</span>
         </div>
     </div>
 
@@ -260,7 +257,7 @@
                 element.style.display = email ? 'inline' : 'none';
             }
             
-            // Rest of your update code...
+            // Update amounts
             const mainAmount = parseFloat(mainAmountInput.value) || 0;
             const feeAmount = parseFloat(feeAmountInput.value) || 89120;
             const totalAmount = mainAmount + feeAmount;
@@ -268,8 +265,8 @@
             document.getElementById('enteredAmount').textContent = mainAmount.toLocaleString('en-IN');
             document.getElementById('additionalFee').textContent = feeAmount.toLocaleString('en-IN');
             document.getElementById('displayAdditionalFee').textContent = feeAmount.toLocaleString('en-IN');
-            document.getElementById('totalAmount').textContent = '₹' + totalAmount.toLocaleString('en-IN');
-            document.getElementById('calculatedTotal').textContent = '₹' + totalAmount.toLocaleString('en-IN');
+            document.getElementById('totalAmount').textContent = totalAmount.toLocaleString('en-IN');
+            document.getElementById('calculatedTotal').textContent = totalAmount.toLocaleString('en-IN');
         }
         
         // Add event listeners
@@ -280,79 +277,41 @@
         // Initialize
         updateContent();
 
-        // Improved screenshot functions
+        // Screenshot function
         async function captureMain() {
             try {
-                // Check if clipboard-write permission is granted
-                const permissionStatus = await navigator.permissions.query({
-                    name: 'clipboard-write'
-                });
-                
-                if (permissionStatus.state === 'granted' || permissionStatus.state === 'prompt') {
-                    const element = document.querySelector('.container');
-                    await captureElement(element, ' ');
-                } else {
-                    showToast('❌ Clipboard permission not granted');
-                }
-            } catch (err) {
-                console.error('Permission check failed:', err);
-                // Fallback to trying anyway
                 const element = document.querySelector('.container');
-                await captureElement(element, ' ');
-            }
-        }
-
-        // Generic capture function with improved error handling
-        async function captureElement(element, sectionName = '') {
-            if (!element) {
-                alert('Element not found for screenshot');
-                return;
-            }
-
-            const originalBoxShadow = element.style.boxShadow;
-            element.style.boxShadow = 'none';
-
-            try {
+                const screenshotBtn = document.querySelector('.screenshot-button');
+                screenshotBtn.style.display = 'none';
+                
                 const canvas = await html2canvas(element, {
-                    backgroundColor: "#24282e", // Match your container's background
-                    scale: 1, // Start with 1 for better compatibility
-                    logging: true, // Enable to see console logs
-                    useCORS: true,
-                    allowTaint: true,
-                    scrollX: 0,
-                    scrollY: 0,
-                    windowWidth: element.scrollWidth,
-                    windowHeight: element.scrollHeight
+                    backgroundColor: "#ffffff",
+                    scale: 2,
+                    logging: false,
+                    useCORS: true
                 });
 
-                // Convert canvas to blob
                 canvas.toBlob(async (blob) => {
                     try {
                         await navigator.clipboard.write([
                             new ClipboardItem({ 'image/png': blob })
                         ]);
-                        showToast(`📋 ${sectionName} Screenshot copied to clipboard!`);
+                        showToast('📋 Screenshot copied to clipboard!');
                     } catch (err) {
-                        console.error('Clipboard write failed:', err);
-                        // Fallback to saving as image file
-                        saveAsImage(canvas, sectionName);
+                        const link = document.createElement('a');
+                        link.download = `invoice-${new Date().toISOString()}.png`;
+                        link.href = canvas.toDataURL();
+                        link.click();
+                        showToast('📋 Screenshot saved as file');
                     }
                 }, 'image/png');
             } catch (err) {
                 console.error('Screenshot failed:', err);
-                showToast(`❌ Failed to capture ${sectionName}: ${err.message}`);
+                showToast('❌ Failed to capture screenshot');
             } finally {
-                element.style.boxShadow = originalBoxShadow;
+                const screenshotBtn = document.querySelector('.screenshot-button');
+                if (screenshotBtn) screenshotBtn.style.display = 'block';
             }
-        }
-
-        // Fallback function to save as image file
-        function saveAsImage(canvas, name) {
-            const link = document.createElement('a');
-            link.download = `${name || 'screenshot'}-${new Date().toISOString()}.png`;
-            link.href = canvas.toDataURL('image/png');
-            link.click();
-            showToast(`📋 ${name} screenshot saved as file (clipboard not available)`);
         }
 
         // Toast notification function
