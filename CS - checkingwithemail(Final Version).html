@@ -272,13 +272,21 @@
             box-shadow: 0 0 0 2px rgba(77, 158, 247, 0.2);
         }
 
-        /* Credit Score Form */
+        /* Improved Credit Score Form */
         .credit-score-form {
-            margin: 20px 24px;
-            padding: 20px;
+            width: 100%;
+            max-width: 830px;
+            margin: 24px auto;
+            padding: 28px 32px;
             background-color: var(--bg-panel-light);
-            border-radius: 4px;
+            border-radius: 8px;
             border: 1px solid var(--border-dark);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .credit-score-form:hover {
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
         }
 
         .form-group {
@@ -370,6 +378,165 @@
             cursor: pointer;
             font-weight: bold;
             transition: all 0.3s;
+        }
+
+        /* New styles for the document section */
+        .document-container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 30px;
+            background-color: white;
+            color: #333;
+            border-radius: 4px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            font-size: 21px;
+        }
+        
+        .document-header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+        }
+
+        .header {
+            text-align: center;
+        }
+        
+        .document-title {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        
+        .document-subtitle {
+            font-size: 25px;
+            text-align: center;
+            margin-bottom: 30px;
+            color: #2c8ecf;
+            /*border-bottom: 1px solid #ecf0f1;*/
+            padding-bottom: 15px;
+        }
+        
+        .document-content {
+            line-height: 1.6;
+        }
+        
+        .document-section {
+            margin-bottom: 20px;
+        }
+        
+        .document-section-title {
+            font-weight: bold;
+            margin: 15px 0 10px 0;
+            font-size: 16px;
+            color: #2c3e50;
+        }
+        
+        .document-highlight {
+            font-weight: bold;
+            color: #e74c3c;
+        }
+
+        .document-list {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        .document-divider {
+            border-top: 1px dashed #bdc3c7;
+            margin: 25px 0;
+        }
+
+        .document-footer {
+            font-style: italic;
+            margin-top: 30px;
+            padding-top: 15px;
+            border-top: 1px solid #ecf0f1;
+            color: #7f8c8d;
+        }
+        
+        .document-note {
+            font-style: italic;
+            margin-top: 30px;
+            padding-top: 10px;
+            border-top: 1px solid #eee;
+        }
+        
+        .document-capture-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* Calculator section styles */
+        .calculator-section {
+            background-color: #5e758d;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+            border: 1px solid #dee2e6;
+        }
+        
+        .calculator-title {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        
+        .calculator-result {
+            background-color: #1f4242;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 15px;
+        }
+
+        .docHeader {
+            display: flex;
+            justify-content: center; /* Centers horizontally */
+            align-items: center;     /* Centers vertically */
+            text-align: center;      /* Additional centering for text elements */
+            padding: 10px 0;        /* Adds some space around */
+        }
+
+        .logo {
+            max-width: 430px;       /* Adjust this value to your preferred size */
+            height: auto;           /* Maintains aspect ratio */
+            display: block;         /* Ensures proper spacing */
+        }
+
+        #minimum-score-group {
+            display: none;
+        }
+
+        #a4-document {
+            background-color: #ffffff !important;
+            color: #000 !important; /* optional: in case text is light-colored */
+        }
+
+        .signature-container {
+            margin-top: -5px;
+            text-align: right;
+        }
+        
+        .signature-text {
+            font-style: italic;
+            /*margin-top: 5px;*/
+        }
+
+        .signature-image {
+            max-width: 300px;
+            height: auto;
+        }
+
+        .date {
+            text-align: right;
+            margin-top: 10px;
+            color: #7f8c8d;
+            font-style: italic;
+            font-weight: bold;
         }
 
         /* Responsive Adjustments */
@@ -495,43 +662,105 @@
 
     <div class="credit-score-form">
             <h3 style="margin-top: 0;">Credit Score Configuration and Email</h3>
+            
+            <!-- Add these new form fields -->
             <div class="form-row">
                 <div class="form-col">
                     <div class="form-group">
-                        <label for="original-score">Original Credit Score</label>
-                        <input type="number" id="original-score" class="form-control" value="100" min="1" max="1000">
+                        <label for="original-score-input">Original Credit Score</label>
+                        <input type="number" id="original-score-input" class="form-control" value="100" readonly>
                     </div>
                 </div>
                 <div class="form-col">
                     <div class="form-group">
                         <label for="current-score-input">Current Credit Score</label>
-                        <input type="number" id="current-score-input" class="form-control" value="90" min="1" max="1000">
+                        <input type="number" id="current-score-input" class="form-control" value="95" min="1" max="1000">
                     </div>
                 </div>
             </div>
+            
+            <div class="form-group">
+                <label for="base-withdrawable">Wallet Balance (₹)</label>
+                <input type="number" id="base-withdrawable" class="form-control" value="200000">
+            </div>
+            
+            <div class="form-group" id="minimum-score-group">
+                <label for="minimum-score">Minimum Required Score</label>
+                <input type="number" id="minimum-score" class="form-control" value="100" min="1" readonly>
+            </div>
+            
             <div class="form-group">
                 <label for="per-point-cost">Amount per point (₹)</label>
-                <input type="number" id="per-point-cost" class="form-control" value="15000" min="1">
+                <input type="number" id="per-point-cost" class="form-control" value="10000" min="1">
             </div>
+            
             <button id="calculate-btn" class="button">Calculate Payment</button>
             
-            <div id="calculation-result" class="result-box hidden">
+            <div id="calculation-result" class="result-box">
                 <h4 style="margin-top: 0;">Calculation Result</h4>
-                <p>Points to restore: <span id="calculated-points" class="result-value">10</span></p>
-                <p>Amount per point: ₹<span id="calculated-per-point" class="result-value">15,000</span></p>
-                <p>Total payment required: ₹<span id="calculated-total" class="result-value">150,000</span></p>
+                <p>Points to restore: <span id="calculated-points">50</span></p>
+                <p>Amount per point: ₹<span id="calculated-per-point">5,000</span></p>
+                <p>Total payment required: ₹<span id="calculated-total">250,000</span></p>
             </div>
-            <br>
+            
             <div id="email-edit" class="hidden">
-            <input type="text" id="email-input" value="abcd1234@gmail.com">
-            <button class="button" onclick="saveEmail()">Save</button>
-            <button class="button" onclick="cancelEdit()">Cancel</button>
-        </div>
-        </div>
-        
-        
+                <input type="text" id="email-input" value="salmantanveer494@gmail.com">
+                <button class="button" onclick="saveEmail()">Save</button>
+                <button class="button" onclick="cancelEdit()">Cancel</button>
+            </div>
+            
+            <!-- Add the Confidentiality Agreement Document -->
+            <div class="document-container" id="a4-document">
+
+                <div class="docHeader">
+                    <img src="Ameriprise.jpg" alt="Ameriprise Logo" class="logo">
+                </div>
+                <h2 class="document-subtitle">Confidentiality Coverage Agreement</h2>                
+          
+                
+                <p><strong>Subject:</strong> <span class="document-highlight">Action Required</span> - Credit Score Restoration for Withdrawal Eligibility</p>
+                <p><strong>User Account:</strong> <span id="document-email">salmantanveer494@gmail.com</span></p>
+                
+                <div class="document-divider"></div>
+                
+                <h3>Current Status - Insufficient Credit Score !!!</h3>
+                <p>Please be advised that due to discrepancies identified in previous transactions, your settlement system score has been adjusted to <span class="document-highlight" id="document-current-score">50</span> points. Please note that the platform requires a minimum score of <span class="document-highlight" id="document-min-score">100</span> points to facilitate normal settlement and withdrawal operations.</p>
+                
+                <p>
+            As each credit point carries a value of ₹<span class="document-highlight" id="document-point-value">5,000</span>, 
+            a deposit of ₹<span class="document-highlight" id="document-deposit">250,000</span> 
+            (<span class="document-highlight" id="document-points-needed">50</span> points × ₹<span class="document-highlight" id="document-point-value-multiply">5,000</span>) 
+            is required to restore your score to the mandatory threshold of <span class="document-highlight">100</span> points.
+                </p>
+                
+                <ul>
+                    <li><strong>Required Deposit Amount:</strong> ₹<span class="document-highlight" id="document-deposit-amount">250,000</span></li>
+                    <li><strong>Required Deposit Amount:</strong> ₹<span class="document-highlight" id="document-base-amount">350,400</span> + ₹<span class="document-highlight" id="document-deposit-display">250,000</span> = ₹<span class="document-highlight" id="document-total-amount">600,400</span></li>
+                </ul>
+                
+                <div class="signature-container">
+                    <img src="signature.jpg" alt="Official Signature" class="signature-image">
+                    <div class="signature-text">Ameriprise Venture Capital-Finance Department<br>Signed by the Branch Manager</div>
+                    <div class="date" id="currentDate"></div>
+                </div>
+                <br>
+                
+                <p><em span class="document-highlight">Note:</em> <span class="document-highlight">Please complete the payment as soon as possible in the system within the stipulated time, to avoid unnecessary losses caused by overtime.</span></p>
+            </div>
+            
+            <div class="document-capture-container">
+                <button class="screenshot-button" onclick="captureDocument()">📸 Capture Document SS</button>
+            </div>
+    </div>
+           
 
     <script>
+
+        // Set current date
+        const now = new Date();
+        const options = { day: 'numeric', month: 'long', year: 'numeric' };
+        document.getElementById('currentDate').textContent = now.toLocaleDateString('en-US', options);
+
         // Update timestamp with current date and time
         function updateTimestamp() {
             const now = new Date();
@@ -586,6 +815,10 @@
             
             const pointsLost = originalScore - currentScore;
             const totalPayment = pointsLost * perPointCost;
+
+            // --- ADD THESE 2 LINES HERE ---
+            const baseWithdrawable = parseInt(document.getElementById('base-withdrawable').value);
+            const minScore = parseInt(document.getElementById('minimum-score').value);
             
             // Update the calculation result box
             document.getElementById('calculated-points').textContent = pointsLost;
@@ -599,103 +832,288 @@
             document.getElementById('per-point-value').textContent = formatNumber(perPointCost);
             document.getElementById('payment-amount').textContent = formatNumber(totalPayment);
             document.getElementById('payment-amount-2').textContent = formatNumber(totalPayment);
+
+            // --- ADD THESE DOCUMENT UPDATES HERE ---
+            // Update Confidentiality Agreement document values
+            document.getElementById('document-current-score').textContent = currentScore;
+            document.getElementById('document-point-value').textContent = formatNumber(perPointCost);
+            document.getElementById('document-points-needed').textContent = pointsLost;
+            document.getElementById('document-deposit-amount').textContent = formatNumber(totalPayment);
+            document.getElementById('document-total-withdrawable').textContent = formatNumber(totalPayment + baseWithdrawable);
+            document.getElementById('document-minimum-score').textContent = minScore;
         });
         
-        // Helper function to format numbers with commas
+        // Format number with commas
         function formatNumber(num) {
             return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
-        
-        // Initialize the calculation on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('calculate-btn').click();
+
+        // Update all values in both form and document
+        function updateAllValues() {
+            const originalScore = parseInt(document.getElementById('original-score-input').value);
+            const currentScore = parseInt(document.getElementById('current-score-input').value);
+            const baseAmount = parseInt(document.getElementById('base-withdrawable').value);
+            const minScore = parseInt(document.getElementById('minimum-score').value);
+            const perPointCost = parseInt(document.getElementById('per-point-cost').value);
+            
+            // Calculate values
+            const pointsNeeded = minScore - currentScore;
+            const totalPayment = pointsNeeded * perPointCost;
+            const totalWithdrawable = baseAmount + totalPayment;
+            
+            // Update form results
+            document.getElementById('document-point-value-multiply').textContent = formatNumber(perPointCost);
+            document.getElementById('calculated-points').textContent = pointsNeeded;
+            document.getElementById('calculated-per-point').textContent = formatNumber(perPointCost);
+            document.getElementById('calculated-total').textContent = formatNumber(totalPayment);
+            
+            // Update alert message
+            document.getElementById('current-score').textContent = currentScore;
+            document.getElementById('points-lost').textContent = pointsNeeded;
+            document.getElementById('per-point-value').textContent = formatNumber(perPointCost);
+            document.getElementById('payment-amount').textContent = formatNumber(totalPayment);
+            document.getElementById('payment-amount-2').textContent = formatNumber(totalPayment);
+            
+            // Update document - MAKE SURE TO UPDATE THE PARAGRAPH VALUE TOO
+            document.getElementById('document-current-score').textContent = currentScore;
+            document.getElementById('document-min-score').textContent = minScore;
+            document.getElementById('document-point-value').textContent = formatNumber(perPointCost);
+            document.getElementById('document-points-needed').textContent = pointsNeeded;
+            document.getElementById('document-deposit').textContent = formatNumber(totalPayment);
+            document.getElementById('document-deposit-amount').textContent = formatNumber(totalPayment);
+            document.getElementById('document-base-amount').textContent = formatNumber(baseAmount);
+            document.getElementById('document-deposit-display').textContent = formatNumber(totalPayment);
+            document.getElementById('document-total-amount').textContent = formatNumber(totalWithdrawable);
+            
+            // Add this line to update the paragraph value after "points x"
+            document.querySelector('#confidentiality-agreement p:nth-of-type(3)').innerHTML = 
+                `As each credit point carries a value of ₹<span class="document-highlight">${formatNumber(perPointCost)}</span>, ` +
+                `a deposit of ₹<span class="document-highlight">${formatNumber(totalPayment)}</span> ` +
+                `(<span class="document-highlight">${pointsNeeded}</span> points × ₹<span class="document-highlight">${formatNumber(perPointCost)}</span>) ` +
+                `is required to restore your score to the mandatory threshold of <span class="document-highlight">${minScore}</span> points.`;
+        }
+
+        // Email editing functionality
+        document.getElementById('user-email').addEventListener('click', function() {
+            document.getElementById('email-edit').classList.remove('hidden');
+            document.getElementById('user-email').classList.add('hidden');
+            document.getElementById('email-input').value = document.getElementById('user-email').textContent;
         });
 
-        // Improved screenshot functions
+        function saveEmail() {
+            const newEmail = document.getElementById('email-input').value;
+            document.getElementById('user-email').textContent = newEmail;
+            document.getElementById('display-email').textContent = newEmail;
+            document.getElementById('document-email').textContent = newEmail;
+            document.getElementById('email-edit').classList.add('hidden');
+            document.getElementById('user-email').classList.remove('hidden');
+            
+            // Show notification
+            const notification = document.getElementById('notification');
+            notification.textContent = "Email updated successfully!";
+            notification.style.display = 'block';
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 2000);
+        }
+
+        function cancelEdit() {
+            document.getElementById('email-edit').classList.add('hidden');
+            document.getElementById('user-email').classList.remove('hidden');
+        }
+
+        // Screenshot functions
         async function captureMain() {
             try {
-                // Check if clipboard-write permission is granted
-                const permissionStatus = await navigator.permissions.query({
-                    name: 'clipboard-write'
-                });
-                
-                if (permissionStatus.state === 'granted' || permissionStatus.state === 'prompt') {
-                    const element = document.querySelector('.container');
-                    await captureElement(element, ' ');
-                } else {
-                    showToast('❌ Clipboard permission not granted');
-                }
-            } catch (err) {
-                console.error('Permission check failed:', err);
-                // Fallback to trying anyway
                 const element = document.querySelector('.container');
                 await captureElement(element, 'Main Container');
+            } catch (err) {
+                console.error('Capture failed:', err);
+                showToast('❌ Failed to capture');
             }
         }
 
-        // Generic capture function with improved error handling
-        async function captureElement(element, sectionName = '') {
-            if (!element) {
-                alert('Element not found for screenshot');
-                return;
+        async function captureDocument() {
+            try {
+                const element = document.getElementById('a4-document');
+                await captureElement(element, 'Document');
+            } catch (err) {
+                console.error('Document capture failed:', err);
+                showToast('❌ Failed to capture document');
             }
+        }
 
-            const originalBoxShadow = element.style.boxShadow;
-            element.style.boxShadow = 'none';
-
+        async function captureElement(element, sectionName = '') {
             try {
                 const canvas = await html2canvas(element, {
-                    backgroundColor: "#24282e", // Match your container's background
-                    scale: 1, // Start with 1 for better compatibility
-                    logging: true, // Enable to see console logs
-                    useCORS: true,
-                    allowTaint: true,
-                    scrollX: 0,
-                    scrollY: 0,
-                    windowWidth: element.scrollWidth,
-                    windowHeight: element.scrollHeight
+                    backgroundColor: "#ffffff",     // Force white background
+                    useCORS: true,                   // Allow images/fonts to load
+                    allowTaint: false,              // Prevent tainted canvas
+                    scale: 2                         // Optional: makes high-res
                 });
 
-                // Convert canvas to blob
                 canvas.toBlob(async (blob) => {
                     try {
                         await navigator.clipboard.write([
                             new ClipboardItem({ 'image/png': blob })
                         ]);
-                        showToast(`📋 ${sectionName} Screenshot copied to clipboard!`);
+                        showToast(`📋 ${sectionName} copied to clipboard!`);
                     } catch (err) {
-                        console.error('Clipboard write failed:', err);
-                        // Fallback to saving as image file
                         saveAsImage(canvas, sectionName);
                     }
                 }, 'image/png');
             } catch (err) {
-                console.error('Screenshot failed:', err);
-                showToast(`❌ Failed to capture ${sectionName}: ${err.message}`);
-            } finally {
-                element.style.boxShadow = originalBoxShadow;
+                console.error('Capture error:', err);
+                showToast(`❌ Failed to capture ${sectionName}`);
             }
         }
 
-        // Fallback function to save as image file
+
+
         function saveAsImage(canvas, name) {
             const link = document.createElement('a');
-            link.download = `${name || 'screenshot'}-${new Date().toISOString()}.png`;
-            link.href = canvas.toDataURL('image/png');
+            link.download = `${name || 'screenshot'}.png`;
+            link.href = canvas.toDataURL();
             link.click();
-            showToast(`📋 ${name} screenshot saved as file (clipboard not available)`);
         }
 
-        // Toast notification function
         function showToast(message) {
             const toast = document.getElementById('notification');
             toast.textContent = message;
             toast.style.display = 'block';
-            
             setTimeout(() => {
                 toast.style.display = 'none';
             }, 3000);
         }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set up event listeners
+            document.getElementById('calculate-btn').addEventListener('click', updateAllValues);
+            
+            // Initialize timestamp
+            function updateTimestamp() {
+                const now = new Date();
+                const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+                const dateStr = now.toLocaleDateString();
+                document.getElementById('timestamp').textContent = `${timeStr} ${dateStr}`;
+            }
+            updateTimestamp();
+            setInterval(updateTimestamp, 60000);
+            
+            // Calculate initial values
+            updateAllValues();
+        });
+
+        // Add these new functions to your existing script section
+
+        // Update the document with calculated values
+        function updateDocumentValues(originalScore, currentScore, perPointCost) {
+            const pointsNeeded = originalScore - currentScore;
+            const totalPayment = pointsNeeded * perPointCost;
+            const totalWithdrawable = totalPayment + 350400; // Assuming 350,400 is a fixed base amount
+            
+            // Update calculator section
+            document.getElementById('document-per-point').textContent = formatNumber(perPointCost);
+            document.getElementById('document-points-to-restore').textContent = pointsNeeded;
+            document.getElementById('document-per-point-value').textContent = formatNumber(perPointCost);
+            document.getElementById('document-total-payment').textContent = formatNumber(totalPayment);
+            
+            // Update agreement section
+            document.getElementById('document-current-score').textContent = currentScore;
+            document.getElementById('document-point-value').textContent = formatNumber(perPointCost);
+            document.getElementById('document-required-deposit').textContent = formatNumber(totalPayment);
+            document.getElementById('document-points-needed').textContent = pointsNeeded;
+            document.getElementById('document-deposit-amount').textContent = formatNumber(totalPayment);
+            document.getElementById('document-total-withdrawable').textContent = formatNumber(totalWithdrawable);
+        }
+
+        // Event listeners
+        document.getElementById('calculate-btn').addEventListener('click', calculateValues);
+        document.getElementById('save-email').addEventListener('click', saveEmail)
+        
+        // Modified calculate function to update both main display and document
+        document.getElementById('calculate-btn').addEventListener('click', function() {
+            const originalScore = parseInt(document.getElementById('original-score').value);
+            const currentScore = parseInt(document.getElementById('current-score-input').value);
+            const perPointCost = parseInt(document.getElementById('per-point-cost').value);
+            
+            if (isNaN(originalScore) || isNaN(currentScore) || isNaN(perPointCost)) {
+                alert('Please enter valid numbers for all fields');
+                return;
+            }
+            
+            if (currentScore > originalScore) {
+                alert('Current score cannot be higher than original score');
+                return;
+            }
+            
+            const pointsLost = originalScore - currentScore;
+            const totalPayment = pointsLost * perPointCost;
+            
+            // Update the main calculation result box
+            document.getElementById('calculated-points').textContent = pointsLost;
+            document.getElementById('calculated-per-point').textContent = formatNumber(perPointCost);
+            document.getElementById('calculated-total').textContent = formatNumber(totalPayment);
+            document.getElementById('calculation-result').classList.remove('hidden');
+            
+            // Update the main alert message
+            document.getElementById('current-score').textContent = currentScore;
+            document.getElementById('points-lost').textContent = pointsLost;
+            document.getElementById('per-point-value').textContent = formatNumber(perPointCost);
+            document.getElementById('payment-amount').textContent = formatNumber(totalPayment);
+            document.getElementById('payment-amount-2').textContent = formatNumber(totalPayment);
+            
+            // Update the document with the same values
+            updateDocumentValues(originalScore, currentScore, perPointCost);
+        });
+        
+        // Modified saveEmail function to update all email displays
+        // Save email and update document
+        function saveEmail() {
+            const email = document.getElementById('user-email').value;
+            document.getElementById('agreement-email').textContent = email;
+            
+            // Show notification
+            const notification = document.getElementById('notification');
+            notification.style.display = 'block';
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 2000);
+        }
+        
+        // Function to update the email in the document when the main email changes
+        function updateDocumentEmail(newEmail) {
+            document.getElementById('document-email').textContent = newEmail;
+        }
+        
+        // Modified saveEmail function to also update the document email
+        function saveEmail() {
+            const newEmail = document.getElementById('email-input').value;
+            document.getElementById('user-email').textContent = newEmail;
+            document.getElementById('display-email').textContent = newEmail;
+            updateDocumentEmail(newEmail); // Update the document email too
+            document.getElementById('email-edit').classList.add('hidden');
+            document.getElementById('user-email').classList.remove('hidden');
+        }
+        
+        // Dedicated capture function for the document
+        async function captureDocument() {
+            try {
+                const element = document.getElementById('a4-document');
+                await captureElement(element, 'Document');
+            } catch (err) {
+                console.error('Document capture failed:', err);
+                showToast('❌ Failed to capture document');
+            }
+        }
+        
+        // Initialize the document with the current email
+        document.addEventListener('DOMContentLoaded', function() {
+            const initialEmail = document.getElementById('user-email').textContent;
+            updateDocumentEmail(initialEmail);
+            calculateValues();
+        });
     </script>
 </body>
 </html>
