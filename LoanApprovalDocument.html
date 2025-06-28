@@ -131,18 +131,6 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
 
-        .screenshot-button:active {
-            background-color: #3e8e41;
-            transform: translateY(0);
-            box-shadow: 0 2px 3px rgba(0,0,0,0.2);
-        }
-
-        .screenshot-button::before {
-            content: "📸";
-            margin-right: 8px;
-            font-size: 18px;
-        }
-
         .rupee {
             font-weight: bold;
             color: #e74c3c;
@@ -166,7 +154,7 @@
 </head>
 <body>
 
-    <button class="screenshot-button" onclick="captureMain()">Capture SS</button>
+    <button class="screenshot-button" onclick="captureMain()">📸 Capture SS</button>
     <div id="notification" style="display: none; position: fixed; top: 20px; right: 20px; background: #3f47b4; color: white; padding: 15px; border-radius: 5px; z-index: 1000;">
         Image copied to clipboard!
     </div>
@@ -179,7 +167,7 @@
             <img src="Ameriprise.jpg" alt="Company Logo" class="logo">
         </div>
         
-        <h3><strong>Subject:</strong> Approval of Corporate Assistance Fund – <span class="highlight">Urgent Action Required</span></h3>
+        <h3>Subject: Approval of Corporate Assistance Fund – <span class="highlight">Urgent Action Required</span></h3>
         
         <p>Dear Valued Member <span id="userEmail" class="highlight">[Email address]</span>,</p>
         
