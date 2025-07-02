@@ -6,6 +6,7 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Task Availability System</title>
 <!-- Add html2canvas library -->
+<link rel="icon" href="pepsi.png" type="image/x-icon">
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <style>
     body {
@@ -568,6 +569,81 @@
         width: 20px;
     }
 
+    /* Text Output Styles */
+    #output-text-container, #output-text-container-2, #output-text-container-pay22, #output-text-container-kill34 {
+        width: 90%;        
+        max-width: 400px;       
+        margin: 20px auto;
+        padding: 10px 20px;
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-family: 'Segoe UI', Arial, sans-serif;
+        white-space: pre-line;
+        line-height: 1.3;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }    
+
+    #output-text, #output-text-2 {
+        font-size: 16px;
+        color: #333;
+    }
+
+    /* New button styles */
+    .button-group {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        margin-bottom: 15px;
+    }
+
+    .toggle-btn, .copy-btn {
+        padding: 8px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: all 0.3s;
+    }
+
+    .toggle-btn {
+        background-color: #6a0dad;
+        color: white;
+    }
+
+    .copy-btn {
+        background-color: #38c4a5;
+        color: white;
+    }
+
+    .toggle-btn:hover {
+        background-color: #5a0b9d;
+    }
+
+    .copy-btn:hover {
+        background-color: #189b7f;
+    }
+
+    /* Add these styles if not already present */
+    #output-text-container-pay23 {
+        width: 90%;
+        max-width: 400px;
+        margin: 20px auto;
+        padding: 10px 20px;
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-family: 'Segoe UI', Arial, sans-serif;
+        white-space: pre-line;
+        line-height: 1.3;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    #output-text-pay23 {
+        font-size: 16px;
+        color: #333;
+    }
+
     /* Responsive Design */
     @media (max-width: 768px) {
         .tab-buttons {
@@ -649,6 +725,26 @@
     </style>
 </head>
 <body>
+    <!-- Toast Notification -->
+    <div id="toast-notification" style="
+            position: fixed;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #1b3e6b;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            z-index: 9999;
+            pointer-events: none;
+            min-width: 250px;
+            text-align: center;
+        ">
+        📋 Screenshot copied to clipboard!
+    </div>
 <div class="tab-container">
 <div class="tab-buttons">
 <button class="tab-btn" id="btnStart" onclick="openTab('missionstart')">Mission Start</button>
@@ -901,64 +997,73 @@
 </div>
 <!-- Pay 2-2 Tab -->
 <div class="tab-content" id="pay22">
-<div class="hr-container">
-<div class="hr-line"></div>
-<div class="message">Pay 2-2</div>
-<div class="hr-line"></div>
+    <div class="hr-container">
+    <div class="hr-line"></div>
+    <div class="message">Pay 2-2</div>
+    <div class="hr-line"></div>
 </div>
-<div class="'cotainer">
-<button class="screenshot-button" onclick="capturePay221()">📸 Capture SS - Pay 2-2</button>
+
+<div class="button-group">
+    <button class="screenshot-button" onclick="capturePay221()">📸 Capture SS - Pay 2-2</button>
+    <button id="toggle-pay22-btn" class="toggle-btn" onclick="togglePay22Text()">▼ Toggle Text</button>
+    <button id="copy-pay22-btn" class="copy-btn" onclick="copyPay22Text()">📋 Copy Text</button>
+</div>
 <!-- ပထမ container အကြောင်းအရာ -->
-</div>
-<div class="container" id="pay22-section1">
-<div class="header">
-<img alt="Thumbnail 1" src="thumbnail1.jpg"/>
-<img alt="Thumbnail 2" src="thumbnail2.jpg"/>
-<img alt="Thumbnail 3" src="thumbnail3.jpg"/>
-<img alt="Thumbnail 4" src="thumbnail4.jpg"/>
-<img alt="Thumbnail 5" src="thumbnail5.jpg"/>
-<img alt="Thumbnail 6" src="thumbnail6.jpg"/>
-</div>
-<h1>Task Availability System</h1>
-<div class="header-time">
-<p id="datetimep22"></p>
-<p id="completion-time"></p>
-</div>
-<table id="task-table">
-<thead>
-<tr>
-<th contenteditable="true">Task Name</th>
-<th>Status</th>
-<th>Initial Payment (INR)</th>
-<th>Percentage</th>
-<th>Withdrawal (INR)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td contenteditable="true">Option 1</td>
-<td class="status-cell" onclick="toggleStatus(this)">✅ Available</td>
-<td contenteditable="true">2000</td>
-<td contenteditable="true">30%</td>
-<td contenteditable="true">252+【1300】</td>
-</tr>
-<tr>
-<td contenteditable="true">Option 2</td>
-<td class="status-cell" onclick="toggleStatus(this)">✅ Available</td>
-<td contenteditable="true">4000</td>
-<td contenteditable="true">30%</td>
-<td contenteditable="true">252+【1300】</td>
-</tr>
-<tr>
-<td contenteditable="true">Option 3</td>
-<td class="status-cell" onclick="toggleStatus(this)">✅ Available</td>
-<td contenteditable="true">7000</td>
-<td contenteditable="true">30%</td>
-<td contenteditable="true">252+【1300】</td>
-</tr>
-</tbody>
-</table>
-</div>
+
+    <div class="container" id="pay22-section1">
+        <div class="header">
+            <img alt="Thumbnail 1" src="thumbnail1.jpg" />
+            <img alt="Thumbnail 2" src="thumbnail2.jpg" />
+            <img alt="Thumbnail 3" src="thumbnail3.jpg" />
+            <img alt="Thumbnail 4" src="thumbnail4.jpg" />
+            <img alt="Thumbnail 5" src="thumbnail5.jpg" />
+            <img alt="Thumbnail 6" src="thumbnail6.jpg" />
+        </div>
+        <h1>Task Availability System</h1>
+        <div class="header-time">
+            <p id="datetimep22"></p>
+            <p id="completion-time"></p>
+        </div>
+        <table id="task-table">
+            <thead>
+                <tr>
+                    <th contenteditable="true">Task Name</th>
+                    <th>Status</th>
+                    <th>Initial Payment (INR)</th>
+                    <th>Percentage</th>
+                    <th>Withdrawal (INR)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td contenteditable="true">Option 1</td>
+                    <td class="status-cell" onclick="toggleStatus(this)">✅ Available</td>
+                    <td contenteditable="true">2000</td>
+                    <td contenteditable="true">30%</td>
+                    <td contenteditable="true">252+【1300】</td>
+                </tr>
+                <tr>
+                    <td contenteditable="true">Option 2</td>
+                    <td class="status-cell" onclick="toggleStatus(this)">✅ Available</td>
+                    <td contenteditable="true">4000</td>
+                    <td contenteditable="true">30%</td>
+                    <td contenteditable="true">252+【1300】</td>
+                </tr>
+                <tr>
+                    <td contenteditable="true">Option 3</td>
+                    <td class="status-cell" onclick="toggleStatus(this)">✅ Available</td>
+                    <td contenteditable="true">7000</td>
+                    <td contenteditable="true">30%</td>
+                    <td contenteditable="true">252+【1300】</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="output-text-container-pay22" style="display: none;">
+        <div id="output-text-pay22"></div>
+    </div>
+
     <div class="hr-container">
         <div class="hr-line"></div>
         <div class="message">Use this to Kill - Kill 2-2</div>
@@ -1014,68 +1119,79 @@
                 </tr>
             </tbody>
         </table>
-        </div>
     </div>
+</div>
 <!-- Pay 2-3 Tab -->
 <div class="tab-content" id="pay23">
-<div class="'cotainer">
-<!-- ပထမ container အကြောင်းအရာ -->
-</div>
-<div class="hr-container">
-<div class="hr-line"></div>
-<div class="message">Pay 2-3</div>
-<div class="hr-line"></div>
-</div>
-<button class="screenshot-button" onclick="capturePay23()">📸 Capture SS - Pay 2-3</button>
-<div class="container" id="pay23-section1">
-<div class="header">
-<img alt="Thumbnail 1" src="thumbnail1.jpg"/>
-<img alt="Thumbnail 2" src="thumbnail2.jpg"/>
-<img alt="Thumbnail 3" src="thumbnail3.jpg"/>
-<img alt="Thumbnail 4" src="thumbnail4.jpg"/>
-<img alt="Thumbnail 5" src="thumbnail5.jpg"/>
-<img alt="Thumbnail 6" src="thumbnail6.jpg"/>
-</div>
-<h1>Task Availability System</h1>
-<div class="header-time">
-<p id="datetime3"></p>
-<p id="completion-time"></p>
-</div>
-<table id="task-table">
-<thead>
-<tr>
-<th contenteditable="true">Task Name</th>
-<th>Status</th>
-<th>Initial Payment (INR)</th>
-<th>Percentage</th>
-<th>Withdrawal (INR)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td contenteditable="true">Option 1</td>
-<td class="status-cell" onclick="toggleStatus(this)">✅ Available</td>
-<td contenteditable="true">0</td>
-<td contenteditable="true">30%</td>
-<td contenteditable="true">0+【3900】</td>
-</tr>
-<tr>
-<td contenteditable="true">Option 2</td>
-<td class="status-cell" onclick="toggleStatus(this)">✅ Available</td>
-<td contenteditable="true">8000</td>
-<td contenteditable="true">30%</td>
-<td contenteditable="true">0+【3900】</td>
-</tr>
-<tr>
-<td contenteditable="true">Option 3</td>
-<td class="status-cell" onclick="toggleStatus(this)">✅ Available</td>
-<td contenteditable="true">15000</td>
-<td contenteditable="true">30%</td>
-<td contenteditable="true">0+【3900】</td>
-</tr>
-</tbody>
-</table>
-</div>
+    <div class="'cotainer">
+        <!-- ပထမ container အကြောင်းအရာ -->
+    </div>
+    <div class="hr-container">
+        <div class="hr-line"></div>
+        <div class="message">Pay 2-3</div>
+        <div class="hr-line"></div>  
+    </div>
+    <!-- Add these 2 new buttons above the container -->
+    <div class="button-group">
+        <button class="screenshot-button" onclick="capturePay23()">📸 Capture SS - Pay 2-3</button>
+        <button id="toggle-pay23-btn" class="toggle-btn" onclick="togglePay23Text()">▼ Toggle Text</button>
+        <button id="copy-pay23-btn" class="copy-btn" onclick="copyPay23Text()">📋 Copy Text</button>
+    </div>        
+    <!-- Add 2 new buttons here  Add here deepseek-->   
+    <div class="container" id="pay23-section1">
+        <div class="header">
+            <img alt="Thumbnail 1" src="thumbnail1.jpg" />
+            <img alt="Thumbnail 2" src="thumbnail2.jpg" />
+            <img alt="Thumbnail 3" src="thumbnail3.jpg" />
+            <img alt="Thumbnail 4" src="thumbnail4.jpg" />
+            <img alt="Thumbnail 5" src="thumbnail5.jpg" />
+            <img alt="Thumbnail 6" src="thumbnail6.jpg" />
+        </div>
+        <h1>Task Availability System</h1>
+        <div class="header-time">
+            <p id="datetime3"></p>
+            <p id="completion-time"></p>
+        </div>
+        <table id="task-table">
+            <thead>
+                <tr>
+                    <th contenteditable="true">Task Name</th>
+                    <th>Status</th>
+                    <th>Initial Payment (INR)</th>
+                    <th>Percentage</th>
+                    <th>Withdrawal (INR)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td contenteditable="true">Option 1</td>
+                    <td class="status-cell" onclick="toggleStatus(this)">✅ Available</td>
+                    <td contenteditable="true">0</td>
+                    <td contenteditable="true">30%</td>
+                    <td contenteditable="true">0+【3900】</td>
+                </tr>
+                <tr>
+                    <td contenteditable="true">Option 2</td>
+                    <td class="status-cell" onclick="toggleStatus(this)">✅ Available</td>
+                    <td contenteditable="true">8000</td>
+                    <td contenteditable="true">30%</td>
+                    <td contenteditable="true">0+【3900】</td>
+                </tr>
+                <tr>
+                    <td contenteditable="true">Option 3</td>
+                    <td class="status-cell" onclick="toggleStatus(this)">✅ Available</td>
+                    <td contenteditable="true">15000</td>
+                    <td contenteditable="true">30%</td>
+                    <td contenteditable="true">0+【3900】</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="output-text-container-pay23" style="display: none;">
+        <div id="output-text-pay23"></div>
+    </div>
+
     <div class="hr-container">
         <div class="hr-line"></div>
         <div class="message">Use this for Kill 2-3</div>
@@ -1083,15 +1199,15 @@
     </div>
 
     <button class="screenshot-button" onclick="capturePay232()">📸 Capture SS - Kill 2-3</button>
-    
+
     <div class="container" id="pay232-section2">
         <div class="header">
-            <img alt="Thumbnail 1" src="thumbnail1.jpg"/>
-            <img alt="Thumbnail 2" src="thumbnail2.jpg"/>
-            <img alt="Thumbnail 3" src="thumbnail3.jpg"/>
-            <img alt="Thumbnail 4" src="thumbnail4.jpg"/>
-            <img alt="Thumbnail 5" src="thumbnail5.jpg"/>
-            <img alt="Thumbnail 6" src="thumbnail6.jpg"/>
+            <img alt="Thumbnail 1" src="thumbnail1.jpg" />
+            <img alt="Thumbnail 2" src="thumbnail2.jpg" />
+            <img alt="Thumbnail 3" src="thumbnail3.jpg" />
+            <img alt="Thumbnail 4" src="thumbnail4.jpg" />
+            <img alt="Thumbnail 5" src="thumbnail5.jpg" />
+            <img alt="Thumbnail 6" src="thumbnail6.jpg" />
         </div>
         <h1>Task Availability System</h1>
         <div class="header-time">
@@ -1100,12 +1216,12 @@
         </div>
         <table id="task-table">
             <thead>
-            <tr>
-                <th contenteditable="true">Task Name</th>
-                <th>Status</th>
-                <th>Initial Payment (INR)</th>
-                <th>Percentage</th>
-                <th>Withdrawal (INR)</th>
+                <tr>
+                    <th contenteditable="true">Task Name</th>
+                    <th>Status</th>
+                    <th>Initial Payment (INR)</th>
+                    <th>Percentage</th>
+                    <th>Withdrawal (INR)</th>
                 </tr>
             </thead>
             <tbody>
@@ -1132,184 +1248,218 @@
                 </tr>
             </tbody>
         </table>
-        </div>
     </div>
+</div>
 <!-- Kill Orders Tab -->
 <div class="tab-content" id="kill">
-<div class="hr-container">
-<div class="hr-line"></div>
-<div class="message">Kill 3-2</div>
-<div class="hr-line"></div>
-</div>
-<button class="screenshot-button" onclick="captureKill()">📸 Capture SS - Kill 3-2</button>
-<div class="container" id="kill-section1">
-<div class="header">
-<img alt="Thumbnail 1" src="thumbnail1.jpg"/>
-<img alt="Thumbnail 2" src="thumbnail2.jpg"/>
-<img alt="Thumbnail 3" src="thumbnail3.jpg"/>
-<img alt="Thumbnail 4" src="thumbnail4.jpg"/>
-<img alt="Thumbnail 5" src="thumbnail5.jpg"/>
-<img alt="Thumbnail 6" src="thumbnail6.jpg"/>
-</div>
-<h1>Task Availability System</h1>
-<div class="header-time">
-<p id="datetimekill32"></p>
-<p id="completion-time"></p>
-</div>
-<table id="task-table">
-<thead>
-<tr>
-<th contenteditable="true">Task Name</th>
-<th>Status</th>
-<th>Initial Payment (INR)</th>
-<th>Percentage</th>
-<th>Withdrawal (INR)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td contenteditable="true">Option 1</td>
-<td class="status-cell" onclick="toggleStatus(this)">✅ Available</td>
-<td contenteditable="true">15000</td>
-<td contenteditable="true">30%</td>
-<td contenteditable="true">0+【3900】</td>
-</tr>
-<tr>
-<td contenteditable="true">Option 2</td>
-<td class="status-cell" onclick="toggleStatus(this)">✅ Available</td>
-<td contenteditable="true">25000</td>
-<td contenteditable="true">30%</td>
-<td contenteditable="true">0+【3900】</td>
-</tr>
-<tr>
-<td contenteditable="true">Option 3</td>
-<td class="status-cell" onclick="toggleStatus(this)">✅ Available</td>
-<td contenteditable="true">35000</td>
-<td contenteditable="true">30%</td>
-<td contenteditable="true">0+【3900】</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="hr-container">
-<div class="hr-line"></div>
-<div class="message">Kill 3-3</div>
-<div class="hr-line"></div>
-</div>
-<button class="screenshot-button" onclick="captureKill2()">📸 Capture SS - Kill 3-3</button>
-<div class="container" id="kill-section2">
-<div class="header">
-<img alt="Thumbnail 1" src="thumbnail1.jpg"/>
-<img alt="Thumbnail 2" src="thumbnail2.jpg"/>
-<img alt="Thumbnail 3" src="thumbnail3.jpg"/>
-<img alt="Thumbnail 4" src="thumbnail4.jpg"/>
-<img alt="Thumbnail 5" src="thumbnail5.jpg"/>
-<img alt="Thumbnail 6" src="thumbnail6.jpg"/>
-</div>
-<h1>Task Availability System</h1>
-<div class="header-time">
-<p id="datetimekill33"></p>
-<p id="completion-time2"></p>
-</div>
-<table id="task-table">
-<thead>
-<tr>
-<th contenteditable="true">Task Name</th>
-<th>Status</th>
-<th>Initial Payment (INR)</th>
-<th>Percentage</th>
-<th>Withdrawal (INR)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td contenteditable="true">Option 1</td>
-<td class="status-cell" onclick="toggleStatus(this)">✅ Available</td>
-<td contenteditable="true">45000</td>
-<td contenteditable="true">60%</td>
-<td contenteditable="true">1+【23400】</td>
-</tr>
-<tr>
-<td contenteditable="true">Option 2</td>
-<td class="status-cell" onclick="toggleStatus(this)">✅ Available</td>
-<td contenteditable="true">90000</td>
-<td contenteditable="true">60%</td>
-<td contenteditable="true">1+【23400】</td>
-</tr>
-<tr>
-<td contenteditable="true">Option 3</td>
-<td class="status-cell" onclick="toggleStatus(this)">✅ Available</td>
-<td contenteditable="true">120000</td>
-<td contenteditable="true">60%</td>
-<td contenteditable="true">1+【23400】</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="hr-container">
-<div class="hr-line"></div>
-<div class="message">Kill 3-4</div>
-<div class="hr-line"></div>
-</div>
-<button class="screenshot-button" onclick="captureKill3()">📸 Capture SS - Kill 3-4</button>
-<div class="container" id="kill-section3">
-<div class="header">
-<img alt="Thumbnail 1" src="thumbnail1.jpg"/>
-<img alt="Thumbnail 2" src="thumbnail2.jpg"/>
-<img alt="Thumbnail 3" src="thumbnail3.jpg"/>
-<img alt="Thumbnail 4" src="thumbnail4.jpg"/>
-<img alt="Thumbnail 5" src="thumbnail5.jpg"/>
-<img alt="Thumbnail 6" src="thumbnail6.jpg"/>
-</div>
-<h1>Task Availability System</h1>
-<div class="header-time">
-<p id="datetimelro"></p>
-<p id="completion-time"></p>
-</div>
-<table id="task-table">
-<thead>
-<tr>
-<th contenteditable="true">Task Name</th>
-<th>Status</th>
-<th>Initial Payment (INR)</th>
-<th>Percentage</th>
-<th>Withdrawal (INR)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td contenteditable="true">Option 1</td>
-<td class="status-cell" onclick="toggleStatus(this)">✅ Available</td>
-<td contenteditable="true">90000</td>
-<td contenteditable="true">60%</td>
-<td contenteditable="true">3000+【95400】</td>
-</tr>
-<tr>
-<td contenteditable="true">Option 2</td>
-<td class="status-cell" onclick="toggleStatus(this)">✅ Available</td>
-<td contenteditable="true">130000</td>
-<td contenteditable="true">60%</td>
-<td contenteditable="true">3000+【95400】</td>
-</tr>
-<tr>
-<td contenteditable="true">Option 3</td>
-<td class="status-cell" onclick="toggleStatus(this)">✅ Available</td>
-<td contenteditable="true">170000</td>
-<td contenteditable="true">60%</td>
-<td contenteditable="true">3000+【95400】</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<!-- Repair Order Tab -->
-    <div class="tab-content" id="repair">
-        <div class="hr-container">
-            <div class="hr-line"></div>
-            <div class="message">Repair Order</div>
-            <div class="hr-line"></div>
+    <div class="hr-container">
+        <div class="hr-line"></div>
+        <div class="message">Kill 3-2</div>
+        <div class="hr-line"></div>
+    </div>
+
+    <div class="button-group">
+        <button class="screenshot-button" onclick="captureKill()">📸 Capture SS - Kill 3-2</button>
+        <button class="toggle-btn" onclick="toggleOutputText()">👁️ Toggle Text</button>
+        <button class="copy-btn" onclick="copyOutputText()">📋 Copy Text</button>
+    </div>
+
+    <div class="container" id="kill-section1">
+        <div class="header">
+            <img alt="Thumbnail 1" src="thumbnail1.jpg" />
+            <img alt="Thumbnail 2" src="thumbnail2.jpg" />
+            <img alt="Thumbnail 3" src="thumbnail3.jpg" />
+            <img alt="Thumbnail 4" src="thumbnail4.jpg" />
+            <img alt="Thumbnail 5" src="thumbnail5.jpg" />
+            <img alt="Thumbnail 6" src="thumbnail6.jpg" />
         </div>
-        <button class="screenshot-button" onclick="captureRepair()">📸 Capture SS - Repair Order</button>
+        <h1>Task Availability System</h1>
+        <div class="header-time">
+            <p id="datetimekill32"></p>
+            <p id="completion-time"></p>
+        </div>
+        <table id="task-table">
+            <thead>
+                <tr>
+                    <th contenteditable="true">Task Name</th>
+                    <th>Status</th>
+                    <th>Initial Payment (INR)</th>
+                    <th>Percentage</th>
+                    <th>Withdrawal (INR)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td contenteditable="true">Option 1</td>
+                    <td class="status-cell" onclick="toggleStatus(this)">✅ Available</td>
+                    <td contenteditable="true" oninput="updateOutputText()">17000</td>
+                    <td contenteditable="true" oninput="updateOutputText()">30%</td>
+                    <td contenteditable="true" oninput="updateOutputText()">22100.00+ 【3900】</td>
+                </tr>
+                <tr>
+                    <td contenteditable="true">Option 2</td>
+                    <td class="status-cell" onclick="toggleStatus(this)">✅ Available</td>
+                    <td contenteditable="true" oninput="updateOutputText()">25000</td>
+                    <td contenteditable="true" oninput="updateOutputText()">30%</td>
+                    <td contenteditable="true" oninput="updateOutputText()">32500.00+ 【3900】</td>
+                </tr>
+                <tr>
+                    <td contenteditable="true">Option 3</td>
+                    <td class="status-cell" onclick="toggleStatus(this)">✅ Available</td>
+                    <td contenteditable="true" oninput="updateOutputText()">35000</td>
+                    <td contenteditable="true" oninput="updateOutputText()">30%</td>
+                    <td contenteditable="true" oninput="updateOutputText()">45500.00+ 【3900】</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <div id="output-text-container">       
+        <div id="output-text"></div>
+    </div>
+    
+    <div class="hr-container">
+        <div class="hr-line"></div>
+        <div class="message">Kill 3-3</div>
+        <div class="hr-line"></div>
+    </div>
+
+    <div class="button-group">
+        <button class="screenshot-button" onclick="captureKill2()">📸 Capture SS - Kill 3-3</button>
+        <button class="toggle-btn" onclick="toggleOutputText2()">👁️ Toggle Text</button>
+        <button class="copy-btn" onclick="copyOutputText2()">📋 Copy Text</button>
+    </div>
+
+    <div class="container" id="kill-section2">
+        <div class="header">
+            <img alt="Thumbnail 1" src="thumbnail1.jpg" />
+            <img alt="Thumbnail 2" src="thumbnail2.jpg" />
+            <img alt="Thumbnail 3" src="thumbnail3.jpg" />
+            <img alt="Thumbnail 4" src="thumbnail4.jpg" />
+            <img alt="Thumbnail 5" src="thumbnail5.jpg" />
+            <img alt="Thumbnail 6" src="thumbnail6.jpg" />
+        </div>
+        <h1>Task Availability System</h1>
+        <div class="header-time">
+            <p id="datetimekill33"></p>
+            <p id="completion-time2"></p>
+        </div>
+        <table id="task-table">
+            <thead>
+                <tr>
+                    <th contenteditable="true">Task Name</th>
+                    <th>Status</th>
+                    <th>Initial Payment (INR)</th>
+                    <th>Percentage</th>
+                    <th>Withdrawal (INR)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td contenteditable="true">Option 1</td>
+                    <td class="status-cell" onclick="toggleStatus(this)">✅ Available</td>
+                    <td contenteditable="true">49000</td>
+                    <td contenteditable="true">60%</td>
+                    <td contenteditable="true">1+【26000】</td>
+                </tr>
+                <tr>
+                    <td contenteditable="true">Option 2</td>
+                    <td class="status-cell" onclick="toggleStatus(this)">✅ Available</td>
+                    <td contenteditable="true">95000</td>
+                    <td contenteditable="true">60%</td>
+                    <td contenteditable="true">1+【26000】</td>
+                </tr>
+                <tr>
+                    <td contenteditable="true">Option 3</td>
+                    <td class="status-cell" onclick="toggleStatus(this)">✅ Available</td>
+                    <td contenteditable="true">120000</td>
+                    <td contenteditable="true">60%</td>
+                    <td contenteditable="true">1+【26000】</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="output-text-container-2">       
+        <div id="output-text-2"></div>
+    </div>
+    
+    <div class="hr-container">
+        <div class="hr-line"></div>
+        <div class="message">Kill 3-4</div>
+        <div class="hr-line"></div>
+    </div>
+
+    <div class="button-group">
+        <button class="screenshot-button" onclick="captureKill3()">📸 Capture SS - Kill 3-4</button>
+        <button id="toggle-kill34-btn" class="toggle-btn" onclick="toggleKill34Text()">▼ Toggle Text</button>
+        <button id="copy-kill34-btn" class="copy-btn" onclick="copyKill34Text()">📋 Copy Text</button>
+    </div>
+
+    <div class="container" id="kill-section3">
+        <div class="header">
+            <img alt="Thumbnail 1" src="thumbnail1.jpg" />
+            <img alt="Thumbnail 2" src="thumbnail2.jpg" />
+            <img alt="Thumbnail 3" src="thumbnail3.jpg" />
+            <img alt="Thumbnail 4" src="thumbnail4.jpg" />
+            <img alt="Thumbnail 5" src="thumbnail5.jpg" />
+            <img alt="Thumbnail 6" src="thumbnail6.jpg" />
+        </div>
+        <h1>Task Availability System</h1>
+        <div class="header-time">
+            <p id="datetimelro"></p>
+            <p id="completion-time"></p>
+        </div>
+        <table id="task-table">
+            <thead>
+                <tr>
+                    <th contenteditable="true">Task Name</th>
+                    <th>Status</th>
+                    <th>Initial Payment (INR)</th>
+                    <th>Percentage</th>
+                    <th>Withdrawal (INR)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td contenteditable="true">Option 1</td>
+                    <td class="status-cell" onclick="toggleStatus(this)">✅ Available</td>
+                    <td contenteditable="true">90000</td>
+                    <td contenteditable="true">60%</td>
+                    <td contenteditable="true">3000+【95400】</td>
+                </tr>
+                <tr>
+                    <td contenteditable="true">Option 2</td>
+                    <td class="status-cell" onclick="toggleStatus(this)">✅ Available</td>
+                    <td contenteditable="true">130000</td>
+                    <td contenteditable="true">60%</td>
+                    <td contenteditable="true">3000+【95400】</td>
+                </tr>
+                <tr>
+                    <td contenteditable="true">Option 3</td>
+                    <td class="status-cell" onclick="toggleStatus(this)">✅ Available</td>
+                    <td contenteditable="true">170000</td>
+                    <td contenteditable="true">60%</td>
+                    <td contenteditable="true">3000+【95400】</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="output-text-container-kill34" style="display: none;">
+        <div id="output-text-kill34"></div>
+    </div>
+
+</div>
+
+<!-- Repair Order Tab -->
+<div class="tab-content" id="repair">
+    <div class="hr-container">
+        <div class="hr-line"></div>
+        <div class="message">Repair Order</div>
+        <div class="hr-line"></div>
+    </div>
+    <button class="screenshot-button" onclick="captureRepair()">📸 Capture SS - Repair Order</button>
     
     <div class="container">
         <div class="header">
@@ -1328,14 +1478,14 @@
         
         <table id="task-table">
             <thead>
-            <tr>
-            <th contenteditable="true">Task Name</th>
-            <th>Status</th>
-            <th>Initial Payment (INR)</th>
-            <th>Percentage</th>
-            <th>Withdrawal (INR)</th>
-            </tr>
-        </thead>
+                <tr>
+                    <th contenteditable="true">Task Name</th>
+                    <th>Status</th>
+                    <th>Initial Payment (INR)</th>
+                    <th>Percentage</th>
+                    <th>Withdrawal (INR)</th>
+                </tr>
+            </thead>
             <tbody>
                 <tr>
                     <td contenteditable="true">Option 1</td>
@@ -1361,8 +1511,9 @@
             </tbody>
         </table>
     </div>
-
 </div>
+
+
 <div class="tab-content" id="codechecktab">
 
     <div class="hr-container">
@@ -1409,8 +1560,425 @@
         </div>
     </div>    
         
-</div></div>
 <script>
+
+
+    // Toggle output text visibility
+    function toggleOutputText() {
+            const outputContainer = document.getElementById('output-text-container');
+            const toggleBtn = document.querySelector('.toggle-btn');
+
+            if (outputContainer.style.display === 'none' || !outputContainer.style.display) {
+                outputContainer.style.display = 'block';
+                toggleBtn.textContent = '👁️ Hide Text';
+            } else {
+                outputContainer.style.display = 'none';
+                toggleBtn.textContent = '👁️ Show Text';
+            }
+    }  
+
+    // For Kill 3-3 toggle
+    function toggleOutputText2() {
+            const outputContainer = document.getElementById('output-text-container-2');
+            const toggleBtn = document.querySelector('#kill-section2 .toggle-btn');
+
+            if (outputContainer.style.display === 'none' || !outputContainer.style.display) {
+                outputContainer.style.display = 'block';
+                toggleBtn.textContent = '👁️ Hide Text';
+            } else {
+                outputContainer.style.display = 'none';
+                toggleBtn.textContent = '👁️ Show Text';
+            }
+    }
+        
+    
+
+        // Copy output text to clipboard
+        // Copy output text to clipboard with better error handling
+        // Improved copy function with better error handling
+        // MODIFIED copy text function
+            async function copyOutputText() {
+                const outputText = document.getElementById('output-text').innerText;
+                if (!outputText) {
+                    showToast("❌ No text to copy");
+                    return;
+                }
+
+                try {
+                    await navigator.clipboard.writeText(outputText);
+                    showToast('📋 Text copied to clipboard!');
+                } catch (err) {
+                    console.error('Clipboard API error:', err);
+                    // Fallback method
+                    const textarea = document.createElement('textarea');
+                    textarea.value = outputText;
+                    textarea.style.position = 'fixed';
+                    textarea.style.opacity = 0;
+                    document.body.appendChild(textarea);
+                    textarea.select();
+
+                    try {
+                        const success = document.execCommand('copy');
+                        document.body.removeChild(textarea);
+                        showToast(success ? '📋 Text copied!' : '❌ Press Ctrl+C to copy');
+                    } catch (fallbackErr) {
+                        document.body.removeChild(textarea);
+                        showToast('❌ Press Ctrl+C to copy');
+                    }
+                }
+            }
+
+            // For Kill 3-3
+            async function copyOutputText2() {
+                    const outputText = document.getElementById('output-text-2').innerText;
+                    if (!outputText) {
+                        showToast("❌ No text to copy");
+                        return;
+                    }
+
+                    try {
+                        await navigator.clipboard.writeText(outputText);
+                        showToast('📋 Text copied to clipboard!');
+                    } catch (err) {
+                        console.error('Clipboard API error:', err);
+                        // Fallback method
+                        const textarea = document.createElement('textarea');
+                        textarea.value = outputText;
+                        textarea.style.position = 'fixed';
+                        textarea.style.opacity = 0;
+                        document.body.appendChild(textarea);
+                        textarea.select();
+
+                        try {
+                            const success = document.execCommand('copy');
+                            document.body.removeChild(textarea);
+                            showToast(success ? '📋 Text copied!' : '❌ Press Ctrl+C to copy');
+                        } catch (fallbackErr) {
+                            document.body.removeChild(textarea);
+                            showToast('❌ Press Ctrl+C to copy');
+                        }
+                    }
+                }
+
+    function updateOutputText() {
+    // For Kill 3-2 (kill-section1)
+    const kill32Table = document.querySelector('#kill-section1 #task-table');
+    if (kill32Table) {
+        const rows = kill32Table.querySelectorAll('tbody tr');
+        let outputText = 'Second Profit Order – Advance Payment Options\nYou can choose one of the following options:\n\n';
+
+        rows.forEach(row => {
+            const cells = row.cells;
+            const optionName = cells[0].textContent;
+            const initialPayment = parseFloat(cells[2].textContent.replace(/[^\d.]/g, '')) || 0;
+            const percentage = parseFloat(cells[3].textContent.replace('%', '')) || 0;
+            
+            // Extract main amount (always keep 【3900】 as bonus)
+            const withdrawalText = cells[4].textContent;
+            const mainAmount = parseFloat(withdrawalText.split('+')[0].replace(/[^\d.]/g, '')) || 0;
+            const bonusAmount = 3900; // Hardcoded value
+            const total = mainAmount + bonusAmount;
+
+            // Format as INR
+            const formatINR = (amount) => '₹' + amount.toLocaleString('en-IN');
+
+            outputText += `${optionName}: Pay ${formatINR(initialPayment)} in advance\n`;
+            outputText += ` ✔️ Earn ${percentage}% commission\n`;
+            outputText += ` ✔️ Get ${formatINR(mainAmount)} + ${formatINR(bonusAmount)} bonus = Total ${formatINR(total)}\n\n`;
+        });
+
+        document.getElementById('output-text').textContent = outputText;
+    }
+
+    // For Kill 3-3 (keep existing logic)
+    const kill33Table = document.querySelector('#kill-section2 #task-table');
+    if (kill33Table) {
+        // ... (your existing Kill 3-3 logic)
+    }
+}
+
+    // Function to update the output text for Kill 3-3
+    function updateOutputText2() {
+            const table = document.querySelector('#kill-section2 #task-table');
+            const rows = table.querySelectorAll('tbody tr');
+            let outputText = 'Last Profitable Order – Advance Payment Required\nYou can choose one of the following options:\n\n';
+
+            rows.forEach(row => {
+                const cells = row.cells;
+                const optionName = cells[0].textContent;
+                const initialPayment = parseFloat(cells[2].textContent.replace(/[^\d.]/g, '')) || 0;
+                const percentage = parseFloat(cells[3].textContent.replace('%', '')) || 0;
+
+                // Extract main amount and bonus correctly
+                const withdrawalText = cells[4].textContent;
+                const mainAmount = parseFloat(withdrawalText.split('+')[0].replace(/[^\d.]/g, '')) || 0;
+                const bonusMatch = withdrawalText.match(/[\[【](\d+)[\]】]/);
+                const bonusAmount = bonusMatch ? parseFloat(bonusMatch[1]) : 0;
+                const total = mainAmount + bonusAmount;
+
+                // Format currency with Indian numbering system
+                const formatINR = (amount) => {
+                    return '₹' + amount.toLocaleString('en-IN');
+                };
+
+                outputText += `${optionName}: Pay ${formatINR(initialPayment)} in advance\n`;
+                outputText += ` ✔️ Earn ${percentage}% commission\n`;
+                outputText += ` ✔️ Get ${formatINR(mainAmount)} + ${formatINR(bonusAmount)} bonus = Total ${formatINR(total)}\n\n`;
+            });
+
+            document.getElementById('output-text-2').textContent = outputText;
+    }
+
+    // Add these functions to your existing JavaScript
+        function toggleKill34Text() {
+            const outputContainer = document.getElementById('output-text-container-kill34');
+            const toggleBtn = document.getElementById('toggle-kill34-btn');
+
+            if (outputContainer.style.display === 'none' || !outputContainer.style.display) {
+                outputContainer.style.display = 'block';
+                toggleBtn.textContent = '▼ Hide Text';
+            } else {
+                outputContainer.style.display = 'none';
+                toggleBtn.textContent = '▼ Show Text';
+            }
+        }
+
+        async function copyKill34Text() {
+            const outputText = document.getElementById('output-text-kill34').innerText;
+            if (!outputText) {
+                showToast("❌ No text to copy");
+                return;
+            }
+
+            try {
+                await navigator.clipboard.writeText(outputText);
+                showToast('📋 Text copied to clipboard!');
+            } catch (err) {
+                console.error('Clipboard API error:', err);
+                // Fallback method
+                const textarea = document.createElement('textarea');
+                textarea.value = outputText;
+                textarea.style.position = 'fixed';
+                textarea.style.opacity = 0;
+                document.body.appendChild(textarea);
+                textarea.select();
+
+                try {
+                    const success = document.execCommand('copy');
+                    document.body.removeChild(textarea);
+                    showToast(success ? '📋 Text copied!' : '❌ Press Ctrl+C to copy');
+                } catch (fallbackErr) {
+                    document.body.removeChild(textarea);
+                    showToast('❌ Press Ctrl+C to copy');
+                }
+            }
+        }
+
+        function updateKill34OutputText() {
+                // Add a small delay to ensure DOM updates are complete
+                setTimeout(() => {
+                    const table = document.querySelector('#kill-section3 #task-table');
+                    const rows = table.querySelectorAll('tbody tr');
+                    let outputText = 'Last Refund Order – Advance Payment Required\nYou can choose one of the following options:\n\n';
+
+                    rows.forEach(row => {
+                        const cells = row.cells;
+                        const optionName = cells[0].textContent;
+
+                        // Parse numbers more carefully with error handling
+                        const initialPayment = parseNumber(cells[2].textContent);
+                        const percentage = parseNumber(cells[3].textContent.replace('%', ''));
+
+                        // Extract amounts with better parsing
+                        const withdrawalText = cells[4].textContent;
+                        const [mainPart, bonusPart] = withdrawalText.split('+');
+
+                        const mainAmount = parseNumber(mainPart);
+                        const bonusAmount = parseNumber(bonusPart.match(/[\[【](\d+)[\]】]/)?.[1] || "0");
+                        const total = mainAmount + bonusAmount;
+
+                        // Format as INR with proper grouping
+                        const formatINR = (amount) => {
+                            if (isNaN(amount)) return '₹0';
+                            return '₹' + amount.toLocaleString('en-IN', {
+                                maximumFractionDigits: 2,
+                                minimumFractionDigits: 2
+                            });
+                        };
+
+                        outputText += `${optionName}: Pay ${formatINR(initialPayment)} in advance\n`;
+                        outputText += ` ✔️ Earn ${percentage}% commission\n`;
+                        outputText += ` ✔️ Get ${formatINR(mainAmount)} + ${formatINR(bonusAmount)} bonus = Total ${formatINR(total)}\n\n`;
+                    });
+
+                    document.getElementById('output-text-kill34').textContent = outputText;
+                }, 100); // 100ms delay to ensure DOM updates
+            }
+
+            // Helper function to safely parse numbers
+            function parseNumber(text) {
+                if (!text) return 0;
+                // Remove all non-digit characters except decimal point
+                const numString = text.toString().replace(/[^\d.]/g, '');
+                const number = parseFloat(numString);
+                return isNaN(number) ? 0 : number;
+            }
+
+            // Update event listeners to include delay
+            document.querySelectorAll('#kill-section3 td[contenteditable="true"]').forEach(cell => {
+                cell.addEventListener('input', () => {
+                    setTimeout(updateKill34OutputText, 100);
+                });
+            });
+    
+    // Add these functions to your existing JavaScript
+        function togglePay22Text() {
+            const outputContainer = document.getElementById('output-text-container-pay22');
+            const toggleBtn = document.getElementById('toggle-pay22-btn');
+
+            if (outputContainer.style.display === 'none' || !outputContainer.style.display) {
+                outputContainer.style.display = 'block';
+                toggleBtn.textContent = '▼ Hide Text';
+            } else {
+                outputContainer.style.display = 'none';
+                toggleBtn.textContent = '▼ Show Text';
+            }
+        }
+
+        async function copyPay22Text() {
+            const outputText = document.getElementById('output-text-pay22').innerText;
+            if (!outputText) {
+                showToast("❌ No text to copy");
+                return;
+            }
+
+            try {
+                await navigator.clipboard.writeText(outputText);
+                showToast('📋 Text copied to clipboard!');
+            } catch (err) {
+                console.error('Clipboard API error:', err);
+                // Fallback method
+                const textarea = document.createElement('textarea');
+                textarea.value = outputText;
+                textarea.style.position = 'fixed';
+                textarea.style.opacity = 0;
+                document.body.appendChild(textarea);
+                textarea.select();
+
+                try {
+                    const success = document.execCommand('copy');
+                    document.body.removeChild(textarea);
+                    showToast(success ? '📋 Text copied!' : '❌ Press Ctrl+C to copy');
+                } catch (fallbackErr) {
+                    document.body.removeChild(textarea);
+                    showToast('❌ Press Ctrl+C to copy');
+                }
+            }
+        }
+
+        function updatePay22OutputText() {
+            const table = document.querySelector('#pay22-section1 #task-table');
+            const rows = table.querySelectorAll('tbody tr');
+            let outputText = 'Second Order – Advance Payment Required\nYou can choose one of the following options:\n\n';
+
+            rows.forEach(row => {
+                const cells = row.cells;
+                const optionName = cells[0].textContent;
+                const initialPayment = parseFloat(cells[2].textContent.replace(/[^\d.]/g, '')) || 0;
+                const percentage = parseFloat(cells[3].textContent.replace('%', '')) || 0;
+
+                // Extract main amount and bonus
+                const withdrawalText = cells[4].textContent;
+                const bonusMatch = withdrawalText.match(/[\[【](\d+)[\]】]/);
+                const bonusAmount = bonusMatch ? parseFloat(bonusMatch[1]) : 0;
+                const mainAmount = parseFloat(withdrawalText.split('+')[0].replace(/[^\d.]/g, '')) || 0;
+                const total = mainAmount + bonusAmount;
+
+                // Format as INR
+                const formatINR = (amount) => '₹' + amount.toLocaleString('en-IN');
+
+                outputText += `${optionName}: Pay ${formatINR(initialPayment)} in advance\n`;
+                outputText += ` ✔️ Earn ${percentage}% commission\n`;
+                outputText += ` ✔️ Get ${formatINR(mainAmount)} + ${formatINR(bonusAmount)} bonus = Total ${formatINR(total)}\n\n`;
+            });
+
+            document.getElementById('output-text-pay22').textContent = outputText;
+        }
+
+    // Add these functions to your existing JavaScript
+        function togglePay23Text() {
+            const outputContainer = document.getElementById('output-text-container-pay23');
+            const toggleBtn = document.getElementById('toggle-pay23-btn');
+
+            if (outputContainer.style.display === 'none' || !outputContainer.style.display) {
+                outputContainer.style.display = 'block';
+                toggleBtn.textContent = '▼ Hide Text';
+            } else {
+                outputContainer.style.display = 'none';
+                toggleBtn.textContent = '▼ Show Text';
+            }
+        }
+
+        async function copyPay23Text() {
+            const outputText = document.getElementById('output-text-pay23').innerText;
+            if (!outputText) {
+                showToast("❌ No text to copy");
+                return;
+            }
+
+            try {
+                await navigator.clipboard.writeText(outputText);
+                showToast('📋 Text copied to clipboard!');
+            } catch (err) {
+                console.error('Clipboard API error:', err);
+                // Fallback method
+                const textarea = document.createElement('textarea');
+                textarea.value = outputText;
+                textarea.style.position = 'fixed';
+                textarea.style.opacity = 0;
+                document.body.appendChild(textarea);
+                textarea.select();
+
+                try {
+                    const success = document.execCommand('copy');
+                    document.body.removeChild(textarea);
+                    showToast(success ? '📋 Text copied!' : '❌ Press Ctrl+C to copy');
+                } catch (fallbackErr) {
+                    document.body.removeChild(textarea);
+                    showToast('❌ Press Ctrl+C to copy');
+                }
+            }
+        }
+
+        function updatePay23OutputText() {
+            const table = document.querySelector('#pay23-section1 #task-table');
+            const rows = table.querySelectorAll('tbody tr');
+            let outputText = 'Final Order – Advance Payment Options\nYou can choose one of the following options:\n\n';
+
+            rows.forEach(row => {
+                const cells = row.cells;
+                const optionName = cells[0].textContent;
+                const initialPayment = parseFloat(cells[2].textContent.replace(/[^\d.]/g, '')) || 0;
+                const percentage = parseFloat(cells[3].textContent.replace('%', '')) || 0;
+
+                // Extract main amount and bonus
+                const withdrawalText = cells[4].textContent;
+                const bonusMatch = withdrawalText.match(/[\[【](\d+)[\]】]/);
+                const bonusAmount = bonusMatch ? parseFloat(bonusMatch[1]) : 0;
+                const mainAmount = parseFloat(withdrawalText.split('+')[0].replace(/[^\d.]/g, '')) || 0;
+                const total = mainAmount + bonusAmount;
+
+                // Format as INR
+                const formatINR = (amount) => '₹' + amount.toLocaleString('en-IN');
+
+                outputText += `${optionName}: Pay ${formatINR(initialPayment)} in advance\n`;
+                outputText += ` ✔️ Earn ${percentage}% commission\n`;
+                outputText += ` ✔️ Get ${formatINR(mainAmount)} + ${formatINR(bonusAmount)} bonus = Total ${formatINR(total)}\n\n`;
+            });
+
+            document.getElementById('output-text-pay23').textContent = outputText;
+        }
+
     // Check for tab parameter on page load
     document.addEventListener('DOMContentLoaded', function() {
         const urlParams = new URLSearchParams(window.location.search);
@@ -1430,9 +1998,52 @@
             const randomNum = Math.floor(1000 + Math.random() * 9000);
             document.getElementById('sessionId').textContent = `AMPS-${randomNum}-2025`;
             
+        // Initialize output text as hidden
+        document.getElementById('output-text-container').style.display = 'none';
+        document.getElementById('output-text-container-2').style.display = 'none';
         
         // Initialize functions
         updateRetiro();
+
+        // Initialize the output text
+        updateOutputText();
+        updateOutputText2();
+
+        // Initialize Pay 2-3 output text
+        updatePay23OutputText();
+
+        // Initialize Pay 2-2 output text
+        updatePay22OutputText();
+
+        // Initialize Kill 3-4 output text
+        updateKill34OutputText();
+
+        // Set up event listeners for Kill 3-4 editable cells
+        document.querySelectorAll('#kill-section3 td[contenteditable="true"]').forEach(cell => {
+            cell.addEventListener('input', updateKill34OutputText);
+        });
+
+        // Set up event listeners for Pay 2-2 editable cells
+        document.querySelectorAll('#pay22-section1 td[contenteditable="true"]').forEach(cell => {
+            cell.addEventListener('input', updatePay22OutputText);
+        });
+
+        // Set up event listeners for Pay 2-3 editable cells
+        document.querySelectorAll('#pay23-section1 td[contenteditable="true"]').forEach(cell => {
+            cell.addEventListener('input', updatePay23OutputText);
+        });
+
+        // Update when cells change
+        document.querySelectorAll('#kill-section2 td[contenteditable="true"]').forEach(cell => {
+            cell.addEventListener('input', function () {
+                setTimeout(updateOutputText2, 100); // Small delay to allow cell update
+            });
+        })
+
+        // Update text when cells change (if needed)
+        document.querySelectorAll('#kill-section2 td[contenteditable="true"]').forEach(cell => {
+            cell.addEventListener('input', updateOutputText2);
+        });
         
         // Update datetime
         updateDateTime();
@@ -1532,6 +2143,10 @@
             const hardcodedValue = hardcodedMatch ? hardcodedMatch[1] : '';
             retiroCell.innerText = `${calculatedRetiro.toFixed(2)}+【${hardcodedValue}】`;
         });
+
+        // Update the output text whenever values change
+            updateOutputText();
+            updateOutputText2();
     }
 
     function refreshDateTimeCellsIST() {
@@ -1641,6 +2256,8 @@
         await captureElement(element, 'Kill 2-2');
     }
 
+    
+
     async function capturePay23() {
         const element = document.querySelector('#pay23-section1');
         await captureElement(element, 'Pay 2-3');
@@ -1676,53 +2293,63 @@
         await captureElement(element, 'Checker');
     }
 
-    // Toast Notification Function
-    function showToast(message = "📋 Screenshot copied to clipboard!") {
-        const toast = document.getElementById("toast-notification");
-        toast.textContent = message;
-        toast.style.opacity = 1;
+    // Toast notification function - MODIFIED
+        function showToast(message = "📋 Copied to clipboard!") {
+            const toast = document.getElementById("toast-notification");
+            if (!toast) {
+                console.error("Toast element not found!");
+                return;
+            }
 
-        setTimeout(() => {
-            toast.style.opacity = 0;
-        }, 1500);
-    }
+            // Cancel any pending hide operations
+            clearTimeout(toast.hideTimeout);
+
+            toast.textContent = message;
+            toast.style.opacity = 1;
+
+            // Set timeout to hide the toast
+            toast.hideTimeout = setTimeout(() => {
+                toast.style.opacity = 0;
+            }, 1500);
+        }
 
     // Generic capture function
-    async function captureElement(element, sectionName = '') {
-        if (!element) {
-            alert('Element not found for screenshot');
-            return;
+    // MODIFIED capture function
+        async function captureElement(element, sectionName = '') {
+            if (!element) {
+                showToast('❌ Element not found');
+                return;
+            }
+
+            const originalBoxShadow = element.style.boxShadow;
+            element.style.boxShadow = 'none';
+
+            try {
+                const canvas = await html2canvas(element, {
+                    backgroundColor: "#ffffff",
+                    scale: 2,
+                    logging: false,
+                    useCORS: true
+                });
+
+                canvas.toBlob(async (blob) => {
+                    try {
+                        await navigator.clipboard.write([
+                            new ClipboardItem({ 'image/png': blob })
+                        ]);
+                        showToast(`📋 ${sectionName} copied!`);
+                    } catch (err) {
+                        console.error('Copy error:', err);
+                        showToast('❌ Failed to copy image');
+                    }
+                }, 'image/png');
+            } catch (err) {
+                console.error('Capture error:', err);
+                showToast(`❌ Failed to capture ${sectionName}`);
+            } finally {
+                element.style.boxShadow = originalBoxShadow;
+            }
         }
-
-        const originalBoxShadow = element.style.boxShadow;
-        element.style.boxShadow = 'none';
-
-        try {
-            const canvas = await html2canvas(element, {
-                backgroundColor: "#ffffff",
-                scale: 2, // Higher quality
-                logging: false,
-                useCORS: true
-            });
-
-            canvas.toBlob(async (blob) => {
-                try {
-                    const item = new ClipboardItem({ 'image/png': blob });
-                    await navigator.clipboard.write([item]);
-                    showToast(`📋 ${sectionName} ✅Screenshot copied!`);
-
-                } catch (err) {
-                    console.error('Failed to copy:', err);
-                    alert('❌ Failed to copy to clipboard. Please check browser permissions.');
-                }
-            }, 'image/png');
-        } catch (err) {
-            console.error('Screenshot failed:', err);
-            alert(`❌ Failed to capture ${sectionName} screenshot: ${err.message}`);
-        } finally {
-            element.style.boxShadow = originalBoxShadow;
-        }
-    }
         
         function updateDateTime() {
             const now = new Date();
@@ -1775,23 +2402,6 @@
 
 
     </script>
-<!-- Toast Notification -->
-<div id="toast-notification" style="
-        position: fixed;
-        top: 30px;
-        left: 50%;
-        transform: translateX(-50%);
-        background-color: #1b3e6b;
-        color: white;
-        padding: 12px 20px;
-        border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-        opacity: 0;
-        transition: opacity 0.5s ease-in-out;
-        z-index: 9999;
-        pointer-events: none;
-    ">
-        📋 Screenshot copied to clipboard!
-    </div>
+
 </body>
 </html>
