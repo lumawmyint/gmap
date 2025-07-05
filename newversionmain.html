@@ -745,33 +745,34 @@
         ">
         📋 Screenshot copied to clipboard!
     </div>
-<div class="tab-container">
-<div class="tab-buttons">
-<button class="tab-btn" id="btnStart" onclick="openTab('missionstart')">Mission Start</button>
-<span class="group-space"></span>
-<button class="tab-btn active" onclick="openTab('pay12')">Pay 1-2</button>
-<span class="group-space"></span>
-<button class="tab-btn" onclick="openTab('pay22')">Pay 2-2</button>
-<button class="tab-btn" onclick="openTab('pay23')">Pay 2-3</button>
-<span class="group-space"></span>
-<button class="tab-btn" id="btnKill" onclick="openTab('kill')">Kill Orders</button>
-<span class="group-space"></span>
-<button class="tab-btn" onclick="openTab('repair')">Repair Order</button>
-<button class="tab-btn" id="codeVerification" onclick="openTab('codechecktab')">Code Verification</button></div>
-<!-- Mission Start Tab -->
-<div class="tab-content" id="missionstart">
-<div class="hr-container">
-<div class="hr-line"></div>
-<div class="message">Mission start for Second Order</div>
-<div class="hr-line"></div>
-</div>
-<button class="screenshot-button" onclick="captureMissionStart()">📸 Capture SS - Mission Start</button>
-<div class="main-container">
-<div class="header-section">
-<h1>Ameriprise Financial Task Management System</h1>
-<div class="subtitle">Secure Enterprise Platform | v3.2.5</div>
-</div>
-<!--
+    <div class="tab-container">
+        <div class="tab-buttons">
+            <button class="tab-btn" id="btnStart" onclick="openTab('missionstart')">Mission Start</button>
+            <span class="group-space"></span>
+            <button class="tab-btn active" onclick="openTab('pay12')">Pay 1-2</button>
+            <span class="group-space"></span>
+            <button class="tab-btn" onclick="openTab('pay22')">Pay 2-2</button>
+            <button class="tab-btn" onclick="openTab('pay23')">Pay 2-3</button>
+            <span class="group-space"></span>
+            <button class="tab-btn" id="btnKill" onclick="openTab('kill')">Kill Orders</button>
+            <span class="group-space"></span>
+            <button class="tab-btn" onclick="openTab('repair')">Repair Order</button>
+            <button class="tab-btn" id="codeVerification" onclick="openTab('codechecktab')">Code Verification</button>
+        </div>
+        <!-- Mission Start Tab -->
+        <div class="tab-content" id="missionstart">
+            <div class="hr-container">
+                <div class="hr-line"></div>
+                <div class="message">Mission start for Second Order</div>
+                <div class="hr-line"></div>
+            </div>
+            <button class="screenshot-button" onclick="captureMissionStart()">📸 Capture SS - Mission Start</button>
+            <div class="main-container">
+                <div class="header-section">
+                    <h1>Ameriprise Financial Task Management System</h1>
+                    <div class="subtitle">Secure Enterprise Platform | v3.2.5</div>
+                </div>
+                <!--
                 <div class="partner-logos-container">
                     <div class="partner-logos">
                         <img src="thumbnail1.jpg" alt="Technology Partner" class="partner-logo">
@@ -784,81 +785,85 @@
                 </div>
 -->
 <div class="content-container">
-<div class="system-header">
-<!--    <img class='mainlogo' src="Ameriprise.jpg" alt="System Logo">-->
-<div class="system-info">
-<h2>Real-Time Task Authorization Console</h2>
-<p class="system-version">
-<span class="status-indicator status-active"></span>
-                                Secure Connection Established | Session ID: <span id="sessionId">AMPS-4892-2025</span>
-</p>
+    <div class="system-header">
+        <!--    <img class='mainlogo' src="Ameriprise.jpg" alt="System Logo">-->
+        <div class="system-info">
+            <h2>Real-Time Task Authorization Console</h2>
+            <p class="system-version">
+                <span class="status-indicator status-active"></span>
+                Secure Connection Established | Session ID: <span id="sessionId">AMPS-4892-2025</span>
+            </p>
+        </div>
+    </div>
+    <table class="system-table">
+        <tbody>
+            <tr>
+                <td class="param-label">User Credentials</td>
+                <td class="param-value admin">Administrator_01 <span class="secure-icon">(Verified)</span></td>
+            </tr>
+            <tr>
+                <td class="param-label">Platform Access</td>
+                <td class="param-value" contenteditable="true">
+                    <a class="link" href="https://knxqqi.buzz">https://knxqqi.buzz</a>
+                    <span class="secure-icon">🔒</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="param-label">Authorized Accounts</td>
+                <td class="param-value accounts" contenteditable="true">
+                    <span class="account-tag">RFP252391</span>
+                    <span class="account-tag">JHG152489</span>
+                    <span class="account-tag">GFE120589</span>
+                </td>
+            </tr>
+            <tr>
+        
+                <td class="param-label">Session Initiated</td>
+                <td class="param-value timestamp" id="dateTimeCell1"> </td>
+            </tr>
+            <tr>
+                <td class="param-label">Task Allocation</td>
+                <td class="param-value task-count">
+                    2-3 concurrent orders <span style="color:#6c757d;font-size:15px;">(Standard workload)</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="param-label">System Verification</td>
+                <td class="param-value verified">
+                    <span class="verification-badge">Successfully Verified</span>
+                    <span class="secure-icon">✅ All systems operational</span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="action-buttons">
+        <button class="btn btn-secondary">Request Audit</button>
+        <button class="btn btn-warning">Terminate Session</button>
+        <button class="btn btn-primary">Confirm Authorization</button>  
+    </div>
+
 </div>
-</div>
-<table class="system-table">
-<tbody>
-<tr>
-<td class="param-label">User Credentials</td>
-<td class="param-value admin">Administrator_01 <span class="secure-icon">(Verified)</span></td>
-</tr>
-<tr>
-<td class="param-label">Platform Access</td>
-<td class="param-value" contenteditable="true">
-<a class="link" href="https://knxqqi.buzz">https://knxqqi.buzz</a>
-<span class="secure-icon">🔒</span>
-</td>
-</tr>
-<tr>
-<td class="param-label">Authorized Accounts</td>
-<td class="param-value accounts" contenteditable="true">
-<span class="account-tag">RFP252391</span>
-<span class="account-tag">JHG152489</span>
-<span class="account-tag">GFE120589</span>
-</td>
-</tr>
-<tr>
-    
-<td class="param-label">Session Initiated</td>
-<td class="param-value timestamp" id="dateTimeCell1" > </td>
-</tr>
-<tr>
-<td class="param-label">Task Allocation</td>
-<td class="param-value task-count">
-                                    2-3 concurrent orders <span style="color:#6c757d;font-size:15px;">(Standard workload)</span>
-</td>
-</tr>
-<tr>
-<td class="param-label">System Verification</td>
-<td class="param-value verified">
-<span class="verification-badge">Successfully Verified</span>
-<span class="secure-icon">✅ All systems operational</span>
-</td>
-</tr>
-</tbody>
-</table>
-<div class="action-buttons">
-<button class="btn btn-secondary">Request Audit</button>
-<button class="btn btn-warning">Terminate Session</button>
-<button class="btn btn-primary">Confirm Authorization</button>
-</div>
-</div>
-<div class="footer">
-<p>Ameriprise Financial Services, LLC. Member FINRA and SIPC | 
-                        Ameriprise Financial Services, LLC - is an Equal Opportunity Employer</p>
-                    © 2025 Ameriprise Financial, Inc. All rights reserved | <a href="#" style="color:#6c757d;text-decoration:none;">Privacy Policy</a> | <a href="#" style="color:#6c757d;text-decoration:none;">Terms of Service</a>
-</div>
+    <div class="footer">
+        <p>Ameriprise Financial Services, LLC. Member FINRA and SIPC |
+            Ameriprise Financial Services, LLC - is an Equal Opportunity Employer</p>
+        © 2025 Ameriprise Financial, Inc. All rights reserved | <a href="#"
+            style="color:#6c757d;text-decoration:none;">Privacy Policy</a> | <a href="#"
+            style="color:#6c757d;text-decoration:none;">Terms of Service</a>
+    </div>
 </div>
 <hr/>
 <div class="hr-container">
-<div class="hr-line"></div>
-<div class="message">For Kill</div>
-<div class="hr-line"></div>
+    <div class="hr-line"></div>
+    <div class="message">For Kill</div>
+    <div class="hr-line"></div>
 </div>
 <button class="screenshot-button" onclick="captureMissionStart2()">📸 Capture SS - Kill Section</button>
 <div class="main-container">
-<div class="header-section">
-<h1>Ameriprise Financial Task Management System</h1>
-<div class="subtitle">Secure Enterprise Platform | v3.2.5</div>
-</div>
+    <div class="header-section">
+        <h1>Ameriprise Financial Task Management System</h1>
+        <div class="subtitle">Secure Enterprise Platform | v3.2.5</div>
+    </div>
 <!--
                 <div class="partner-logos-container">
                     <div class="partner-logos">
@@ -1660,42 +1665,69 @@
                     }
                 }
 
-    function updateOutputText() {
-    // For Kill 3-2 (kill-section1)
-    const kill32Table = document.querySelector('#kill-section1 #task-table');
-    if (kill32Table) {
-        const rows = kill32Table.querySelectorAll('tbody tr');
-        let outputText = 'Second Profit Order – Advance Payment Options\nYou can choose one of the following options:\n\n';
+                function updateOutputText() {
+                        // For Kill 3-2 (kill-section1)
+                        const kill32Table = document.querySelector('#kill-section1 #task-table');
+                        if (kill32Table) {
+                            const rows = kill32Table.querySelectorAll('tbody tr');
+                            let outputText = 'Second Profit Order – Advance Payment Required\nYou can choose one of the following options:\n\n';
 
-        rows.forEach(row => {
-            const cells = row.cells;
-            const optionName = cells[0].textContent;
-            const initialPayment = parseFloat(cells[2].textContent.replace(/[^\d.]/g, '')) || 0;
-            const percentage = parseFloat(cells[3].textContent.replace('%', '')) || 0;
-            
-            // Extract main amount (always keep 【3900】 as bonus)
-            const withdrawalText = cells[4].textContent;
-            const mainAmount = parseFloat(withdrawalText.split('+')[0].replace(/[^\d.]/g, '')) || 0;
-            const bonusAmount = 3900; // Hardcoded value
-            const total = mainAmount + bonusAmount;
+                            rows.forEach(row => {
+                                const cells = row.cells;
+                                const optionName = cells[0].textContent;
+                                const initialPayment = parseNumber(cells[2].textContent);
+                                const percentage = parseNumber(cells[3].textContent.replace('%', ''));
 
-            // Format as INR
-            const formatINR = (amount) => '₹' + amount.toLocaleString('en-IN');
+                                // Extract main amount and bonus
+                                const withdrawalText = cells[4].textContent;
+                                const [mainPart, bonusPart] = withdrawalText.split('+');
 
-            outputText += `${optionName}: Pay ${formatINR(initialPayment)} in advance\n`;
-            outputText += ` ✔️ Earn ${percentage}% commission\n`;
-            outputText += ` ✔️ Get ${formatINR(mainAmount)} + ${formatINR(bonusAmount)} bonus = Total ${formatINR(total)}\n\n`;
-        });
+                                const mainAmount = parseNumber(mainPart);
+                                const bonusAmount = parseNumber(bonusPart.match(/[\[【](\d+)[\]】]/)?.[1] || "0");
+                                const total = mainAmount + bonusAmount;
 
-        document.getElementById('output-text').textContent = outputText;
-    }
+                                // Format as INR with proper grouping
+                                const formatINR = (amount) => {
+                                    if (isNaN(amount)) return '₹0';
+                                    return '₹' + amount.toLocaleString('en-IN', {
+                                        maximumFractionDigits: 2,
+                                        minimumFractionDigits: 2
+                                    });
+                                };
+
+                                outputText += `${optionName}: Pay ${formatINR(initialPayment)} in advance\n`;
+                                outputText += ` ✔️ Earn ${percentage}% commission\n`;
+                                outputText += ` ✔️ Get ${formatINR(mainAmount)} + ${formatINR(bonusAmount)} bonus = Total ${formatINR(total)}\n\n`;
+                            });
+
+                            document.getElementById('output-text').textContent = outputText;
+                        }
+                    }
+
+                    // Helper function to safely parse numbers
+                    function parseNumber(text) {
+                        if (!text) return 0;
+                        // Remove all non-digit characters except decimal point
+                        const numString = text.toString().replace(/[^\d.]/g, '');
+                        const number = parseFloat(numString);
+                        return isNaN(number) ? 0 : number;
+                    }
+
+// Helper function to safely parse numbers
+function parseNumber(text) {
+    if (!text) return 0;
+    // Remove all non-digit characters except decimal point
+    const numString = text.toString().replace(/[^\d.]/g, '');
+    const number = parseFloat(numString);
+    return isNaN(number) ? 0 : number;
+}
 
     // For Kill 3-3 (keep existing logic)
     const kill33Table = document.querySelector('#kill-section2 #task-table');
     if (kill33Table) {
         // ... (your existing Kill 3-3 logic)
     }
-}
+
 
     // Function to update the output text for Kill 3-3
     function updateOutputText2() {
@@ -1993,6 +2025,13 @@
             document.getElementById('pay12').classList.remove('active');
             document.querySelector('[onclick="openTab(\'pay12\')"]').classList.remove('active');
         }
+
+        // Set up event listeners for Kill 3-2 editable cells
+        document.querySelectorAll('#kill-section1 td[contenteditable="true"]').forEach(cell => {
+            cell.addEventListener('input', () => {
+                setTimeout(updateOutputText, 100); // Small delay to ensure DOM updates
+            });
+        });
 
         // Generate random session ID
             const randomNum = Math.floor(1000 + Math.random() * 9000);
