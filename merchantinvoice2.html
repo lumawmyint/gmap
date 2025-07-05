@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merchant Payment Receipt</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        .invoice-header {
+            margin-bottom: 30px;
+        }
+        .invoice-details {
+            margin-bottom: 20px;
+        }
+        .divider {
+            border-top: 1px dashed #ccc;
+            margin: 20px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .total-row {
+            font-weight: bold;
+            background-color: #f9f9f9;
+        }
+        .footer {
+            margin-top: 30px;
+            font-style: italic;
+            color: #666;
+        }
+        .input-field {
+            padding: 8px;
+            width: 200px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .header {
+            text-align: center;
+        }
+
+        /* To make the values bold too */
+        .invoice-details p span {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="company-info">
+        
+            </div>
+            <img src="Ameriprise.jpg" alt="Company Logo" class="logo">
+        </div>
+        
+        <div class="invoice-header">
+            <h1 style="color:rgb(14, 52, 109)">Merchant Payment Receipt</h1>
+        </div>
+        
+        <div class="invoice-details">
+            <p><strong>Receipt No:</strong><br>
+                <span id="invoice-number"></span>
+            </p>
+        
+            <p><strong>Date:</strong><br>
+                <span id="invoice-date"></span>
+            </p>
+        
+        </div>
+        
+        <div class="divider"></div>
+        
+        <h2>Task Particulars</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Task Description</th>
+                    <th>Amount (₹)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Commission of Tasks 10/11/12</td>
+                    <td>₹210</td>
+                </tr>
+                <tr>
+                    <td>Commission of Task 12</td>
+                    <td>₹3900</td>
+                </tr>
+                <tr class="total-row">
+                    <td>Total</td>
+                    <td>₹4110.00</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div class="footer">
+            <p>This is a system-generated receipt. Please contact your reception to complete the next tasks.</p>
+        </div>
+    </div>
+
+    
+
+    <script>
+        // Function to format date as mm/dd/yyyy
+        function formatDate(date) {
+            const month = date.getMonth() + 1;
+            const day = date.getDate();
+            const year = date.getFullYear();
+            
+            return `${month}/${day}/${year}`;
+        }
+
+        // Function to generate invoice number in the format YYYYDDMMXXX
+        function generateInvoiceNumber(date) {
+            const year = date.getFullYear();
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            /*const randomDigits = String(Math.floor(Math.random() * 1000)).padStart(3, '0'); // Random 3-digit number  */
+            const randomDigits = '628'; // Using fixed 048 as requested
+            
+            return `${year}${day}${month}${randomDigits}`;
+        }
+
+        // Set today's date
+        const today = new Date();
+        
+        // Display date and invoice number
+        document.getElementById('invoice-date').textContent = formatDate(today);
+        document.getElementById('invoice-number').textContent = generateInvoiceNumber(today);
+
+        // Optional: Save username if needed
+        document.getElementById('username').addEventListener('change', function() {
+            // You could save this to localStorage or send to server
+            console.log('Username entered:', this.value);
+        });
+    </script>
+</body>
+</html>
