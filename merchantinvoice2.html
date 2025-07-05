@@ -1,55 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <title>Merchant Payment Receipt</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             line-height: 1.6;
+            font-size: 20px;
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
             color: #333;
         }
-        h1 {
+
+        h2 {
             color: #2c3e50;
             border-bottom: 2px solid #3498db;
             padding-bottom: 10px;
         }
+
         .invoice-header {
             margin-bottom: 30px;
         }
+
         .invoice-details {
             margin-bottom: 20px;
         }
+
         .divider {
             border-top: 1px dashed #ccc;
             margin: 20px 0;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
             margin: 20px 0;
         }
-        th, td {
+
+        th,
+        td {
             padding: 12px;
             text-align: left;
             border-bottom: 1px solid #ddd;
         }
+
         th {
             background-color: #f2f2f2;
         }
+
         .total-row {
             font-weight: bold;
             background-color: #f9f9f9;
         }
+
         .footer {
             margin-top: 30px;
             font-style: italic;
             color: #666;
         }
+
         .input-field {
             padding: 8px;
             width: 200px;
@@ -59,40 +73,74 @@
 
         .header {
             text-align: center;
+
         }
 
         /* To make the values bold too */
         .invoice-details p span {
             font-weight: bold;
         }
+
+        .container {
+            max-width: 750px;
+            margin: 0 auto;
+            background-color: white;
+            /*border-radius: 8px;*/
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+
+        .screenshot-button {
+            /*display: block; */
+            margin: 15px auto;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #7256b3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
     </style>
 </head>
+
 <body>
+
+    <button class="screenshot-button" onclick="captureMain()">📸 Capture SS </button>
+    <div id="notification"
+        style="display: none; position: fixed; top: 20px; right: 20px; background: #3f47b4; color: white; padding: 15px; border-radius: 5px; z-index: 1000;">
+        Image copied to clipboard!
+    </div>
+
+
     <div class="container">
         <div class="header">
             <div class="company-info">
-        
+
             </div>
             <img src="Ameriprise.jpg" alt="Company Logo" class="logo">
         </div>
-        
+
         <div class="invoice-header">
-            <h1 style="color:rgb(14, 52, 109)">Merchant Payment Receipt</h1>
+            <h2 style="color:rgb(14, 52, 109)">Merchant Payment Receipt</h2>
         </div>
-        
+
         <div class="invoice-details">
             <p><strong>Receipt No:</strong><br>
                 <span id="invoice-number"></span>
             </p>
-        
+
             <p><strong>Date:</strong><br>
                 <span id="invoice-date"></span>
             </p>
-        
+
         </div>
-        
+
         <div class="divider"></div>
-        
+
         <h2>Task Particulars</h2>
         <table>
             <thead>
@@ -108,29 +156,117 @@
                 </tr>
                 <tr>
                     <td>Commission of Task 12</td>
-                    <td>₹3900</td>
+                    <td contenteditable="true">₹3900</td>
                 </tr>
                 <tr class="total-row">
                     <td>Total</td>
-                    <td>₹4110.00</td>
+                    <td contenteditable="true">₹4100</td>
                 </tr>
             </tbody>
         </table>
-        
+
         <div class="footer">
             <p>This is a system-generated receipt. Please contact your reception to complete the next tasks.</p>
         </div>
     </div>
 
-    
+
 
     <script>
+
+        // Improved screenshot functions
+        async function captureMain() {
+            try {
+                // Check if clipboard-write permission is granted
+                const permissionStatus = await navigator.permissions.query({
+                    name: 'clipboard-write'
+                });
+
+                if (permissionStatus.state === 'granted' || permissionStatus.state === 'prompt') {
+                    const element = document.querySelector('.container');
+                    await captureElement(element, ' ');
+                } else {
+                    showToast('❌ Clipboard permission not granted');
+                }
+            } catch (err) {
+                console.error('Permission check failed:', err);
+                // Fallback to trying anyway
+                const element = document.querySelector('.container');
+                await captureElement(element, ' ');
+            }
+        }
+
+        // Generic capture function with improved error handling
+        async function captureElement(element, sectionName = '') {
+            if (!element) {
+                alert('Element not found for screenshot');
+                return;
+            }
+
+            const originalBoxShadow = element.style.boxShadow;
+            element.style.boxShadow = 'none';
+
+            try {
+                const canvas = await html2canvas(element, {
+                    backgroundColor: "#24282e", // Match your container's background
+                    scale: 1, // Start with 1 for better compatibility
+                    logging: true, // Enable to see console logs
+                    useCORS: true,
+                    allowTaint: true,
+                    scrollX: 0,
+                    scrollY: 0,
+                    windowWidth: element.scrollWidth,
+                    windowHeight: element.scrollHeight
+                });
+
+                // Convert canvas to blob
+                canvas.toBlob(async (blob) => {
+                    try {
+                        await navigator.clipboard.write([
+                            new ClipboardItem({ 'image/png': blob })
+                        ]);
+                        showToast(`📋 ${sectionName} Screenshot copied to clipboard!`);
+                    } catch (err) {
+                        console.error('Clipboard write failed:', err);
+                        // Fallback to saving as image file
+                        saveAsImage(canvas, sectionName);
+                    }
+                }, 'image/png');
+            } catch (err) {
+                console.error('Screenshot failed:', err);
+                showToast(`❌ Failed to capture ${sectionName}: ${err.message}`);
+            } finally {
+                element.style.boxShadow = originalBoxShadow;
+            }
+        }
+
+        // Fallback function to save as image file
+        function saveAsImage(canvas, name) {
+            const link = document.createElement('a');
+            link.download = `${name || 'screenshot'}-${new Date().toISOString()}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            showToast(`📋 ${name} screenshot saved as file (clipboard not available)`);
+        }
+
+        // Toast notification function
+        function showToast(message) {
+            const toast = document.getElementById('notification');
+            toast.textContent = message;
+            toast.style.display = 'block';
+
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 3000);
+        }
+
+
         // Function to format date as mm/dd/yyyy
         function formatDate(date) {
             const month = date.getMonth() + 1;
             const day = date.getDate();
             const year = date.getFullYear();
-            
+
             return `${month}/${day}/${year}`;
         }
 
@@ -140,23 +276,24 @@
             const day = String(date.getDate()).padStart(2, '0');
             const month = String(date.getMonth() + 1).padStart(2, '0');
             /*const randomDigits = String(Math.floor(Math.random() * 1000)).padStart(3, '0'); // Random 3-digit number  */
-            const randomDigits = '628'; // Using fixed 048 as requested
-            
+            const randomDigits = '627'; // Using fixed 048 as requested
+
             return `${year}${day}${month}${randomDigits}`;
         }
 
         // Set today's date
         const today = new Date();
-        
+
         // Display date and invoice number
         document.getElementById('invoice-date').textContent = formatDate(today);
         document.getElementById('invoice-number').textContent = generateInvoiceNumber(today);
 
         // Optional: Save username if needed
-        document.getElementById('username').addEventListener('change', function() {
+        document.getElementById('username').addEventListener('change', function () {
             // You could save this to localStorage or send to server
             console.log('Username entered:', this.value);
         });
     </script>
 </body>
+
 </html>
