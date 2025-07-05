@@ -60,20 +60,72 @@
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 30px;
+            table-layout: fixed;
         }
         
-        th {
-            background-color: #3498db;
-            color: white;
-            text-align: left;
-            padding: 12px 15px;
-            font-weight: 500;
-        }
-        
-        td {
+        th, td {
             padding: 12px 15px;
             border-bottom: 1px solid #e1e5eb;
             font-size: 20px;
+            vertical-align: middle;
+        }
+        
+        th {
+            background-color: #3498db; /* Blue background color */
+            color: white; /* White text color */
+            text-align: left; /* Default alignment */
+            padding: 12px 15px; /* Consistent padding */
+            font-weight: 500; /* Medium font weight */
+            position: sticky; /* Optional: makes headers stick when scrolling */
+            top: 0; /* Required for sticky positioning */
+        }
+
+        /* Column width adjustments */
+        th:nth-child(1), td:nth-child(1) { width: 25%; }
+        th:nth-child(2), td:nth-child(2) { width: 25%; text-align: center; }
+        th:nth-child(3), td:nth-child(3) { width: 20%; text-align: center; }
+        th:nth-child(4), td:nth-child(4) { width: 30%; text-align: right; }
+
+        /* Specific alignment for content */
+        .amount {
+            text-align: right;
+            font-family: 'Courier New', monospace;
+            padding-right: 25px; /* Added padding for better alignment */
+        }
+
+        .percentage {
+            text-align: center;
+            color: #3498db;
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+        /* Refund row styling */
+        .refund-row td {
+            font-size: 25px;
+            padding-top: 20px;
+            border: none !important;
+        }
+
+        .refund-row td:first-child {
+            text-align: right;
+            padding-right: 10px;
+        }
+
+        .refund-row td:nth-child(2) {
+            text-align: left;
+            padding-left: 0;
+            color: #3588e7;
+        }
+
+        /* Total row styling */
+        .total-row td {
+            font-weight: bold;
+            background-color: #ecf0f1 !important;
+        }
+
+        .total-row td:last-child {
+            padding-right: 25px; /* Match amount column padding */
         }
         
         tr:nth-child(even) {
@@ -99,8 +151,8 @@
         }
         
         [contenteditable="true"] {
-            background-color: #ffffff;
-            border: 1px solid #757c70;
+            /*background-color: #ffffff;*/
+            /*border: 1px solid #757c70;*/
             border-radius: 3px;
             padding: 5px;
             outline: none;
@@ -268,15 +320,15 @@
             <tbody>
                 <tr>
                     <td>First order</td>
-                    <td class="amount" contenteditable="true">1000</td>
+                    <td class="amount" contenteditable="true">1000.00</td>
                     <td class="percentage" contenteditable="true">30%</td>
-                    <td class="amount withdraw-amount">1300</td>
+                    <td class="amount withdraw-amount">1300.00</td>
                 </tr>
                 <tr>
                     <td>Second order</td>
-                    <td class="amount" contenteditable="true">2000</td>
+                    <td class="amount" contenteditable="true">2000.00</td>
                     <td class="percentage" contenteditable="true">30%</td>
-                    <td class="amount withdraw-amount">2600</td>
+                    <td class="amount withdraw-amount">2600.00</td>
                 </tr>
                 <tr id="thirdOrderRow">
                     <td>Last order</td>
@@ -286,7 +338,7 @@
                 </tr>
                 <tr class="total-row">
                     <td colspan="3">Total Withdraw Amount</td>
-                    <td class="amount" id="totalWithdraw">3900.00</td>
+                    <td class="amount" id="totalWithdraw" style="text-align: right;">3900.00</td>
                 </tr>
               
                 <tr class="refund-row">  
