@@ -1,594 +1,611 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Comprehensive dashboard for financial tools and calculators">
-    <title>Financial Tools Dashboard</title>
-    <link rel="icon" href="indiaLogo.jpg" type="image/x-icon">
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Ameriprise India LLP - Tax Invoice</title>
     <style>
-        :root {
-            --primary: #4361ee;
-            --primary-dark: #3a56d4;
-            --secondary: #3f37c9;
-            --light: #f8f9fa;
-            --dark: #212529;
-            --gray: #6c757d;
-            --light-gray: #e9ecef;
-            --success: #4cc9f0;
-            --warning: #f8961e;
-            --danger: #f94144;
-            --info: #4895ef;
-            --border-radius: 12px;
-            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            --shadow-hover: 0 10px 20px rgba(0, 0, 0, 0.15);
-            --transition: all 0.3s ease;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-        }
-
         body {
-            background-color: #f5f7ff;
-            color: var(--dark);
+            font-family: Arial, sans-serif;
             line-height: 1.6;
-            padding: 2rem 1rem;
-            max-width: 1400px;
-            margin: 0 auto;
-            min-height: 100vh;
-        }
-
-        /* Header Styles */
-        header {
-            text-align: center;
-            margin-bottom: 2.5rem;
-            padding-bottom: 1.5rem;
-            position: relative;
-        }
-
-        header::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 120px;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary), var(--success));
-            border-radius: 2px;
-        }
-
-        h1 {
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-            font-size: 2.5rem;
-            font-weight: 700;
-            background: linear-gradient(90deg, var(--primary), var(--success));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            display: inline-block;
-        }
-
-        .subtitle {
-            color: var(--gray);
-            font-weight: 400;
-            font-size: 1.1rem;
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        /* Search and Filter Section */
-        .search-filter-section {
             max-width: 800px;
-            margin: 0 auto 2rem;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
         }
 
-        .search-container {
-            position: relative;
-            margin-bottom: 1.5rem;
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 0.8rem 1.5rem 0.8rem 3rem;
-            border-radius: 50px;
-            border: 1px solid var(--light-gray);
-            font-size: 1rem;
-            transition: var(--transition);
-            box-shadow: var(--shadow);
-        }
-
-        .search-input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
-        }
-
-        .search-icon {
-            position: absolute;
-            left: 1.2rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--gray);
-        }
-
-        .category-filter {
+        .home-button {
+        /* position: fixed; /* or 'absolute' depending on your needs */ 
+            top: 20px;
+            left: 20px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 25px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
             display: flex;
+            align-items: center;
             justify-content: center;
-            gap: 0.5rem;
-            flex-wrap: wrap;
+            z-index: 1000;
         }
 
-        .category-btn {
-            padding: 0.5rem 1rem;
-            border-radius: 50px;
-            background-color: white;
-            border: 1px solid var(--light-gray);
-            color: var(--gray);
-            cursor: pointer;
-            transition: var(--transition);
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-
-        .category-btn:hover,
-        .category-btn.active {
-            background-color: var(--primary);
-            color: white;
-            border-color: var(--primary);
-        }
-
-        /* Tool Cards Grid */
-        .tool-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .tool-card {
-            background: white;
-            border-radius: var(--border-radius);
-            padding: 1.8rem;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            text-align: center;
-            border: 1px solid rgba(0, 0, 0, 0.05);
-            position: relative;
-            overflow: hidden;
-            display: block;
-            text-decoration: none;
-            color: inherit;
-            cursor: pointer;
-        }
-
-        .tool-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 5px;
-            height: 100%;
-            background: linear-gradient(to bottom, var(--primary), var(--success));
-            transition: var(--transition);
-        }
-
-        .tool-card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-hover);
-        }
-
-        .tool-card:hover::before {
-            width: 8px;
-        }
-
-        .tool-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            color: var(--primary);
-            transition: var(--transition);
-        }
-
-        .tool-card:hover .tool-icon {
+        .home-button:hover {
+            background: #2980b9;
             transform: scale(1.1);
-            color: var(--primary-dark);
+            box-shadow: 0 3px 8px rgba(0,0,0,0.3);
         }
-
-        .tool-title {
-            color: var(--primary);
-            font-weight: 600;
-            font-size: 1.2rem;
-            display: block;
-            margin-bottom: 0.5rem;
-            transition: var(--transition);
+        
+        .container {
+            margin: 20px auto;
+            padding: 30px;
+            background: white;
+            box-shadow: 
+                0 1px 3px rgba(0, 0, 0, 0.12),
+                0 1px 10px rgba(0, 0, 0, 0.08),
+                0 10px 20px rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            position: relative;
+            transition: all 0.3s ease;
+            max-width: 880px;
         }
-
-        .tool-card:hover .tool-title {
-            color: var(--primary-dark);
+              
+        .header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            position: relative;
         }
-
-        .tool-description {
-            color: var(--gray);
-            margin-top: 0.8rem;
-            font-size: 0.95rem;
-            line-height: 1.5;
+        .company-info {
+            flex: 1;
         }
-
-        .tool-badge {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: var(--success);
-            color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.7rem;
+        .company-name {
+            font-size: 24px;
             font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            margin-bottom: 5px;
         }
-
-        /* Badge Color Variations */
-        .badge-warning {
-            background-color: var(--warning);
-        }
-
-        .badge-danger {
-            background-color: var(--danger);
-        }
-
-        .badge-info {
-            background-color: var(--info);
-        }
-
-        .badge-success {
-            background-color: #2ecc71;
-        }
-
-        /* No Results Message */
-        .no-results {
-            text-align: center;
-            grid-column: 1 / -1;
-            padding: 2rem;
-            color: var(--gray);
-            display: none;
-        }
-
-        .no-results-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            color: var(--light-gray);
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            margin-top: 3rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid var(--light-gray);
-            color: var(--gray);
-            font-size: 0.9rem;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .tool-container {
-                grid-template-columns: 1fr;
-            }
-
-            h1 {
-                font-size: 2rem;
-            }
-
-            .category-filter {
-                justify-content: flex-start;
-            }
-        }
-
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .animate-fade-in {
-            animation: fadeInUp 0.5s ease forwards;
-        }
-
-        /* Tooltip for mobile */
-        .tooltip-mobile {
-            display: none;
+        .logo {
+            width: 180px;
+            height: auto;
             position: absolute;
-            background: rgba(0, 0, 0, 0.8);
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            bottom: -40px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 90%;
-            z-index: 10;
-            font-size: 0.8rem;
+            right: 0;
+            top: 0;
+        }
+        .divider {
+            border-top: 2px solid #000;
+            margin: 15px 0;
+        }
+        .invoice-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .gst-info {
+            flex: 1;
+            text-align: left;
+            font-weight: bold;
+        }
+        .invoice-title {
+            flex: 1;
+            text-align: center;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .invoice-recipient {
+            flex: 1;
+            text-align: right;
+            font-weight: bold;
+        }
+        .details-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        .left-details  {
+            width: 50%;
         }
 
-        @media (max-width: 768px) {
-            .tool-card {
-                position: relative;
-            }
+        .right-details  {
+            width: 50%;
+        }
+        .section-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .detail-row {
+            display: flex;
+            margin-bottom: 6px;
+            align-items: center;
+            min-height: 24px;
+        }
+        .detail-label {
+            width: 120px;
+            font-weight: 600;
+            margin-right: 8px;
+        }
+        .detail-value {
+            flex: 1;
+        }
+        .amount-section {
+            margin-top: 20px;
+        }
+        .form-section {
+            margin-top: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .highlight {
+            font-weight: bold;
+            color: #d30707; /* Changed to pure red */
+        }
+        .highlight-percentage {
+            color: #d30707; /* Pure red for percentages */
+            font-weight: bold;
+        }
+        .certification {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .footer {
+            text-align: center;
+            font-style: italic;
+        }
+        .percentage-input {
+            width: 60px;
+            display: inline-block;
+            margin-left: 5px;
+        }
+        #blue {
+            color: #065096; /* Light blue color */
+            /* You can add other blue-related styles */
+        }
 
-            .tooltip-mobile {
-                display: none;
-            }
+        .toBold {
+            font-weight: bold;
+        }
+        .amount-value {
+            color: #d30707; /* Pure red for amount values */
+            font-weight: bold;
+        }
 
-            .tool-card:active .tooltip-mobile {
-                display: block;
+        .home-button {
+        /* position: fixed; /* or 'absolute' depending on your needs */ 
+            top: 20px;
+            left: 20px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 25px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .home-button:hover {
+            background: #2980b9;
+            transform: scale(1.1);
+            box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+        }
+
+        /* For better screenshot capture */
+        @media print, (prefers-color-scheme: dark) {
+            .container {
+                box-shadow: none;
+                border: 1px solid #ddd;
             }
         }
     </style>
 </head>
-
 <body>
-    <header>
-        <h1>Financial Tools Dashboard</h1>
-        <p class="subtitle">Quick access to all available calculators and tools for efficient financial management</p>
-    </header>
 
-    <div class="search-filter-section">
-        <div class="search-container">
-            <i class="fas fa-search search-icon"></i>
-            <input type="text" class="search-input" placeholder="Search tools..." id="searchInput">
+    <button onclick="window.location.href='../index.html'" class="home-button">
+        <i class="fas fa-home"></i>
+    </button>
+    <br>
+
+    <button class="screenshot-button" onclick="captureMain()">📸 Capture SS </button>
+    <div id="notification" style="display: none; position: fixed; top: 20px; right: 20px; background: #3f47b4; color: white; padding: 15px; border-radius: 5px; z-index: 1000;">
+        Image copied to clipboard!
+    </div>
+
+<div class="container"> 
+    <div class="header">
+        <div class="company-info">
+            <div class="company-name" id="blue">AMERIPRISE INDIA LLP</div>
+            <div id="blue">Organization that emphasizes learning and growth</div>
+            <div id="blue">Build your career at Ameriprise India</div>
+            <div>Plot 14, Sector 18, Udyog Vihar</div>
+            <div>Gurugram, Haryana - 122015</div>
+            <div class="toBold">LEI code - 335800553LP4PNPFG240</div>
         </div>
+        <img src="taxlogo.jpg" alt="Company Logo" class="logo">
+    </div>
 
-        <div class="category-filter">
-            <button class="category-btn active" data-category="all">All Tools</button>
-            <button class="category-btn" data-category="calculator">Calculators</button>
-            <button class="category-btn" data-category="document">Documents</button>
-            <button class="category-btn" data-category="support">Support</button>
-            <button class="category-btn" data-category="vip">VIP</button>
-            <button class="category-btn" data-category="receipt">Receipt</button> <!-- New button -->
+    <div class="divider"></div>
+
+    <div class="invoice-header">
+        <div class="gst-info">GSTIN - 06ABOFA7542E1ZF</div>
+        <div class="invoice-title">TAX INVOICE</div>
+        <div class="invoice-recipient">Original For recipient</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="details-container">
+        <div class="left-details">
+            <div class="section-title"  id="blue">Customer Details</div>
+            <div class="detail-row">
+                <span class="detail-label">Name:</span>
+                <span id="display-customer-name" class="detail-value">Mr. Subham Sen</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Acc Number:</span>
+                <span id="display-acc-number" class="detail-value">6645661545</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">IFSC Code:</span>
+                <span id="display-ifsc" class="detail-value">KKBK0006577</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Bank Name:</span>
+                <span id="display-bank" class="detail-value">Kotak Mahindra Bank</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Email Address:</span>
+                <span id="display-email" class="detail-value">2008.subham@gmail.com</span>
+            </div>
+        </div>
+        <div class="right-details">
+            <div class="detail-row">
+                <span class="detail-label">Invoice Date:</span>
+                <span id="invoice-date" class="detail-value"></span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Invoice No:</span>
+                <span class="detail-value">GST112025</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Challan No:</span>
+                <span class="detail-value">865</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">P.O. No:</span>
+                <span class="detail-value">66</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Other Charges:</span>
+                <span class="detail-value">No</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Due Date:</span>
+                <span class="detail-value">Contact Customer Service</span>
+            </div>
         </div>
     </div>
 
-    <div class="tool-container">
-        <div class="no-results">
-            <i class="fas fa-search no-results-icon"></i>
-            <h3>No tools found</h3>
-            <p>Try adjusting your search or filter criteria</p>
-        </div>
+    <div class="divider"></div>
 
-        <a href="newversionmain.html" class="tool-card animate-fade-in" data-category="support" data-search="mentor tool">
-            <div class="tool-icon">
-                <i class="fas fa-chalkboard-teacher"></i>
-            </div>
-            <span class="tool-title">Mentor Tool</span>
-            <p class="tool-description">Mentor လက်စွဲတော်</p>
-            <span class="tool-badge">Support</span>
-        </a>
-
-        <!-- Calculator Tools -->
-        <a href="withdrawl calculation Upgraded V3.html" class="tool-card animate-fade-in" data-category="calculator"
-            data-search="withdrawal calculator">
-            <div class="tool-icon">
-                <i class="fas fa-calculator"></i>
-            </div>
-            <span class="tool-title">Withdrawal Calculator</span>
-            <p class="tool-description">Withdrawl Amount တွက်ပြရန်အတွက် သုံးရန်</p>
-            <span class="tool-badge">Calculator</span>
-        </a>
-
-        <a href="CS - checkingwithemail(Final Version).html" class="tool-card animate-fade-in" data-category="support"
-            data-search="cs backstage credit score">
-            <div class="tool-icon">
-                <i class="fas fa-headset"></i>
-            </div>
-            <span class="tool-title">CS Backstage</span>
-            <p class="tool-description">Credit Score ဖိုးတောင်းရန်အတွက် သုံးရန်</p>
-            <span class="tool-badge">Support</span>
-        </a>
-
-        <a href="merchantinvoice1.html" class="tool-card animate-fade-in" data-category="document receipt"
-            data-search="receipt tasks 4 5 6">
-            <div class="tool-icon">
-                <i class="fas fa-scroll"></i>
-            </div>
-            <span class="tool-title">Receipt For Tasks 4/5/6</span>
-            <p class="tool-description">Reception အတွက်</p>
-            <span class="tool-badge badge-info">Receipt</span>
-        </a>
-        
-        <a href="merchantinvoice2.html" class="tool-card animate-fade-in" data-category="document receipt"
-            data-search="receipt tasks 10 11 12">
-            <div class="tool-icon">
-                <i class="fas fa-scroll"></i>
-            </div>
-            <span class="tool-title">Receipt For Tasks 10/11/12</span>
-            <p class="tool-description">Reception အတွက်</p>
-            <span class="tool-badge badge-info">Receipt</span>
-        </a>
-
-        <a href="CreditScore.html" class="tool-card animate-fade-in" data-category="calculator"
-            data-search="credit score analyzer">
-            <div class="tool-icon">
-                <i class="fas fa-credit-card"></i>
-            </div>
-            <span class="tool-title">Credit Score Analyzer</span>
-            <p class="tool-description">Credit points 100 မပြည့်ကြောင်း ပြသရန် အတွက်</p>
-            <span class="tool-badge">Calculator</span>
-        </a>
-
-        <a href="tax/index.html" class="tool-card animate-fade-in" data-category="calculator"
-            data-search="tax calculator">
-            <div class="tool-icon">
-                <i class="fas fa-landmark"></i>
-            </div>
-            <span class="tool-title">Tax Calculator</span>
-            <p class="tool-description">Tax ဖိုးတောင်းရန်အတွက်</p>
-            <span class="tool-badge">Calculator</span>
-        </a>
-
-        <!-- Document Tools -->
-        <a href="VIP2.html" class="tool-card animate-fade-in" data-category="document vip" data-search="vip2 required">
-            <div class="tool-icon">
-                <i class="fas fa-crown"></i>
-            </div>
-            <span class="tool-title">VIP 2 Required</span>
-            <p class="tool-description">VIP 2 လိုအပ်ကြောင်း ပြသရန်အတွက်</p>
-            <span class="tool-badge badge-warning">VIP</span>
-        </a>
-
-        <a href="VIP2Document.html" class="tool-card animate-fade-in" data-category="document vip"
-            data-search="vip2 document">
-            <div class="tool-icon">
-                <i class="fas fa-file-invoice-dollar"></i>
-            </div>
-            <span class="tool-title">VIP 2 Document</span>
-            <p class="tool-description">VIP 2ဖိုး တောင်းရန်အတွက်</p>
-            <span class="tool-badge badge-warning">VIP</span>
-        </a>
-
-        <a href="LoanApprovalDocument.html" class="tool-card animate-fade-in" data-category="document"
-            data-search="loan approval document">
-            <div class="tool-icon">
-                <i class="fas fa-check-circle"></i>
-            </div>
-            <span class="tool-title">Loan Approval Document</span>
-            <p class="tool-description">Loan Approval ပြသရန်အတွက်</p>
-            <span class="tool-badge">Document</span>
-        </a>
-
-        <a href="WithdrawMistakeDocument.html" class="tool-card animate-fade-in" data-category="document"
-            data-search="withdrawal mistake document">
-            <div class="tool-icon">
-                <i class="fas fa-triangle-exclamation"></i>
-            </div>
-            <span class="tool-title">Withdrawal Mistake Document</span>
-            <p class="tool-description">Withdrawl Mistake ကိုအကြောင်းပြပြီး unfreeze ခ တောင်းရန်အတွက်</p>
-            <span class="tool-badge badge-danger">Important</span>
-        </a>
-
-        
-
-        <!-- Support Tools -->
-        
-
-        
-
-        <a href="ဘာလာလာ အမှားပြ  new.html" class="tool-card animate-fade-in" data-category="support"
-            data-search="refund code checker">
-            <div class="tool-icon">
-                <i class="fas fa-exchange-alt"></i>
-            </div>
-            <span class="tool-title">Refund Code Checker</span>
-            <p class="tool-description">Refund Code မမှန်ကြောင်း ပြသရန်</p>
-            <span class="tool-badge badge-danger">Important</span>
-        </a>
-
-        <a href="LastOrderSystemAlert.html" class="tool-card animate-fade-in" data-category="support"
-            data-search="last order system alert for show">
-            <div class="tool-icon">
-                <i class="fas fa-sack-dollar"></i>
-            </div>
-            <span class="tool-title">Last Order Amount</span>
-            <p class="tool-description">Task Amount ကို search မှာ ရိုက်ပြပြီး နောက်ဆုံး task ဖြစ်ကြောင်း လှည့်ဖျား ပြသရန်အတွက်</p>
-            <span class="tool-badge badge-success">Support</span>
-        </a>
+    <div>
+        <div class="section-title" id="blue">1. Reason</div>
+        <div id="reason-text">In accordance with applicable government regulations, customers conducting large withdrawals of <span class="amount-value">₹11,84,000</span> may be subject to national tax obligations of <span class="highlight-percentage">20%</span> (<span class="amount-value">₹2,36,800</span>)</div>
     </div>
 
-    <footer>
-        <p>© 2025 Financial Tools Dashboard | Version 2.1</p>
-    </footer>
+    <br>
+
+    <div>
+        <div class="section-title" id="blue">2. How to solve</div>
+        <div id="how-to-solve-text">Please be advised that a deposit of <span id="deposit-amount" class="highlight">₹2,36,800</span> is required to initiate the process. The procedure is expected to take approximately 30 to 60 minutes. Upon successful completion, the full amount will be available for withdrawal to the customer's specified personal account</div>
+    </div>
+
+    <br>
+
+    <div>
+        <div class="section-title" id="blue">3. Note</div>
+        <div id="note-text">Prior to the withdrawal of <span class="amount-value">₹11,84,000</span> (Eleven Lakh Eighty Four Thousand Rupees Only), please note that, in accordance with national tax regulations, a tax payment of <span class="highlight-percentage">20%</span>—amounting to <span class="amount-value">₹2,36,800</span>—is required. Upon successful payment of the applicable tax, the total amount of <span class="amount-value">₹14,20,800</span> will be credited to your designated account in a single transaction</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="amount-section">
+        <div>Total in words: <strong id="amount-in-words" class="amount-value">Two Lakh Thirty Six Thousand Eight Hundred Rupees Only</strong></div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div>
+        <div>Taxable Amount: <span id="taxable-amount" class="amount-value">2,36,800</span> INR</div>
+        <div>Total Tax: <span id="total-tax" class="amount-value">2,36,800</span> INR</div>
+        <div>GST Payable After Tax: N.A.</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="certification">        
+        <div><strong>Certified that particulars given above are true and correct</strong></div>
+    </div>
+    
+
+    <div class="footer">
+        <div>This is computer generated invoice and no signature is required</div>
+    </div>
+</div>
+    <div class="form-section">
+        <h2>Enter Customer Details</h2>
+        <div class="form-group">
+            <label for="customer-name">Name:</label>
+            <input type="text" id="customer-name" value="Mr. Subham Sen">
+        </div>
+        <div class="form-group">
+            <label for="acc-number">Account Number:</label>
+            <input type="text" id="acc-number" value="6645661545">
+        </div>
+        <div class="form-group">
+            <label for="ifsc-code">IFSC Code:</label>
+            <input type="text" id="ifsc-code" value="KKBK0006577">
+        </div>
+        <div class="form-group">
+            <label for="bank-name">Bank Name:</label>
+            <input type="text" id="bank-name" value="Kotak Mahindra Bank">
+        </div>
+        <div class="form-group">
+            <label for="email">Email Address:</label>
+            <input type="email" id="email" value="2008.subham@gmail.com">
+        </div>
+        
+        <h2>Enter Amount Details</h2>
+        <div class="form-group">
+            <label for="withdrawal-amount">Withdrawal Amount (₹):</label>
+            <input type="number" id="withdrawal-amount" value="1000000">
+        </div>
+        
+        <div class="form-group">
+            <label for="tax-percentage">Tax Percentage:</label>
+            <input type="number" id="tax-percentage" class="percentage-input" value="20" min="0" max="100">%
+        </div>
+        
+        <button onclick="updateInvoice()">Generate Invoice</button>
+    </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Animation on load
-            const cards = document.querySelectorAll('.tool-card');
-            cards.forEach((card, index) => {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(20px)';
-                card.style.animation = `fadeInUp 0.5s ease forwards ${index * 0.1}s`;
-            });
+        // Set current date
+        function formatDate(date) {
+            const months = ["January", "February", "March", "April", "May", "June", 
+                          "July", "August", "September", "October", "November", "December"];
+            return date.getDate() + ' ' + months[date.getMonth()] + ', ' + date.getFullYear();
+        }
 
-            // Search functionality
-            const searchInput = document.getElementById('searchInput');
-            const toolCards = document.querySelectorAll('.tool-card');
-            const noResults = document.querySelector('.no-results');
-
-            const filterTools = () => {
-                const searchTerm = searchInput.value.toLowerCase();
-                const activeCategory = document.querySelector('.category-btn.active').dataset.category;
-                let visibleCount = 0;
-
-                toolCards.forEach(card => {
-                    const searchData = card.dataset.search.toLowerCase();
-                    const cardCategory = card.dataset.category;
-
-                    const matchesSearch = searchData.includes(searchTerm);
-                    const matchesCategory = activeCategory === 'all' || cardCategory.includes(activeCategory);
-
-                    if (matchesSearch && matchesCategory) {
-                        card.style.display = 'block';
-                        visibleCount++;
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
-
-                noResults.style.display = visibleCount === 0 ? 'block' : 'none';
-            };
-
-            searchInput.addEventListener('input', filterTools);
-
-            // Category filter functionality
-            const categoryBtns = document.querySelectorAll('.category-btn');
-            categoryBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    categoryBtns.forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    filterTools();
-                });
-            });
-
-            // Add tooltip for mobile
-            if (window.innerWidth <= 768) {
-                toolCards.forEach(card => {
-                    const tooltip = document.createElement('div');
-                    tooltip.className = 'tooltip-mobile';
-                    tooltip.textContent = card.querySelector('.tool-description').textContent;
-                    card.appendChild(tooltip);
-
-                    card.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        document.querySelectorAll('.tooltip-mobile').forEach(t => t.style.display = 'none');
-                        tooltip.style.display = 'block';
-
-                        // Navigate after delay if clicked again
-                        if (card.dataset.clicked) {
-                            window.location.href = card.href;
-                        } else {
-                            card.dataset.clicked = true;
-                            setTimeout(() => {
-                                card.dataset.clicked = false;
-                            }, 300);
-                        }
-                    });
-                });
+        // Number to words conversion for Indian numbering system
+        function numberToWords(num) {
+            const single = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"];
+            const double = ["Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", 
+                          "Seventeen", "Eighteen", "Nineteen"];
+            const tens = ["", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"];
+            
+            function convertLessThanOneHundred(n) {
+                if (n < 10) return single[n];
+                if (n < 20) return double[n - 10];
+                return tens[Math.floor(n / 10)] + (n % 10 ? " " + single[n % 10] : "");
             }
-        });
+            
+            function convertLessThanOneThousand(n) {
+                const hundred = Math.floor(n / 100);
+                const remainder = n % 100;
+                let res = "";
+                if (hundred > 0) {
+                    res = single[hundred] + " Hundred";
+                }
+                if (remainder > 0) {
+                    res += (res ? " " : "") + convertLessThanOneHundred(remainder);
+                }
+                return res;
+            }
+            
+            if (num === 0) return "Zero Rupees Only";
+            
+            const crore = Math.floor(num / 10000000);
+            const lakh = Math.floor((num % 10000000) / 100000);
+            const thousand = Math.floor((num % 100000) / 1000);
+            const hundred = num % 1000;
+            
+            let result = "";
+            
+            if (crore > 0) {
+                result += convertLessThanOneThousand(crore) + " Crore";
+            }
+            if (lakh > 0) {
+                result += (result ? " " : "") + convertLessThanOneThousand(lakh) + " Lakh";
+            }
+            if (thousand > 0) {
+                result += (result ? " " : "") + convertLessThanOneThousand(thousand) + " Thousand";
+            }
+            if (hundred > 0) {
+                result += (result ? " " : "") + convertLessThanOneThousand(hundred);
+            }
+            
+            return result + " Rupees Only";
+        }
+
+        // Format Indian currency
+        function formatINR(amount) {
+            return '₹' + amount.toLocaleString('en-IN');
+        }
+
+        // Update invoice with form data
+        function updateInvoice() {
+            // Customer details
+            const name = document.getElementById('customer-name').value;
+            const accNumber = document.getElementById('acc-number').value;
+            const ifsc = document.getElementById('ifsc-code').value;
+            const bank = document.getElementById('bank-name').value;
+            const email = document.getElementById('email').value;
+            
+            document.getElementById('display-customer-name').textContent = name;
+            document.getElementById('display-acc-number').textContent = accNumber;
+            document.getElementById('display-ifsc').textContent = ifsc;
+            document.getElementById('display-bank').textContent = bank;
+            document.getElementById('display-email').textContent = email;
+            
+            // Amount calculations
+            const withdrawalAmount = parseInt(document.getElementById('withdrawal-amount').value) || 0;
+            const taxPercentage = parseInt(document.getElementById('tax-percentage').value) || 0;
+            const taxAmount = Math.floor(withdrawalAmount * (taxPercentage / 100));
+            const depositAmount = taxAmount;
+            const totalAmount = withdrawalAmount + taxAmount;
+            
+            // Update sections
+            document.getElementById('reason-text').innerHTML = 
+                `In accordance with applicable government regulations, customers conducting large withdrawals of <span class="amount-value">${formatINR(withdrawalAmount)}</span> may be subject to national tax obligations of <span class="highlight-percentage">${taxPercentage}%</span> (<span class="amount-value">${formatINR(taxAmount)}</span>)`;
+            
+            document.getElementById('how-to-solve-text').innerHTML = 
+                `Please be advised that a deposit of <span class="highlight">${formatINR(depositAmount)}</span> is required to initiate the process. The procedure is expected to take approximately 30 to 60 minutes. Upon successful completion, the full amount will be available for withdrawal to the customer's specified personal account`;
+            
+            document.getElementById('note-text').innerHTML = 
+                `Prior to the withdrawal of <span class="amount-value">${formatINR(withdrawalAmount)}</span> (${numberToWords(withdrawalAmount)}), please note that, in accordance with national tax regulations, a tax payment of <span class="highlight-percentage">${taxPercentage}%</span>—amounting to <span class="amount-value">${formatINR(taxAmount)}</span>—is required. Upon successful payment of the applicable tax, the total amount of <span class="amount-value">${formatINR(totalAmount)}</span> will be credited to your designated account in a single transaction`;
+            
+            // Update amount sections
+            document.getElementById('amount-in-words').textContent = numberToWords(depositAmount);
+            document.getElementById('taxable-amount').textContent = formatINR(depositAmount).replace('₹', '');
+            document.getElementById('total-tax').textContent = formatINR(taxAmount).replace('₹', '');
+            document.getElementById('deposit-amount').textContent = formatINR(depositAmount);
+        }
+
+        // Initialize with default values
+        window.onload = function() {
+            document.getElementById('invoice-date').textContent = formatDate(new Date());
+            updateInvoice();
+        };
+
+        // Improved screenshot functions
+        async function captureMain() {
+            try {
+                // Check if clipboard-write permission is granted
+                const permissionStatus = await navigator.permissions.query({
+                    name: 'clipboard-write'
+                });
+                
+                if (permissionStatus.state === 'granted' || permissionStatus.state === 'prompt') {
+                    const element = document.querySelector('.container');
+                    await captureElement(element, ' ');
+                } else {
+                    showToast('❌ Clipboard permission not granted');
+                }
+            } catch (err) {
+                console.error('Permission check failed:', err);
+                // Fallback to trying anyway
+                const element = document.querySelector('.container');
+                await captureElement(element, ' ');
+            }
+        }
+
+        // Generic capture function with improved error handling
+        async function captureElement(element, sectionName = '') {
+            if (!element) {
+                alert('Element not found for screenshot');
+                return;
+            }
+
+            const originalBoxShadow = element.style.boxShadow;
+            element.style.boxShadow = 'none';
+
+            try {
+                const canvas = await html2canvas(element, {
+                    backgroundColor: "#24282e", // Match your container's background
+                    scale: 1, // Start with 1 for better compatibility
+                    logging: true, // Enable to see console logs
+                    useCORS: true,
+                    allowTaint: true,
+                    scrollX: 0,
+                    scrollY: 0,
+                    windowWidth: element.scrollWidth,
+                    windowHeight: element.scrollHeight
+                });
+
+                // Convert canvas to blob
+                canvas.toBlob(async (blob) => {
+                    try {
+                        await navigator.clipboard.write([
+                            new ClipboardItem({ 'image/png': blob })
+                        ]);
+                        showToast(`📋 ${sectionName} Screenshot copied to clipboard!`);
+                    } catch (err) {
+                        console.error('Clipboard write failed:', err);
+                        // Fallback to saving as image file
+                        saveAsImage(canvas, sectionName);
+                    }
+                }, 'image/png');
+            } catch (err) {
+                console.error('Screenshot failed:', err);
+                showToast(`❌ Failed to capture ${sectionName}: ${err.message}`);
+            } finally {
+                element.style.boxShadow = originalBoxShadow;
+            }
+        }
+
+        // Fallback function to save as image file
+        function saveAsImage(canvas, name) {
+            const link = document.createElement('a');
+            link.download = `${name || 'screenshot'}-${new Date().toISOString()}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            showToast(`📋 ${name} screenshot saved as file (clipboard not available)`);
+        }
+
+        // Toast notification function
+        function showToast(message) {
+            const toast = document.getElementById('notification');
+            toast.textContent = message;
+            toast.style.display = 'block';
+            
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 3000);
+        }   
     </script>
 </body>
-
 </html>
