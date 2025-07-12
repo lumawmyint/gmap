@@ -172,11 +172,16 @@
         
         <p>Dear Valued Member <span id="userEmail" class="highlight">[Email address]</span>,</p>
         
-        <p>We have reviewed your request regarding insufficient funds for the completion of your current speculative mission. Upon verification, and considering your prior cooperation with our company, along with strong endorsement from <span id="instructorName">Instructor Atharv Deshmukh</span>, we have approved a corporate assistance fund of <span id="percentageValue" class="highlight">25</span>%, which is <span class="rupee">₹</span><span id="calculatedAmount" class="highlight">67,500</span> <span id="purposeText">to assist in restoring the credit score to 100</span>.</p>
+        <p>We have reviewed your request regarding insufficient funds for the completion of your current speculative mission. Upon verification, and considering your prior cooperation with our company, along with strong endorsement from <span id="instructorName">Instructor Atharv Deshmukh</span>, we have approved a corporate assistance fund of <span id="percentageValue" class="highlight">25</span><span class="highlight">%</span>, which is <span class="rupee">₹</span><span id="calculatedAmount" class="highlight">67,500</span> <span id="purposeText">to assist in restoring the credit score to 100</span>.</p>
         
+        <p>Amount required to pay: <span class="rupee">₹</span><span id="mainAmountDisplay" class="highlight">270,000</span> - <span
+                class="rupee">₹</span><span id="calculatedAmountDisplay" class="highlight">67,500</span> = <span class="rupee">₹</span><span
+                id="differenceAmount" class="highlight">202,500</span>
+        </p>
+
         <p>Please note that the remaining payment amount of <span class="rupee">₹</span><span id="remainingAmount" class="highlight">67,500</span> must be completed within the stipulated timeframe to avoid any penalties.</p>
         
-        <p>For any queries, please contact customer service.</p>
+        <!-- <p>For any queries, please contact customer service.</p> -->
         
         <div class="signature-container">
             <img src="signature.jpg" alt="Official Signature" class="signature-image">
@@ -244,39 +249,45 @@
         
         // Function to update all dynamic content
         function updateContent() {
-            // Update email
-            const email = emailInput.value.trim();
-            document.getElementById('userEmail').textContent = email || '[Email address]';
-            
-            // Update instructor name
-            const instructor = instructorInput.value.trim();
-            document.getElementById('instructorName').textContent = instructor || 'Instructor';
-            
-            // Calculate amounts
-            const mainAmount = parseFloat(mainAmountInput.value) || 0;
-            const percentage = parseFloat(percentageInput.value) || 0;
-            const calculatedAmount = Math.round(mainAmount * (percentage / 100));
-            
-            // Update displayed values
-            document.getElementById('percentageValue').textContent = percentage;
-            document.getElementById('calculatedAmount').textContent = calculatedAmount.toLocaleString('en-IN');
-            document.getElementById('remainingAmount').textContent = calculatedAmount.toLocaleString('en-IN');
-            document.getElementById('displayCalculatedAmount').textContent = calculatedAmount.toLocaleString('en-IN');
-            
-            // Update purpose text
-            let purposeText = "";
-            const selectedPurpose = purposeSelect.value;
-            
-            if (selectedPurpose === "custom") {
-                purposeText = customPurposeTextarea.value.trim();
-                if (!purposeText) {
-                    purposeText = "to assist with your request"; // Default if custom is empty
+                // Update email
+                const email = emailInput.value.trim();
+                document.getElementById('userEmail').textContent = email || '[Email address]';
+
+                // Update instructor name
+                const instructor = instructorInput.value.trim();
+                document.getElementById('instructorName').textContent = instructor || 'Instructor';
+
+                // Calculate amounts
+                const mainAmount = parseFloat(mainAmountInput.value) || 0;
+                const percentage = parseFloat(percentageInput.value) || 0;
+                const calculatedAmount = Math.round(mainAmount * (percentage / 100));
+                const differenceAmount = mainAmount - calculatedAmount;
+
+                // Update displayed values
+                document.getElementById('percentageValue').textContent = percentage;
+                document.getElementById('calculatedAmount').textContent = calculatedAmount.toLocaleString('en-IN');
+                document.getElementById('remainingAmount').textContent = calculatedAmount.toLocaleString('en-IN');
+                document.getElementById('displayCalculatedAmount').textContent = calculatedAmount.toLocaleString('en-IN');
+
+                // Update the new amount displays
+                document.getElementById('mainAmountDisplay').textContent = mainAmount.toLocaleString('en-IN');
+                document.getElementById('calculatedAmountDisplay').textContent = calculatedAmount.toLocaleString('en-IN');
+                document.getElementById('differenceAmount').textContent = differenceAmount.toLocaleString('en-IN');
+
+                // Update purpose text
+                let purposeText = "";
+                const selectedPurpose = purposeSelect.value;
+
+                if (selectedPurpose === "custom") {
+                    purposeText = customPurposeTextarea.value.trim();
+                    if (!purposeText) {
+                        purposeText = "to assist with your request"; // Default if custom is empty
+                    }
+                } else {
+                    purposeText = selectedPurpose;
                 }
-            } else {
-                purposeText = selectedPurpose;
-            }
-            
-            document.getElementById('purposeText').textContent = purposeText;
+
+                document.getElementById('purposeText').textContent = purposeText;
         }
         
         // Toggle custom textarea visibility
