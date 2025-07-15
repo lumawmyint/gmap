@@ -264,10 +264,26 @@
 
     <script>
 
-        // Set current date
-        const now = new Date();
-        const options = { day: 'numeric', month: 'long', year: 'numeric' };
-        document.getElementById('currentDate').textContent = now.toLocaleDateString('en-US', options);
+        // Function to update the date automatically
+            function updateCurrentDate() {
+                const now = new Date();
+                const options = { day: 'numeric', month: 'long', year: 'numeric' };
+                document.getElementById('currentDate').textContent = now.toLocaleDateString('en-US', options);
+            }
+
+            // Set the date immediately when the page loads
+            updateCurrentDate();
+
+            // Check every minute if the date has changed (e.g., after midnight)
+            setInterval(function () {
+                const now = new Date();
+                const currentDisplayedDate = document.getElementById('currentDate').textContent;
+                const formattedNow = now.toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' });
+
+                if (currentDisplayedDate !== formattedNow) {
+                    updateCurrentDate();
+                }
+            }, 60000); // Checks every 60,000ms (1 minute)
 
         // Function to format date as YYYYMMDD
         function getFormattedDate() {
