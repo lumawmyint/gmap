@@ -69,6 +69,14 @@
         background-color: red;
     }
 
+    #btnAct.tab-btn {
+        background-color: rgb(206, 178, 19);
+    }
+
+    #btnPay1-2.tab-btn {
+        background-color: rgb(60, 199, 106);
+    }
+
     #btnStart.tab-btn {
         background-color: rgb(98, 130, 216);
     }
@@ -779,7 +787,7 @@
             </button>
             <button class="tab-btn" id="btnStart" onclick="openTab('missionstart')">Mission Start</button>
             <span class="group-space"></span>
-            <button class="tab-btn active" onclick="openTab('pay12')">Pay 1-2</button>
+            <button class="tab-btn active" id="btnPay1-2" onclick="openTab('pay12')">Pay 1-2</button>
             <span class="group-space"></span>
             <button class="tab-btn" onclick="openTab('pay22')">Pay 2-2</button>
             <button class="tab-btn" onclick="openTab('pay23')">Pay 2-3</button>
@@ -787,7 +795,7 @@
             <button class="tab-btn" id="btnKill" onclick="openTab('kill')">Kill Orders</button>
             <span class="group-space"></span>
             <button class="tab-btn" onclick="openTab('repair')">Repair Order</button>
-            <button class="tab-btn" id="codeVerification" onclick="openTab('codechecktab')">Code Verification</button>
+            <button class="tab-btn" id="btnAct" onclick="window.location.href='forActing.html'">Acting Order</button>
         </div>
         <!-- Mission Start Tab -->
         <div class="tab-content" id="missionstart">
@@ -834,7 +842,7 @@
             <tr>
                 <td class="param-label">Platform Access</td>
                 <td class="param-value" contenteditable="true">
-                    <a class="link" href="https://knxqqi.buzz">https://knxqqi.buzz</a>
+                    <a class="link" href="https://www.zodksgr.buzz">https://www.zodksgr.buzz</a>
                     <span class="secure-icon">🔒</span>
                 </td>
             </tr>
@@ -919,116 +927,118 @@
 </div>
 <td class="param-value timestamp" id="dateTimeCell1"></td>
 <table class="system-table">
-<tbody>
-<tr>
-<td class="param-label">User Credentials</td>
-<td class="param-value admin">Administrator_01 <span class="secure-icon">(Verified)</span></td>
-</tr>
-<tr>
-<td class="param-label">Platform Access</td>
-<td class="param-value">
-<a class="link" href="https://knxqqi.buzz">https://knxqqi.buzz</a>
-<span class="secure-icon">🔒</span>
-</td>
-</tr>
-<tr>
-<td class="param-label">Authorized Accounts</td>
-<td class="param-value accounts" contenteditable="true">
-<span class="account-tag">BYG152689</span>
-<span class="account-tag">TFC321691</span>
-<span class="account-tag">GVS225146</span>
-<span class="account-tag">LBE637851</span>
-</td>
-</tr>
-<tr>
-<td class="param-label">Session Initiated</td>
-<td class="param-value timestamp" id="dateTimeCell2"></td>
-</tr>
-<tr>
-<td class="param-label">Task Allocation</td>
-<td class="param-value task-count">
-                                    2-3 concurrent orders <span style="color:#6c757d;font-size:15px;">(Standard workload)</span>
-</td>
-</tr>
-<tr>
-<td class="param-label">System Verification</td>
-<td class="param-value verified2">
-<span class="verification-badge">Successfully Verified</span>
-<span class="secure-icon">✅ All systems operational</span>
-</td>
-</tr>
-</tbody>
+    <tbody>
+        <tr>
+            <td class="param-label">User Credentials</td>
+            <td class="param-value admin">Administrator_01 <span class="secure-icon">(Verified)</span></td>
+        </tr>
+        <tr>
+            <td class="param-label">Platform Access</td>
+            <td class="param-value" contenteditable="true">
+                <a class="link" href="https://www.zodksgr.buzz">https://www.zodksgr.buzz</a>
+                <span class="secure-icon">🔒</span>
+            </td>
+        </tr>
+        <tr>
+            <td class="param-label">Authorized Accounts</td>
+            <td class="param-value accounts" contenteditable="true">
+                <span class="account-tag">BYG152689</span>
+                <span class="account-tag">TFC321691</span>
+                <span class="account-tag">GVS225146</span>
+                <span class="account-tag">LBE637851</span>
+            </td>
+        </tr>
+        <tr>
+            <td class="param-label">Session Initiated</td>
+            <td class="param-value timestamp" id="dateTimeCell2"></td>
+        </tr>
+        <tr>
+            <td class="param-label">Task Allocation</td>
+            <td class="param-value task-count">
+                2-3 concurrent orders <span style="color:#6c757d;font-size:15px;">(Standard workload)</span>
+            </td>
+        </tr>
+        <tr>
+            <td class="param-label">System Verification</td>
+            <td class="param-value verified2">
+                <span class="verification-badge">Successfully Verified</span>
+                <span class="secure-icon">✅ All systems operational</span>
+            </td>
+        </tr>
+    </tbody>
 </table>
 <div class="action-buttons">
-<button class="btn btn-secondary">Request Audit</button>
-<button class="btn btn-warning">Terminate Session</button>
-<button class="btn btn-primary">Confirm Authorization</button>
+    <button class="btn btn-secondary">Request Audit</button>
+    <button class="btn btn-warning">Terminate Session</button>
+    <button class="btn btn-primary">Confirm Authorization</button>
 </div>
 </div>
 <div class="footer">
-<p>Ameriprise Financial Services, LLC. Member FINRA and SIPC | 
-                    Ameriprise Financial Services, LLC - is an Equal Opportunity Employer</p>
-                    © 2025 Ameriprise Financial, Inc. All rights reserved | <a href="#" style="color:#6c757d;text-decoration:none;">Privacy Policy</a> | <a href="#" style="color:#6c757d;text-decoration:none;">Terms of Service</a>
+    <p>Ameriprise Financial Services, LLC. Member FINRA and SIPC |
+        Ameriprise Financial Services, LLC - is an Equal Opportunity Employer</p>
+    © 2025 Ameriprise Financial, Inc. All rights reserved | <a href="#"
+        style="color:#6c757d;text-decoration:none;">Privacy Policy</a> | <a href="#"
+        style="color:#6c757d;text-decoration:none;">Terms of Service</a>
 </div>
 </div>
 </div>
 <!-- Pay 1-2 Tab -->
 <div class="tab-content active" id="pay12">
-<div class="hr-container">
-<div class="hr-line"></div>
-<div class="message">Pay 1-2</div>
-<div class="hr-line"></div>
-</div>
-<button class="screenshot-button" onclick="capturePay12()">📸 Capture SS - Pay 1-2</button>
-<div class="container">
-<div class="header">
-<img alt="Thumbnail 1" src="thumbnail1.jpg"/>
-<img alt="Thumbnail 2" src="thumbnail2.jpg"/>
-<img alt="Thumbnail 3" src="thumbnail3.jpg"/>
-<img alt="Thumbnail 4" src="thumbnail4.jpg"/>
-<img alt="Thumbnail 5" src="thumbnail5.jpg"/>
-<img alt="Thumbnail 6" src="thumbnail6.jpg"/>
-</div>
-<h1>Task Availability System</h1>
-<div class="header-time">
-<p id="datetime1"></p>
-<p id="completion-time"></p>
-</div>
-<table id="task-table">
-<thead>
-<tr>
-<th contenteditable="true">Task Name</th>
-<th>Status</th>
-<th>Initial Payment (INR)</th>
-<th>Percentage</th>
-<th>Withdrawal (INR)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td contenteditable="true">Option 1</td>
-<td class="status-cell" onclick="toggleStatus(this)">✅ Available</td>
-<td contenteditable="true">0</td>
-<td contenteditable="true">30%</td>
-<td contenteditable="true">0+【1300】</td>
-</tr>
-<tr>
-<td contenteditable="true">Option 2</td>
-<td class="status-cell" onclick="toggleStatus(this)">✅ Available</td>
-<td contenteditable="true">10000</td>
-<td contenteditable="true">30%</td>
-<td contenteditable="true">0+【1300】</td>
-</tr>
-<tr>
-<td contenteditable="true">Option 3</td>
-<td class="status-cell" onclick="toggleStatus(this)">✅ Available</td>
-<td contenteditable="true">20000</td>
-<td contenteditable="true">30%</td>
-<td contenteditable="true">0+【1300】</td>
-</tr>
-</tbody>
-</table>
-</div>
+    <div class="hr-container">
+        <div class="hr-line"></div>
+        <div class="message">Pay 1-2</div>
+        <div class="hr-line"></div>
+    </div>
+    <button class="screenshot-button" onclick="capturePay12()">📸 Capture SS - Pay 1-2</button>
+    <div class="container">
+        <div class="header">
+            <img alt="Thumbnail 1" src="thumbnail1.jpg" />
+            <img alt="Thumbnail 2" src="thumbnail2.jpg" />
+            <img alt="Thumbnail 3" src="thumbnail3.jpg" />
+            <img alt="Thumbnail 4" src="thumbnail4.jpg" />
+            <img alt="Thumbnail 5" src="thumbnail5.jpg" />
+            <img alt="Thumbnail 6" src="thumbnail6.jpg" />  
+        </div>
+        <h1>Task Availability System</h1>
+        <div class="header-time">
+            <p id="datetime1"></p>
+            <p id="completion-time"></p>
+        </div>
+        <table id="task-table">
+            <thead>
+                <tr>
+                    <th contenteditable="true">Task Name</th>
+                    <th>Status</th>
+                    <th>Initial Payment (INR)</th>
+                    <th>Percentage</th>
+                    <th>Withdrawal (INR)</th>   
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td contenteditable="true">Option 1</td>
+                    <td class="status-cell" onclick="toggleStatus(this)">✅ Available</td>
+                    <td contenteditable="true">0</td>
+                    <td contenteditable="true">30%</td>
+                    <td contenteditable="true">0+【1300】</td>
+                </tr>
+                <tr>
+                    <td contenteditable="true">Option 2</td>
+                    <td class="status-cell" onclick="toggleStatus(this)">✅ Available</td>
+                    <td contenteditable="true">10000</td>
+                    <td contenteditable="true">30%</td>
+                    <td contenteditable="true">0+【1300】</td>
+                </tr>
+                <tr>
+                    <td contenteditable="true">Option 3</td>
+                    <td class="status-cell" onclick="toggleStatus(this)">✅ Available</td>
+                    <td contenteditable="true">20000</td>
+                    <td contenteditable="true">30%</td>
+                    <td contenteditable="true">0+【1300】</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 <!-- Pay 2-2 Tab -->
 <div class="tab-content" id="pay22">
@@ -1334,16 +1344,16 @@
                 <tr>
                     <td contenteditable="true">Option 2</td>
                     <td class="status-cell" onclick="toggleStatus(this)">✅ Available</td>
-                    <td contenteditable="true" oninput="updateOutputText()">25000</td>
+                    <td contenteditable="true" oninput="updateOutputText()">35000</td>
                     <td contenteditable="true" oninput="updateOutputText()">30%</td>
-                    <td contenteditable="true" oninput="updateOutputText()">32500.00+ 【3900】</td>
+                    <td contenteditable="true" oninput="updateOutputText()">45500.00+ 【3900】</td>
                 </tr>
                 <tr>
                     <td contenteditable="true">Option 3</td>
                     <td class="status-cell" onclick="toggleStatus(this)">✅ Available</td>
-                    <td contenteditable="true" oninput="updateOutputText()">35000</td>
+                    <td contenteditable="true" oninput="updateOutputText()">55000</td>
                     <td contenteditable="true" oninput="updateOutputText()">30%</td>
-                    <td contenteditable="true" oninput="updateOutputText()">45500.00+ 【3900】</td>
+                    <td contenteditable="true" oninput="updateOutputText()">71500.00+ 【3900】</td>
                 </tr>
             </tbody>
         </table>
