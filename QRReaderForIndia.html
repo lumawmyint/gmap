@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart UPI QR Reader - Side Panel</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4a6bff;
+            --success: #00c853;
+            --error: #ff3d00;
+            --warning: #ff9100;
+            --text: #333;
+            --light-bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --border: #e0e0e0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light-bg);
+            color: var(--text);
+            line-height: 1.6;
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .container {
+            display: flex;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            gap: 20px;
+        }
+        
+        .left-panel {
+            flex: 1;
+            max-width: 400px;
+        }
+        
+        .right-panel {
+            flex: 1;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        
+        .header h1 {
+            color: var(--primary);
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        .header p {
+            color: #666;
+            font-size: 15px;
+        }
+        
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        #pasteArea {
+            width: 100%;
+            height: 280px;
+            border: 2px dashed var(--border);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            background-color: #fcfcfc;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        #pasteArea:hover {
+            border-color: var(--primary);
+            background-color: #f8faff;
+        }
+        
+        #pasteArea i {
+            font-size: 48px;
+            color: var(--primary);
+            margin-bottom: 15px;
+            opacity: 0.7;
+        }
+        
+        #pasteArea p {
+            color: #666;
+            text-align: center;
+            margin: 0;
+            font-size: 16px;
+        }
+        
+        #qrImage {
+            max-width: 100%;
+            max-height: 100%;
+            display: none;
+            border-radius: 4px;
+        }
+        
+        #loading {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .result-section h2 {
+            font-size: 18px;
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+        }
+        
+        .result-section h2 i {
+            margin-right: 10px;
+        }
+        
+        #result {
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            /* font-family: 'Courier New', monospace; */
+            font-size: 14px;
+            word-break: break-all;
+            white-space: pre-wrap;
+            max-height: 120px;
+            overflow-y: auto;
+        }
+        
+        .upi-details {
+            margin-top: 5px;
+        }
+        
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+        
+        .detail-label {
+            font-weight: 500;
+            color: #555;
+            display: flex;
+            align-items: center;
+        }
+        
+        .detail-label i {
+            margin-right: 8px;
+            color: var(--primary);
+            width: 20px;
+            text-align: center;
+        }
+        
+        .detail-value {
+            font-weight: 500;
+            text-align: right;
+            max-width: 60%;
+            word-break: break-all;
+        }
+        
+        .copy-btn {
+            background: none;
+            border: none;
+            color: var(--primary);
+            cursor: pointer;
+            font-size: 16px;
+            margin-left: 8px;
+            transition: all 0.2s;
+        }
+        
+        .copy-btn:hover {
+            color: #3a56d4;
+            transform: scale(1.1);
+        }
+        
+        .qr-type-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            background-color: #e3e9ff;
+            color: var(--primary);
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-left: 10px;
+        }
+
+        .mobikwik-badge {
+            background-color: #f0e6ff;
+            color: #6a1b9a;
+        }
+        
+        .success-badge {
+            background-color: #e6f7ee;
+            color: var(--success);
+        }
+        
+        .warning-badge {
+            background-color: #fff3e0;
+            color: var(--warning);
+        }
+        
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--success);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+        
+        .toast.show {
+            opacity: 1;
+        }
+        
+        .toast i {
+            margin-right: 8px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                padding: 15px;
+            }
+            
+            .left-panel, .right-panel {
+                max-width: 100%;
+            }
+            
+            #pasteArea {
+                height: 240px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Left Panel - QR Scanner -->
+        <div class="left-panel">
+            <div class="header">
+                <h1><i class="fas fa-qrcode"></i> Smart UPI QR Reader</h1>
+                <p>Paste any UPI QR code to extract payment details</p>
+            </div>
+            
+            <div class="card">
+                <div id="pasteArea">
+                    <i class="fas fa-camera"></i>
+                    <p>Click here to paste UPI QR code image</p>
+                    <img id="qrImage" alt="Pasted QR Code">
+                    <div id="loading"><i class="fas fa-spinner fa-spin"></i> Decoding QR code...</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Right Panel - Results -->
+        <div class="right-panel">
+            <div class="result-section">
+                <h2><i class="fas fa-info-circle"></i> Raw QR Content</h2>
+                <div id="result">No QR code pasted yet...</div>
+            </div>
+            
+            <hr>
+            <div class="result-section">
+                <h2><i class="fas fa-rupee-sign"></i> UPI Payment Details</h2>
+                <div id="upiDetails" class="upi-details">
+                    <div class="detail-row">
+                        <div class="detail-label"><i class="fas fa-info-circle"></i>Status</div>
+                        <div class="detail-value">Waiting for QR code...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">
+        <i class="fas fa-check-circle"></i>
+        <span>UPI ID copied to clipboard!</span>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+    <script>
+        const pasteArea = document.getElementById('pasteArea');
+            const qrImage = document.getElementById('qrImage');
+            const resultDiv = document.getElementById('result');
+            const upiDetailsDiv = document.getElementById('upiDetails');
+            const loadingIndicator = document.getElementById('loading');
+            const toast = document.getElementById('toast');
+
+            // Listen for paste events on the entire document
+            document.addEventListener('paste', async (e) => {
+                // Check if the paste contains image data
+                if (!e.clipboardData || !e.clipboardData.items) return;
+
+                // Find an image in the clipboard items
+                for (let i = 0; i < e.clipboardData.items.length; i++) {
+                    const item = e.clipboardData.items[i];
+                    if (item.type.indexOf('image') !== -1) {
+                        e.preventDefault();
+
+                        try {
+                            showLoading();
+                            const blob = item.getAsFile();
+                            const imageUrl = URL.createObjectURL(blob);
+
+                            displayImage(imageUrl);
+                            await decodeQRCode(imageUrl);
+                            return;
+                        } catch (err) {
+                            handleError(err);
+                        } finally {
+                            hideLoading();
+                        }
+                    }
+                }
+
+                // If we get here, no image was found
+                showError("No image found in clipboard. Please copy a UPI QR code image first.");
+            });
+
+            // [Rest of your existing functions remain the same]
+            function showLoading() {
+                loadingIndicator.style.display = 'block';
+                resultDiv.textContent = "Processing...";
+                upiDetailsDiv.innerHTML = `
+                    <div class="detail-row">
+                        <div class="detail-label"><i class="fas fa-info-circle"></i>Status</div>
+                        <div class="detail-value">Decoding QR code...</div>
+                    </div>
+                `;
+            }
+
+            function hideLoading() {
+                loadingIndicator.style.display = 'none';
+            }
+
+            function displayImage(imageUrl) {
+                qrImage.src = imageUrl;
+                qrImage.style.display = 'block';
+                pasteArea.querySelector('i').style.display = 'none';
+                pasteArea.querySelector('p').style.display = 'none';
+            }
+
+            async function decodeQRCode(imageUrl) {
+                return new Promise((resolve) => {
+                    const image = new Image();
+                    image.src = imageUrl;
+
+                    image.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        const context = canvas.getContext('2d');
+                        canvas.width = image.width;
+                        canvas.height = image.height;
+                        context.drawImage(image, 0, 0, image.width, image.height);
+
+                        const imageData = context.getImageData(0, 0, image.width, image.height);
+
+                        // Enhanced QR decoding with multiple attempts
+                        let code = jsQR(imageData.data, imageData.width, imageData.height, {
+                            inversionAttempts: "attemptBoth",
+                        });
+
+                        if (!code) {
+                            code = jsQR(imageData.data, imageData.width, imageData.height, {
+                                inversionAttempts: "dontInvert",
+                                greyScaleWeights: { red: 0.2126, green: 0.7152, blue: 0.0722 }
+                            });
+                        }
+
+                        if (code) {
+                            resultDiv.textContent = code.data;
+                            extractUPIDetails(code.data);
+                        } else {
+                            showError("No QR code found in the image or couldn't decode it.");
+                        }
+                        resolve();
+                    };
+
+                    image.onerror = () => {
+                        showError("Error loading the pasted image.");
+                        resolve();
+                    };
+                });
+            }
+
+        function extractUPIDetails(qrData) {
+                try {
+                    // 1. First check for MobiKwik specific patterns (updated)
+                    const mobikwikDetails = parseMobiKwikQR(qrData);
+                    if (mobikwikDetails) {
+                        displayUPIDetails(mobikwikDetails);
+                        return;
+                    }
+
+                // 2. Then check for PhonePe specific patterns
+                const phonePeDetails = parsePhonePeQR(qrData);
+                if (phonePeDetails) {
+                    displayUPIDetails(phonePeDetails);
+                    return;
+                }
+
+                // 3. Check for standard UPI patterns
+                const upiDetails = parseStandardUPI(qrData);
+                if (upiDetails) {
+                    displayUPIDetails(upiDetails);
+                    return;
+                }
+
+                // 4. Check for BharatQR/NPCI patterns
+                const bharatQRDetails = parseBharatQR(qrData);
+                if (bharatQRDetails) {
+                    displayUPIDetails(bharatQRDetails);
+                    return;
+                }
+
+                // 5. Check for simple VPA pattern
+                const vpaDetails = parseSimpleVPA(qrData);
+                if (vpaDetails) {
+                    displayUPIDetails(vpaDetails);
+                    return;
+                }
+
+                // If nothing matched
+                upiDetailsDiv.innerHTML = `
+                        <div class="detail-row">
+                            <div class="detail-label"><i class="fas fa-exclamation-triangle"></i>Status</div>
+                            <div class="detail-value">Couldn't identify as standard UPI QR code</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label"><i class="fas fa-code"></i>Raw Content</div>
+                            <div class="detail-value" style="font-size:13px">${qrData}</div>
+                        </div>
+                    `;
+            } catch (err) {
+                showError(`Error extracting UPI details: ${err.message}`);
+                console.error(err);
+            }
+        }
+
+        function parseMobiKwikQR(qrData) {
+                try {
+                    // Try URI decoding first
+                    let decodedData = qrData;
+                    try {
+                        decodedData = decodeURIComponent(qrData);
+                    } catch (_) {
+                        decodedData = qrData;
+                    }
+
+                    // 1. Check for JSON embedded in QR data
+                    const jsonStart = decodedData.indexOf('{');
+                    const jsonEnd = decodedData.lastIndexOf('}') + 1;
+                    if (jsonStart !== -1 && jsonEnd !== -1) {
+                        const jsonStr = decodedData.substring(jsonStart, jsonEnd);
+                        try {
+                            const jsonData = JSON.parse(jsonStr);
+
+                            const upiId = jsonData.vpa || jsonData.payeeVPA || jsonData.payerVPA ||
+                                jsonData.vpaId || jsonData.upiId || jsonData.upiAddress;
+
+                            if (upiId) {
+                                return {
+                                    upiId,
+                                    name: jsonData.name || jsonData.payeeName || jsonData.payerName || 'MobiKwik User',
+                                    amount: jsonData.amount ? '₹' + jsonData.amount :
+                                        (jsonData.txnAmount ? '₹' + jsonData.txnAmount : 'Not specified'),
+                                    note: jsonData.note || jsonData.description || jsonData.txnNote || null,
+                                    type: 'MobiKwik'
+                                };
+                            }
+                        } catch (e) {
+                            console.log("MobiKwik JSON parse attempt failed:", e);
+                        }
+                    }
+
+                    // 2. Check for embedded UPI URI
+                    const upiUriMatch = decodedData.match(/upi:\/\/pay\?[^"}]+/i);
+                    if (upiUriMatch) {
+                        const upiDetails = parseStandardUPI(upiUriMatch[0]);
+                        if (upiDetails) {
+                            upiDetails.type = 'MobiKwik Embedded UPI';
+                            return upiDetails;
+                        }
+                    }
+
+                    // 3. Check for MobiKwik-specific patterns
+                    const mobikwikPatterns = [
+                        // Standard MobiKwik pattern
+                        /(?:mobikwik|mbk|mk)[^a-zA-Z0-9]*([a-zA-Z0-9._-]+@[a-zA-Z0-9]+)/i,
+
+                        // Key-value patterns
+                        /(?:vpa|payeevpa|payervpa|upiid|upiaddress)[": =]*([a-zA-Z0-9._-]+@[a-zA-Z0-9]+)/i,
+
+                        // Reverse pattern
+                        /([a-zA-Z0-9._-]+@[a-zA-Z0-9]+)[^a-zA-Z0-9]*mobikwik/i,
+
+                        // New MobiKwik pattern seen in recent versions
+                        /mobikwik:\/\/qr\?([^"]+)/i,
+
+                        // Deep link pattern
+                        /mobikwik:\/\/payment\?([^"]+)/i
+                    ];
+
+                    for (const pattern of mobikwikPatterns) {
+                        const match = decodedData.match(pattern);
+                        if (match && match[1]) {
+                            // Extract amount if available
+                            let amount = 'Not specified';
+                            const amountMatch = decodedData.match(/(?:amount|am|txnamount)[":= ]*(\d+)/i);
+                            if (amountMatch) amount = '₹' + amountMatch[1];
+
+                            // Extract name if available
+                            let name = 'MobiKwik User';
+                            const nameMatch = decodedData.match(/(?:name|payeename|payername)[": =]*([a-zA-Z ]+)/i);
+                            if (nameMatch) name = nameMatch[1].trim();
+
+                            return {
+                                upiId: match[1],
+                                name,
+                                amount,
+                                note: decodedData.match(/(?:note|description|txnnote)[":= ]*([^"]+)/i)?.[1] || null,
+                                type: 'MobiKwik'
+                            };
+                        }
+                    }
+
+                    // 4. Check for deep links with parameters
+                    const deepLinkPatterns = [
+                        /mobikwik:\/\/[^?]+\?([^"]+)/i,
+                        /mbk:\/\/[^?]+\?([^"]+)/i,
+                        /mk:\/\/[^?]+\?([^"]+)/i
+                    ];
+
+                    for (const pattern of deepLinkPatterns) {
+                        const match = decodedData.match(pattern);
+                        if (match) {
+                            const params = new URLSearchParams(match[1]);
+                            const upiId = params.get('vpa') || params.get('payeeVPA') ||
+                                params.get('upiId') || params.get('upiaddress');
+                            if (upiId) {
+                                return {
+                                    upiId,
+                                    name: params.get('name') || params.get('payeeName') || 'MobiKwik User',
+                                    amount: params.get('amount') || params.get('txnAmount') ?
+                                        '₹' + (params.get('amount') || params.get('txnAmount')) : 'Not specified',
+                                    note: params.get('note') || params.get('txnNote') || null,
+                                    type: 'MobiKwik Deep Link'
+                                };
+                            }
+                        }
+                    }
+
+                    // 5. Try base64 decoding if all else fails
+                    try {
+                        if (decodedData.length % 4 === 0 && /^[A-Za-z0-9+/=]+$/.test(decodedData)) {
+                            const base64Decoded = atob(decodedData);
+                            const parsed = parseMobiKwikQR(base64Decoded);
+                            if (parsed) return parsed;
+                        }
+                    } catch (_) {
+                        // Not base64 or decoding failed
+                    }
+
+                    // 6. Final fallback - look for any VPA pattern in the data
+                    const vpaPattern = /([a-zA-Z0-9._-]+@[a-zA-Z0-9]+)/i;
+                    const vpaMatch = decodedData.match(vpaPattern);
+                    if (vpaMatch && decodedData.toLowerCase().includes('mobikwik')) {
+                        return {
+                            upiId: vpaMatch[1],
+                            name: 'MobiKwik User',
+                            amount: 'Not specified',
+                            note: null,
+                            type: 'MobiKwik (Fallback)'
+                        };
+                    }
+
+                    return null;
+                } catch (err) {
+                    console.error("Error parsing MobiKwik QR:", err);
+                    return null;
+                }
+            }
+
+        // PhonePe specific parser
+        function parsePhonePeQR(qrData) {
+            const phonePePatterns = [
+                /(?:phonepe|ppe)\/([^\/]+)\/([^\/]+)\/([^\/]+)/i,
+                /(\d{12})@(axl|ybl|ibl|sbi|okbiz|upi)/i,
+                /(\w+)@(axl|ybl|ibl|sbi|okbiz|upi)[^0-9a-zA-Z]/i
+            ];
+
+            for (const pattern of phonePePatterns) {
+                const match = qrData.match(pattern);
+                if (match) {
+                    let upiId, name, amount = null;
+
+                    if (match[1] && match[2] && match[3]) {
+                        upiId = `${match[2]}@${match[3]}`;
+                        name = match[1].replace(/[^a-zA-Z ]/g, ' ').trim();
+                    } else if (match[1] && match[2]) {
+                        upiId = `${match[1]}@${match[2]}`;
+                        name = "PhonePe User";
+                    }
+
+                    const amountMatch = qrData.match(/amount=(\d+)/i) || qrData.match(/am=(\d+)/i);
+                    if (amountMatch) {
+                        amount = amountMatch[1];
+                    }
+
+                    if (upiId) {
+                        return {
+                            upiId: upiId,
+                            name: name || "PhonePe User",
+                            amount: amount ? '₹' + amount : 'Not specified',
+                            type: 'PhonePe',
+                            isPhonePe: true
+                        };
+                    }
+                }
+            }
+            return null;
+        }
+
+        // Standard UPI parser (Google Pay, BHIM, etc.)
+        function parseStandardUPI(qrData) {
+            const upiPattern = /upi:\/\/pay\?([^"]+)/i;
+            const upiMatch = qrData.match(upiPattern);
+
+            if (upiMatch) {
+                const params = new URLSearchParams(upiMatch[1]);
+                const upiId = params.get('pa');
+                const name = params.get('pn');
+                const amount = params.get('am');
+                const note = params.get('tn');
+                const merchantCode = params.get('mc');
+
+                if (upiId) {
+                    return {
+                        upiId: decodeURIComponent(upiId),
+                        name: name ? decodeURIComponent(name) : 'Not specified',
+                        amount: amount ? '₹' + amount : 'Not specified',
+                        note: note ? decodeURIComponent(note) : null,
+                        merchantCode: merchantCode,
+                        type: 'Standard UPI'
+                    };
+                }
+            }
+            return null;
+        }
+
+        // BharatQR/NPCI parser
+        function parseBharatQR(qrData) {
+            if (qrData.startsWith('000201') || qrData.startsWith('01')) {
+                const upiIdMatch = qrData.match(/(\d{12}|[a-zA-Z0-9._-]+)@(upi|ybl|axl|okbiz|sbi|paytm)/i);
+                if (upiIdMatch) {
+                    const upiId = upiIdMatch[0];
+                    let name = null, amount = null;
+
+                    const amountMatch = qrData.match(/54(\d+)\.?(\d{0,2})/);
+                    if (amountMatch) {
+                        amount = amountMatch[1] + (amountMatch[2] ? '.' + amountMatch[2] : '');
+                    }
+
+                    const nameMatch = qrData.match(/59([^0-9]{3,})/);
+                    if (nameMatch) {
+                        name = nameMatch[1].trim();
+                    }
+
+                    return {
+                        upiId: upiId,
+                        name: name || 'Not specified',
+                        amount: amount ? '₹' + amount : 'Not specified',
+                        type: 'BharatQR/NPCI'
+                    };
+                }
+            }
+            return null;
+        }
+
+        // Simple VPA parser
+        function parseSimpleVPA(qrData) {
+            const vpaPattern = /([a-zA-Z0-9._-]+@[a-zA-Z0-9]+)/i;
+            const vpaMatch = qrData.match(vpaPattern);
+
+            if (vpaMatch) {
+                return {
+                    upiId: vpaMatch[1],
+                    name: 'Not specified',
+                    amount: 'Not specified',
+                    type: 'Simple VPA'
+                };
+            }
+            return null;
+        }
+
+        function displayUPIDetails(details) {
+                const copyButton = `<button class="copy-btn" title="Copy UPI ID" onclick="copyToClipboard('${details.upiId}')"><i class="far fa-copy"></i></button>`;
+
+                let html = `
+        <div class="detail-row">
+            <div class="detail-label"><i class="fas fa-check-circle"></i>Status</div>
+            <div class="detail-value">
+                <span class="success-badge qr-type-badge">Valid UPI QR</span>
+                <span class="qr-type-badge">${details.type}</span>
+            </div>
+        </div>
+        <div class="detail-row">
+            <div class="detail-label"><i class="fas fa-at"></i>UPI ID</div>
+            <div class="detail-value">
+                ${details.upiId}
+                ${copyButton}
+            </div>
+        </div>
+        <div class="detail-row">
+            <div class="detail-label"><i class="fas fa-user"></i>Recipient</div>
+            <div class="detail-value">${details.name}</div>
+        </div>
+    `;
+
+                // Only show amount if it's specified
+                if (details.amount && details.amount !== 'Not specified') {
+                    html += `
+            <div class="detail-row">
+                <div class="detail-label"><i class="fas fa-rupee-sign"></i>Amount</div>
+                <div class="detail-value">${details.amount}</div>
+            </div>
+        `;
+                }
+
+                if (details.note) {
+                    html += `
+            <div class="detail-row">
+                <div class="detail-label"><i class="fas fa-sticky-note"></i>Note</div>
+                <div class="detail-value">${details.note}</div>
+            </div>
+        `;
+                }
+
+                if (details.merchantCode) {
+                    html += `
+            <div class="detail-row">
+                <div class="detail-label"><i class="fas fa-store"></i>Merchant Code</div>
+                <div class="detail-value">${details.merchantCode}</div>
+            </div>
+        `;
+                }
+
+                if (details.isPhonePe) {
+                    html += `
+            <div class="detail-row">
+                <div class="detail-label"><i class="fas fa-info-circle"></i>Note</div>
+                <div class="detail-value" style="color: var(--warning);">
+                    PhonePe QR codes may not display recipient names
+                </div>
+            </div>
+        `;
+                }
+
+                upiDetailsDiv.innerHTML = html;
+            }
+
+        function showError(message) {
+            resultDiv.textContent = message;
+            upiDetailsDiv.innerHTML = `
+                    <div class="detail-row">
+                        <div class="detail-label"><i class="fas fa-exclamation-triangle"></i>Status</div>
+                        <div class="detail-value" style="color: var(--error);">${message}</div>
+                    </div>
+                `;
+        }
+
+        function handleError(err) {
+            let errorMessage = err.message;
+            if (err.message.includes('clipboard-read')) {
+                errorMessage = "Clipboard access denied. Please allow clipboard permissions or try pasting manually.";
+            }
+            showError(errorMessage);
+            console.error(err);
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast("UPI ID copied to clipboard!");
+            }).catch(err => {
+                showToast("Failed to copy UPI ID", true);
+                console.error("Could not copy text: ", err);
+            });
+        }
+
+        function showToast(message, isError = false) {
+            toast.innerHTML = `
+                    <i class="fas ${isError ? 'fa-exclamation-circle' : 'fa-check-circle'}"></i>
+                    <span>${message}</span>
+                `;
+            toast.style.backgroundColor = isError ? 'var(--error)' : 'var(--success)';
+            toast.classList.add('show');
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
