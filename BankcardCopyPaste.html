@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Details Formatter</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-light: #818cf8;
+            --primary-dark: #4f46e5;
+            --success: #10b981;
+            --error: #ef4444;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --border-radius: 12px;
+            --border-radius-sm: 8px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --glass: rgba(255, 255, 255, 0.08);
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+            color: var(--dark);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            line-height: 1.5;
+        }
+        
+        .app-container {
+            margin-top: -50px;
+            width: 100%;
+            max-width: 800px;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-hover);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .app-header {
+            padding: 1rem 2rem; /* Reduced from 1.5rem 2rem */
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 1.5rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .app-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            transform: rotate(30deg);
+        }
+        
+        h1 {
+            font-weight: 600;
+            font-size: 1.75rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .app-content {
+            padding: 2rem;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 1.5rem;
+          
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+            flex: 1;
+        }
+        
+        .form-group-small {
+            width: 180px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark);
+            font-size: 0.9rem;
+        }
+        
+        textarea, input[type="text"] {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: var(--border-radius-sm);
+            font-family: inherit;
+            transition: var(--transition);
+            background-color: var(--light);
+            font-size: 0.95rem;
+        }
+        
+        textarea:focus, input[type="text"]:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+        
+        textarea {
+            height: 150px;
+            resize: vertical;
+        }
+        
+        .amount-options {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        /* For the Amount Buttons */
+        .amount-btn {
+            padding: 0.75rem 1.5rem; /* Increased from 0.5rem 1.25rem */
+            background-color: #f1f5f9;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+            font-size: 1rem; /* Increased from 0.9rem */
+            color: var(--gray);
+}
+        
+        .amount-btn.active {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+        
+        .amount-btn:hover:not(.active) {
+            background-color: #e2e8f0;
+            color: var(--dark);
+        }
+        
+        /* For the Generate Button */
+        button {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            border: none;
+            padding: 1rem 2rem; /* Increased from 0.75rem 1.5rem */
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.1rem; /* Increased from 1rem */
+            font-weight: 500;
+            transition: var(--transition);
+            width: 100%;
+            height: fit-content;
+            align-self: flex-end;
+        }
+        
+        button:hover {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .output-container {
+            position: relative;
+            overflow: hidden;
+            margin-top: 1.5rem;
+            border-radius: var(--border-radius-sm);
+            border: 1px dashed #cbd5e1;
+            transition: var(--transition);
+        }
+        
+        .output-container:hover {
+            border-color: var(--primary);
+        }
+        
+        .output {
+            padding: 1.5rem;
+            background-color: var(--light);
+            white-space: pre-wrap;
+            font-family: 'Roboto Mono', monospace;
+            cursor: pointer;
+            position: relative;
+            transition: var(--transition);
+            min-height: 150px;
+            border-radius: var(--border-radius-sm);
+        }
+        
+        .output:hover {
+            background-color: #f1f5f9;
+        }
+        
+        .error {
+            color: var(--error);
+            margin-top: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 1.5rem;
+            right: 1.5rem;
+            padding: 0.875rem 1.5rem;
+            background: linear-gradient(135deg, var(--success), #34d399);
+            color: white;
+            border-radius: 50px;
+            box-shadow: var(--shadow-hover);
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 1000;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .notification.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .notification::before {
+            content: "✓";
+            font-size: 1.2rem;
+        }
+        
+        .copy-animation {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                            rgba(99, 102, 241, 0) 0%, 
+                            rgba(99, 102, 241, 0.15) 50%, 
+                            rgba(99, 102, 241, 0) 100%);
+            background-size: 200% 100%;
+            animation: gradientSlide 0.8s ease-out;
+            opacity: 0;
+            pointer-events: none;
+            border-radius: var(--border-radius-sm);
+        }
+        
+        @keyframes gradientSlide {
+            0% {
+                background-position: -100% 0;
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                background-position: 100% 0;
+                opacity: 0;
+            }
+        }
+
+        /* Top navigation styling */
+        .top-navigation {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+        }
+
+        .home-button {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: var(--shadow);
+        }
+
+        .home-button:hover {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        /* Adjust app-container margin to account for the home button */
+        .app-container {
+            margin-top: 80px; /* Increased from -50px to make space for home button */
+            /* Rest of your existing styles */
+        }
+        
+        .copy-hint {
+            position: absolute;
+            bottom: 0.75rem;
+            right: 0.75rem;
+            font-size: 0.75rem;
+            color: var(--gray);
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            opacity: 0;
+            transition: var(--transition);
+            backdrop-filter: blur(2px);
+        }
+        
+        .output-container:hover .copy-hint {
+            opacity: 1;
+        }
+        
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .form-group-small {
+                width: 100%;
+            }
+            
+            body {
+                padding: 1rem;
+            }
+            
+            .app-content {
+                padding: 1.5rem;
+            }
+        }
+        
+        /* Modern scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        
+        /* Floating particles effect */
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+        
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            filter: blur(1px);
+            animation: float linear infinite;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="top-navigation">
+        <button onclick="window.location.href='index.html'" class="home-button">
+            <i class="fas fa-home"></i> Home
+        </button>
+    </div>
+    <div class="app-container">
+        
+        <div class="particles" id="particles"></div>
+        
+        <div class="app-header">
+            
+            <h1>Bank Details Formatter</h1>
+        </div>
+        
+        <div class="app-content">
+            <div class="form-group">
+                <label for="bankDetails">Bank Details (any format):</label>
+                <textarea id="bankDetails" ></textarea>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group-small">
+                    <label for="codeNumber">Code Number:</label>
+                    <input type="text" id="codeNumber" placeholder="ABCD1234">
+                </div>
+                
+                <div class="form-group">
+                    <label>Amount:</label>
+                    <div class="amount-options">
+                        <button type="button" class="amount-btn active" data-amount="100">100</button>
+                        <button type="button" class="amount-btn" data-amount="150">150</button>
+                        <button type="button" class="amount-btn" data-amount="210">210</button>
+                    </div>
+                </div>
+                
+                
+            </div>
+            
+            <div id="error" class="error"></div>
+            
+            <div class="form-group-small">
+                <button id="generateBtn">Generate</button>
+            </div>
+            
+            <br>
+            <div class="form-group">
+                <label>Output:</label>
+                <div class="output-container">
+                    <div id="output" class="output"></div>
+                    <div class="copy-hint">Double-click to copy</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="notification" class="notification">Copied to clipboard</div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const bankDetailsTextarea = document.getElementById('bankDetails');
+            const codeNumberInput = document.getElementById('codeNumber');
+            const amountButtons = document.querySelectorAll('.amount-btn');
+            const generateBtn = document.getElementById('generateBtn');
+            const outputDiv = document.getElementById('output');
+            const errorDiv = document.getElementById('error');
+            const notification = document.getElementById('notification');
+            const outputContainer = document.querySelector('.output-container');
+            const particlesContainer = document.getElementById('particles');
+
+            let selectedAmount = '100';
+
+            // Create floating particles
+            function createParticles() {
+                const particleCount = 15;
+                for (let i = 0; i < particleCount; i++) {
+                    const particle = document.createElement('div');
+                    particle.classList.add('particle');
+
+                    const size = Math.random() * 5 + 2;
+                    const posX = Math.random() * 100;
+                    const duration = Math.random() * 20 + 10;
+                    const delay = Math.random() * -20;
+
+                    particle.style.width = `${size}px`;
+                    particle.style.height = `${size}px`;
+                    particle.style.left = `${posX}%`;
+                    particle.style.animationDuration = `${duration}s`;
+                    particle.style.animationDelay = `${delay}s`;
+
+                    particlesContainer.appendChild(particle);
+                }
+            }
+
+            createParticles();
+
+            // Amount selection
+            amountButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    amountButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    selectedAmount = this.dataset.amount;
+                });
+            });
+
+            // Generate output
+            generateBtn.addEventListener('click', function () {
+                errorDiv.textContent = '';
+
+                const inputText = bankDetailsTextarea.value;
+                const codeNumber = codeNumberInput.value.trim();
+
+                // Extract details from text
+                let bankName = '';
+                let accountHolderName = '';
+                let ifsc = '';
+                let accountNumber = '';
+
+                // First try to find IFSC (most reliable identifier)
+                const ifscMatch = inputText.match(/[A-Za-z]{4}0[A-Za-z0-9]{6}/);
+                if (ifscMatch) {
+                    ifsc = ifscMatch[0].toUpperCase();
+                } else {
+                    // Try to find IFSC after labels
+                    const ifscLabelMatch = inputText.match(/(IFSC|ifsc|Ifsc|code)[\s\S]*?([A-Za-z]{4}0[A-Za-z0-9]{6})/i);
+                    if (ifscLabelMatch && ifscLabelMatch[2]) {
+                        ifsc = ifscLabelMatch[2].toUpperCase();
+                    }
+                }
+
+                // Then try to find account number (longest sequence of digits, now handling spaces)
+                const accountMatches = inputText.match(/(\d[\d\s]{8,17}\d)/g);
+                if (accountMatches) {
+                    // Find the longest sequence (in case there are multiple numbers)
+                    accountNumber = accountMatches.reduce((a, b) => {
+                        // Remove all non-digit characters to compare lengths
+                        const aDigits = a.replace(/\D/g, '');
+                        const bDigits = b.replace(/\D/g, '');
+                        return aDigits.length > bDigits.length ? a : b;
+                    });
+                    // Remove all non-digit characters from the final account number
+                    accountNumber = accountNumber.replace(/\D/g, '');
+                }
+
+                // Process bank name and account holder name
+                const lines = inputText.split('\n').filter(line => line.trim() !== '');
+
+                for (const line of lines) {
+                    // Skip lines that contain IFSC or account number
+                    if (ifsc && line.includes(ifsc)) continue;
+                    if (accountNumber && line.replace(/\D/g, '').includes(accountNumber)) continue;
+
+                    // Extract the actual value by removing all labels and special characters
+                    const cleanValue = line.replace(/^.*?(name|bank|account|ifsc|code|no\.?|ac)[\s\S]*?[:=\-,]\s*/i, '')
+                        .replace(/[^a-zA-Z\s]/g, ' ')
+                        .replace(/\s+/g, ' ')
+                        .trim();
+
+                    if (cleanValue.length >= 3) {
+                        if (!accountHolderName && /[a-z]+\s+[a-z]+/i.test(cleanValue)) {
+                            // Likely account holder name if it contains at least two words
+                            accountHolderName = cleanValue;
+                        } else if (!bankName) {
+                            // Otherwise assume it's bank name
+                            bankName = cleanValue;
+                        }
+                    }
+                }
+
+                // If IFSC is missing or invalid, show error
+                if (!ifsc || !validateIFSC(ifsc)) {
+                    errorDiv.textContent = 'Error: Invalid or missing IFSC code. Please check your input.';
+                    return;
+                }
+
+                // If bank name is missing, try to get it from IFSC
+                if (!bankName) {
+                    bankName = getBankNameFromIFSC(ifsc);
+                    if (!bankName) {
+                        errorDiv.textContent = 'Error: Could not determine bank name from IFSC. Please provide bank name.';
+                        return;
+                    }
+                }
+
+                // If account holder name is missing, show error
+                if (!accountHolderName) {
+                    errorDiv.textContent = 'Error: Account holder name is missing.';
+                    return;
+                }
+
+                // If account number is missing, show error
+                if (!accountNumber) {
+                    errorDiv.textContent = 'Error: Account number is missing.';
+                    return;
+                }
+
+                // If code number is missing, show error
+                if (!codeNumber) {
+                    errorDiv.textContent = 'Error: Code number is missing.';
+                    return;
+                }
+
+                // Generate the clean output without any labels
+                const output = `/js\n${accountHolderName}\n${bankName}\n${ifsc}\n${accountNumber}\n${selectedAmount}\n${codeNumber}`;
+
+                outputDiv.textContent = output;
+            });
+
+            // Copy to clipboard on double-click with animation
+            outputDiv.addEventListener('dblclick', function () {
+                if (!outputDiv.textContent.trim()) return;
+
+                // Create animation element
+                const animation = document.createElement('div');
+                animation.className = 'copy-animation';
+                outputContainer.appendChild(animation);
+
+                // Remove animation after it completes
+                setTimeout(() => {
+                    outputContainer.removeChild(animation);
+                }, 800);
+
+                // Copy to clipboard
+                navigator.clipboard.writeText(outputDiv.textContent).then(() => {
+                    // Show notification
+                    notification.classList.add('show');
+                    setTimeout(() => {
+                        notification.classList.remove('show');
+                    }, 1500);
+                }).catch(err => {
+                    // Fallback for older browsers
+                    const textarea = document.createElement('textarea');
+                    textarea.value = outputDiv.textContent;
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textarea);
+
+                    // Show notification
+                    notification.classList.add('show');
+                    setTimeout(() => {
+                        notification.classList.remove('show');
+                    }, 1500);
+                });
+            });
+
+            // Validate IFSC code
+            function validateIFSC(ifsc) {
+                // Basic IFSC validation - first 4 letters, then 0, then 6 alphanumeric
+                return /^[A-Za-z]{4}0[A-Za-z0-9]{6}$/.test(ifsc);
+            }
+
+            // Get bank name from IFSC
+            function getBankNameFromIFSC(ifsc) {
+                if (!ifsc) return null;
+
+                const bankPrefix = ifsc.substring(0, 4).toUpperCase();
+
+                // Map of common bank prefixes to bank names
+                const bankPrefixMap = {
+                    'SBIN': 'State Bank of India',
+                    'ICIC': 'ICICI Bank',
+                    'HDFC': 'HDFC Bank',
+                    'UTIB': 'Axis Bank',
+                    'CNRB': 'Canara Bank',
+                    'BARB': 'Bank of Baroda',
+                    'PUNB': 'Punjab National Bank',
+                    'UBIN': 'Union Bank of India',
+                    'BKID': 'Bank of India',
+                    'VIJB': 'Vijaya Bank',
+                    'YESB': 'Yes Bank',
+                    'IDIB': 'Indian Bank',
+                    'IOBA': 'Indian Overseas Bank',
+                    'BKDN': 'Dena Bank',
+                    'KVBL': 'Karur Vysya Bank',
+                    'CORP': 'Corporation Bank',
+                    'SYNB': 'Syndicate Bank',
+                    'FDRL': 'Federal Bank',
+                    'INDB': 'IndusInd Bank',
+                    'KARB': 'Karnataka Bank',
+                    'MAHB': 'Bank of Maharashtra',
+                    'ORBC': 'Oriental Bank of Commerce',
+                    'DCBL': 'DCB Bank',
+                    'COSB': 'Cosmos Bank',
+                    'IBKL': 'IDBI Bank',
+                    'JSFB': 'Jana Small Finance Bank',
+                    'RATN': 'RBL Bank',
+                    'ESMF': 'Esaf Small Finance Bank',
+                    'UCBA': 'UCO Bank',
+                    'DLXB': 'Dhanlaxmi Bank',
+                    'BARB': 'Bank of Baroda',
+                    'IPOS': 'India Post Payment Bank'
+                };
+
+                return bankPrefixMap[bankPrefix] || null;
+            }
+        });
+    </script>
+</body>
+</html>
