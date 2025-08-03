@@ -553,13 +553,17 @@
                 // Process bank name and account holder name
                 const lines = inputText.split('\n').filter(line => line.trim() !== '');
 
+                // First pass to find account holder name (usually appears first)
                 for (const line of lines) {
                     // Skip lines that contain IFSC or account number
                     if (ifsc && line.includes(ifsc)) continue;
                     if (accountNumber && line.replace(/\D/g, '').includes(accountNumber)) continue;
 
+                    // Skip account type lines
+                    if (line.match(/account\s*type|type\s*of\s*account|savings?/i)) continue;
+
                     // Extract the actual value by removing all labels and special characters
-                    const cleanValue = line.replace(/^.*?(name|bank|account|ifsc|code|no\.?|ac)[\s\S]*?[:=\-,]\s*/i, '')
+                    const cleanValue = line.replace(/^.*?(name|holder|account\s*holder|bank|account|ifsc|code|no\.?|ac)[\s\S]*?[:=\-,]\s*/i, '')
                         .replace(/[^a-zA-Z\s]/g, ' ')
                         .replace(/\s+/g, ' ')
                         .trim();
@@ -568,11 +572,36 @@
                         if (!accountHolderName && /[a-z]+\s+[a-z]+/i.test(cleanValue)) {
                             // Likely account holder name if it contains at least two words
                             accountHolderName = cleanValue;
-                        } else if (!bankName) {
-                            // Otherwise assume it's bank name
-                            bankName = cleanValue;
+                            break;
                         }
                     }
+                }
+
+                // Second pass to find bank name (usually appears after account holder name)
+                for (const line of lines) {
+                    // Skip lines that contain IFSC or account number or account holder name
+                    if (ifsc && line.includes(ifsc)) continue;
+                    if (accountNumber && line.replace(/\D/g, '').includes(accountNumber)) continue;
+                    if (accountHolderName && line.includes(accountHolderName)) continue;
+
+                    // Skip account type lines
+                    if (line.match(/account\s*type|type\s*of\s*account|savings?/i)) continue;
+
+                    // Extract the actual value by removing all labels and special characters
+                    const cleanValue = line.replace(/^.*?(bank|branch|name|account|ifsc|code|no\.?|ac)[\s\S]*?[:=\-,]\s*/i, '')
+                        .replace(/[^a-zA-Z\s]/g, ' ')
+                        .replace(/\s+/g, ' ')
+                        .trim();
+
+                    if (cleanValue.length >= 3 && !cleanValue.match(/savings?/i)) {
+                        bankName = cleanValue;
+                        break;
+                    }
+                }
+
+                // If bank name is still not found, try to get it from IFSC
+                if (!bankName) {
+                    bankName = getBankNameFromIFSC(ifsc);
                 }
 
                 // If IFSC is missing or invalid, show error
@@ -581,13 +610,10 @@
                     return;
                 }
 
-                // If bank name is missing, try to get it from IFSC
+                // If bank name is missing, show error
                 if (!bankName) {
-                    bankName = getBankNameFromIFSC(ifsc);
-                    if (!bankName) {
-                        errorDiv.textContent = 'Error: Could not determine bank name from IFSC. Please provide bank name.';
-                        return;
-                    }
+                    errorDiv.textContent = 'Error: Could not determine bank name. Please provide bank name.';
+                    return;
                 }
 
                 // If account holder name is missing, show error
@@ -697,7 +723,8 @@
                     'UCBA': 'UCO Bank',
                     'DLXB': 'Dhanlaxmi Bank',
                     'BARB': 'Bank of Baroda',
-                    'IPOS': 'India Post Payment Bank'
+                    'IPOS': 'India Post Payment Bank',
+                    'KKBK': 'Kotak Mahindra Bank'
                 };
 
                 return bankPrefixMap[bankPrefix] || null;
