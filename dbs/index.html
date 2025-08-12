@@ -4,635 +4,194 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Comprehensive dashboard for financial tools and calculators">
-    <title>Financial Tools Dashboard</title>
-    <link rel="icon" href="indiaLogo.jpg" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Receipt Auto Editor</title>
     <style>
-        :root {
-            --primary: #4361ee;
-            --primary-dark: #3a56d4;
-            --secondary: #3f37c9;
-            --light: #f8f9fa;
-            --dark: #212529;
-            --gray: #6c757d;
-            --light-gray: #e9ecef;
-            --success: #4cc9f0;
-            --warning: #f8961e;
-            --danger: #f94144;
-            --info: #4895ef;
-            --border-radius: 12px;
-            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            --shadow-hover: 0 10px 20px rgba(0, 0, 0, 0.15);
-            --transition: all 0.3s ease;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-        }
-
         body {
-            background-color: #f5f7ff;
-            color: var(--dark);
-            line-height: 1.6;
-            padding: 2rem 1rem;
-            max-width: 1400px;
-            margin: 0 auto;
-            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            margin: 0;
+            padding: 20px;
         }
 
-        /* Header Styles */
-        header {
-            text-align: center;
-            margin-bottom: 2.5rem;
-            padding-bottom: 1.5rem;
-            position: relative;
-        }
-
-        header::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 120px;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary), var(--success));
-            border-radius: 2px;
-        }
-
-        h1 {
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-            font-size: 2.5rem;
-            font-weight: 700;
-            background: linear-gradient(90deg, var(--primary), var(--success));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            display: inline-block;
-        }
-
-        .subtitle {
-            color: var(--gray);
-            font-weight: 400;
-            font-size: 1.1rem;
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        /* Search and Filter Section */
-        .search-filter-section {
-            max-width: 800px;
-            margin: 0 auto 2rem;
-        }
-
-        .search-container {
-            position: relative;
-            margin-bottom: 1.5rem;
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 0.8rem 1.5rem 0.8rem 3rem;
-            border-radius: 50px;
-            border: 1px solid var(--light-gray);
-            font-size: 1rem;
-            transition: var(--transition);
-            box-shadow: var(--shadow);
-        }
-
-        .search-input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
-        }
-
-        .search-icon {
-            position: absolute;
-            left: 1.2rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--gray);
-        }
-
-        .category-filter {
+        .container {
             display: flex;
-            justify-content: center;
-            gap: 0.5rem;
-            flex-wrap: wrap;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
-        .category-btn {
-            padding: 0.5rem 1rem;
-            border-radius: 50px;
-            background-color: white;
-            border: 1px solid var(--light-gray);
-            color: var(--gray);
-            cursor: pointer;
-            transition: var(--transition);
-            font-size: 0.9rem;
-            font-weight: 500;
+        #receiptCanvas {
+            border: 1px solid #ccc;
+            image-rendering: crisp-edges;
+            image-rendering: -webkit-optimize-contrast;
         }
 
-        .category-btn:hover,
-        .category-btn.active {
-            background-color: var(--primary);
-            color: white;
-            border-color: var(--primary);
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            min-width: 250px;
         }
 
-        /* Tool Cards Grid */
-        .tool-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
         }
 
-        .tool-card {
-            background: white;
-            border-radius: var(--border-radius);
-            padding: 1.8rem;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            text-align: center;
-            border: 1px solid rgba(0, 0, 0, 0.05);
-            position: relative;
-            overflow: hidden;
-            display: block;
-            text-decoration: none;
-            color: inherit;
+        label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        input {
+            padding: 6px;
+            width: 120px;
+        }
+
+        button {
+            padding: 8px 12px;
             cursor: pointer;
         }
 
-        .tool-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 5px;
-            height: 100%;
-            background: linear-gradient(to bottom, var(--primary), var(--success));
-            transition: var(--transition);
-        }
-
-        .tool-card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-hover);
-        }
-
-        .tool-card:hover::before {
-            width: 8px;
-        }
-
-        .tool-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            color: var(--primary);
-            transition: var(--transition);
-        }
-
-        .tool-card:hover .tool-icon {
-            transform: scale(1.1);
-            color: var(--primary-dark);
-        }
-
-        .tool-title {
-            color: var(--primary);
-            font-weight: 600;
-            font-size: 1.2rem;
-            display: block;
-            margin-bottom: 0.5rem;
-            transition: var(--transition);
-        }
-
-        .tool-card:hover .tool-title {
-            color: var(--primary-dark);
-        }
-
-        .tool-description {
-            color: var(--gray);
-            margin-top: 0.8rem;
-            font-size: 0.95rem;
-            line-height: 1.5;
-        }
-
-        .tool-badge {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: var(--success);
-            color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        /* Badge Color Variations */
-        .badge-warning {
-            background-color: var(--warning);
-        }
-
-        .badge-danger {
-            background-color: var(--danger);
-        }
-
-        .badge-info {
-            background-color: var(--info);
-        }
-
-        .badge-success {
-            background-color: #2ecc71;
-        }
-
-        /* No Results Message */
-        .no-results {
-            text-align: center;
-            grid-column: 1 / -1;
-            padding: 2rem;
-            color: var(--gray);
-            display: none;
-        }
-
-        .no-results-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            color: var(--light-gray);
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            margin-top: 3rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid var(--light-gray);
-            color: var(--gray);
-            font-size: 0.9rem;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .tool-container {
-                grid-template-columns: 1fr;
-            }
-
-            h1 {
-                font-size: 2rem;
-            }
-
-            .category-filter {
-                justify-content: flex-start;
-            }
-        }
-
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .animate-fade-in {
-            animation: fadeInUp 0.5s ease forwards;
-        }
-
-        /* Tooltip for mobile */
-        .tooltip-mobile {
-            display: none;
-            position: absolute;
-            background: rgba(0, 0, 0, 0.8);
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            bottom: -40px;
+        /* Smart Popup Styling */
+        .popup {
+            position: fixed;
+            top: 20px;
             left: 50%;
             transform: translateX(-50%);
-            width: 90%;
-            z-index: 10;
-            font-size: 0.8rem;
+            background: #4CAF50;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 4px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s;
         }
 
-        @media (max-width: 768px) {
-            .tool-card {
-                position: relative;
-            }
-
-            .tooltip-mobile {
-                display: none;
-            }
-
-            .tool-card:active .tooltip-mobile {
-                display: block;
-            }
+        .popup.show {
+            opacity: 1;
         }
     </style>
 </head>
 
 <body>
-    <header>
-        <h1>Financial Tools Dashboard</h1>
-        <p class="subtitle">Quick access to all available calculators and tools for efficient financial management</p>
-    </header>
 
-    <div class="search-filter-section">
-        <div class="search-container">
-            <i class="fas fa-search search-icon"></i>
-            <input type="text" class="search-input" placeholder="Search tools..." id="searchInput">
-        </div>
+    <h2>Receipt Auto Editor</h2>
 
-        <div class="category-filter">
-            <button class="category-btn active" data-category="all">All Tools</button>
-            <button class="category-btn" data-category="calculator">Calculators</button>
-            <button class="category-btn" data-category="document">Documents</button>
-            <button class="category-btn" data-category="support">Support</button>
-            <button class="category-btn" data-category="vip">VIP</button>
-            <button class="category-btn" data-category="receipt">Receipt</button> <!-- New button -->
+    <div class="container">
+        <canvas id="receiptCanvas" width="499" height="1080"></canvas>
+
+        <div class="controls">
+            <div class="control-group">
+                <label>Time (HH:MM): <input type="text" id="timeInput"></label>
+                <label>Date (DD Mon YYYY): <input type="text" id="dateInput"></label>
+                <label>UTR: <input type="text" id="utrInput"></label>
+            </div>
+
+            <div class="control-group">
+                <button onclick="updateReceipt()">Update Receipt</button>
+                <button onclick="copyImage()">Copy Receipt</button>
+            </div>
         </div>
     </div>
 
-    <div class="tool-container">
-        <div class="no-results">
-            <i class="fas fa-search no-results-icon"></i>
-            <h3>No tools found</h3>
-            <p>Try adjusting your search or filter criteria</p>
-        </div>
-
-        <a href="newversionmain.html" class="tool-card animate-fade-in" data-category="support" data-search="mentor tool">
-            <div class="tool-icon">
-                <i class="fas fa-chalkboard-teacher"></i>
-            </div>
-            <span class="tool-title">Mentor Tool</span>
-            <p class="tool-description">Mentor လက်စွဲတော်</p>
-            <span class="tool-badge">Support</span>
-        </a>
-
-        <!-- Calculator Tools -->
-        <a href="withdrawl calculation Upgraded V3.html" class="tool-card animate-fade-in" data-category="calculator"
-            data-search="withdrawal calculator">
-            <div class="tool-icon">
-                <i class="fas fa-calculator"></i>
-            </div>
-            <span class="tool-title">Withdrawal Calculator</span>
-            <p class="tool-description">Withdrawl Amount တွက်ပြရန်အတွက် သုံးရန်</p>
-            <span class="tool-badge">Calculator</span>
-        </a>
-
-        <a href="QRReaderForIndia.html" class="tool-card animate-fade-in" data-category="support"
-            data-search="cs backstage credit score">
-            <div class="tool-icon">
-                <i class="fa-solid fa-qrcode"></i>
-            </div>
-            <span class="tool-title">QR Scanner</span>
-            <p class="tool-description">QR Code ဖတ်ရန်</p>
-            <span class="tool-badge">Support</span>
-        </a>
-
-        <!-- Calculator Tools -->
-        <a href="gmap/dbs/index.html" class="tool-card animate-fade-in" data-category="calculator"
-            data-search="withdrawal calculator">
-            <div class="tool-icon">
-                <i class="fas fa-wand-magic"></i>
-            </div>
-            <span class="tool-title">DBS receipt</span>
-            <p class="tool-description">Fake Receipt သုံးရန်</p>
-            <span class="tool-badge">Support</span>
-        </a>
-
-        <a href="BankcardCopyPaste.html" class="tool-card animate-fade-in" data-category="support"
-            data-search="cs backstage credit score">
-            <div class="tool-icon">
-                <i class="fas fa-bank"></i>
-            </div>
-            <span class="tool-title">Bank Card formatter</span>
-            <p class="tool-description">Bank card format သတ်မှတ်ရန်</p>
-            <span class="tool-badge">Support</span>
-        </a>
-
-        
-
-        <a href="merchantinvoice1.html" class="tool-card animate-fade-in" data-category="document receipt"
-            data-search="receipt tasks 4 5 6">
-            <div class="tool-icon">
-                <i class="fas fa-scroll"></i>
-            </div>
-            <span class="tool-title">Receipt For Tasks 4/5/6</span>
-            <p class="tool-description">Reception အတွက်</p>
-            <span class="tool-badge badge-info">Receipt</span>
-        </a>
-        
-        <a href="merchantinvoice2.html" class="tool-card animate-fade-in" data-category="document receipt"
-            data-search="receipt tasks 10 11 12">
-            <div class="tool-icon">
-                <i class="fas fa-scroll"></i>
-            </div>
-            <span class="tool-title">Receipt For Tasks 10/11/12</span>
-            <p class="tool-description">Reception အတွက်</p>
-            <span class="tool-badge badge-info">Receipt</span>
-        </a>
-
-        <a href="CS - checkingwithemail(Final Version).html" class="tool-card animate-fade-in" data-category="support"
-            data-search="cs backstage credit score">
-            <div class="tool-icon">
-                <i class="fas fa-headset"></i>
-            </div>
-            <span class="tool-title">CS Backstage</span>
-            <p class="tool-description">Credit Score ဖိုးတောင်းရန်အတွက် သုံးရန်</p>
-            <span class="tool-badge">Support</span>
-        </a>
-
-        <a href="CreditScore.html" class="tool-card animate-fade-in" data-category="calculator"
-            data-search="credit score analyzer">
-            <div class="tool-icon">
-                <i class="fas fa-credit-card"></i>
-            </div>
-            <span class="tool-title">Credit Score Analyzer</span>
-            <p class="tool-description">Credit points 100 မပြည့်ကြောင်း ပြသရန် အတွက်</p>
-            <span class="tool-badge">Calculator</span>
-        </a>
-
-        <a href="tax/index.html" class="tool-card animate-fade-in" data-category="calculator"
-            data-search="tax calculator">
-            <div class="tool-icon">
-                <i class="fas fa-balance-scale"></i>
-            </div>
-            <span class="tool-title">Tax Calculator</span>
-            <p class="tool-description">Tax ဖိုးတောင်းရန်အတွက်</p>
-            <span class="tool-badge">Calculator</span>
-        </a>
-
-        <!-- Document Tools -->
-        <a href="VIP2.html" class="tool-card animate-fade-in" data-category="document vip" data-search="vip2 required">
-            <div class="tool-icon">
-                <i class="fas fa-crown"></i>
-            </div>
-            <span class="tool-title">VIP 2 Required</span>
-            <p class="tool-description">VIP 2 လိုအပ်ကြောင်း ပြသရန်အတွက်</p>
-            <span class="tool-badge badge-warning">VIP</span>
-        </a>
-
-        <a href="VIP2Document.html" class="tool-card animate-fade-in" data-category="document vip"
-            data-search="vip2 document">
-            <div class="tool-icon">
-                <i class="fas fa-file-invoice-dollar"></i>
-            </div>
-            <span class="tool-title">VIP 2 Document</span>
-            <p class="tool-description">VIP 2ဖိုး တောင်းရန်အတွက်</p>
-            <span class="tool-badge badge-warning">VIP</span>
-        </a>
-
-        <a href="LoanApprovalDocument.html" class="tool-card animate-fade-in" data-category="document"
-            data-search="loan approval document">
-            <div class="tool-icon">
-                <i class="fas fa-check-circle"></i>
-            </div>
-            <span class="tool-title">Loan Approval Document</span>
-            <p class="tool-description">Loan Approval ပြသရန်အတွက်</p>
-            <span class="tool-badge">Document</span>
-        </a>
-
-        <a href="ReturnLoan.html" class="tool-card animate-fade-in" data-category="document"
-            data-search="last order system alert for show">
-            <div class="tool-icon">
-                <i class="fas fa-hand-holding-usd"></i>
-            </div>
-            <span class="tool-title">Document for asking loan money</span>
-            <p class="tool-description">Loan ဖိုးပြန်တောင်းရန်အတွက်
-            </p>
-            <span class="tool-badge badge-success">Document</span>
-        </a>
-
-        <a href="WithdrawMistakeDocument.html" class="tool-card animate-fade-in" data-category="document"
-            data-search="withdrawal mistake document">
-            <div class="tool-icon">
-                <i class="fas fa-triangle-exclamation"></i>
-            </div>
-            <span class="tool-title">Withdrawal Mistake Document</span>
-            <p class="tool-description">Withdrawl Mistake ကိုအကြောင်းပြပြီး unfreeze ခ တောင်းရန်အတွက်</p>
-            <span class="tool-badge badge-danger">Important</span>
-        </a>
-
-        
-
-        <!-- Support Tools -->
-        
-
-        
-
-        <a href="ဘာလာလာ အမှားပြ  new.html" class="tool-card animate-fade-in" data-category="support"
-            data-search="refund code checker">
-            <div class="tool-icon">
-                <i class="fas fa-exchange-alt"></i>
-            </div>
-            <span class="tool-title">Refund Code Checker</span>
-            <p class="tool-description">Refund Code မမှန်ကြောင်း ပြသရန်</p>
-            <span class="tool-badge badge-danger">Important</span>
-        </a>
-
-        <a href="LastOrderSystemAlert.html" class="tool-card animate-fade-in" data-category="support"
-            data-search="last order system alert for show">
-            <div class="tool-icon">
-                <i class="fas fa-sack-dollar"></i>
-            </div>
-            <span class="tool-title">Last Order Amount</span>
-            <p class="tool-description">Task Amount ကို search မှာ ရိုက်ပြပြီး နောက်ဆုံး task ဖြစ်ကြောင်း လှည့်ဖျား ပြသရန်အတွက်</p>
-            <span class="tool-badge badge-success">Support</span>
-        </a>
-    </div>
-
-    <footer>
-        <p>© 2025 Financial Tools Dashboard | Version 2.1</p>
-    </footer>
+    <!-- Smart Popup (hidden by default) -->
+    <div id="copyPopup" class="popup">Receipt copied successfully!</div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Animation on load
-            const cards = document.querySelectorAll('.tool-card');
-            cards.forEach((card, index) => {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(20px)';
-                card.style.animation = `fadeInUp 0.5s ease forwards ${index * 0.1}s`;
-            });
+        // === CONFIG ===
+        const baseUtrToday = 522331250026; // UTR for base date
+        const baseDate = new Date(2025, 7, 11); // August 11, 2025 (month index 7)
 
-            // Search functionality
-            const searchInput = document.getElementById('searchInput');
-            const toolCards = document.querySelectorAll('.tool-card');
-            const noResults = document.querySelector('.no-results');
+        const canvas = document.getElementById('receiptCanvas');
+        const ctx = canvas.getContext('2d');
+        const copyPopup = document.getElementById('copyPopup');
 
-            const filterTools = () => {
-                const searchTerm = searchInput.value.toLowerCase();
-                const activeCategory = document.querySelector('.category-btn.active').dataset.category;
-                let visibleCount = 0;
-
-                toolCards.forEach(card => {
-                    const searchData = card.dataset.search.toLowerCase();
-                    const cardCategory = card.dataset.category;
-
-                    const matchesSearch = searchData.includes(searchTerm);
-                    const matchesCategory = activeCategory === 'all' || cardCategory.includes(activeCategory);
-
-                    if (matchesSearch && matchesCategory) {
-                        card.style.display = 'block';
-                        visibleCount++;
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
-
-                noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+        // === COORDINATES FROM YOUR MEASUREMENTS ===
+            const coords = {
+                time: { x: 41, y: 29, fontSize: 20.5 },
+                date: { x: 351, y: 649, fontSize: 19 },
+                utr: { x: 360, y: 715, fontSize: 14.5 }
             };
 
-            searchInput.addEventListener('input', filterTools);
+        // === LOAD TEMPLATE ===
+        const templateImg = new Image();
+        templateImg.src = 'template.png'; // Replace with your template PNG
+        templateImg.onload = () => {
+            fillInitialData();
+        };
 
-            // Category filter functionality
-            const categoryBtns = document.querySelectorAll('.category-btn');
-            categoryBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    categoryBtns.forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    filterTools();
+        function formatTime(date) {
+            let hours = date.getHours();
+            hours = hours % 12;
+            hours = hours ? hours : 12; // the hour '0' should be '12'
+            const minutes = date.getMinutes().toString().padStart(2, '0');
+            return `${hours}:${minutes}`;
+        }
+
+        function fillInitialData() {
+            const now = new Date();
+            const diffDays = Math.floor((now - baseDate) / (1000 * 60 * 60 * 24));
+            const utrToday = baseUtrToday + diffDays * 1000000;
+
+            document.getElementById('timeInput').value = formatTime(now);
+            document.getElementById('dateInput').value =
+                now.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+            document.getElementById('utrInput').value = utrToday;
+
+            updateReceipt();
+        }
+
+        function updateReceipt() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(templateImg, 0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = "#000";
+            ctx.textAlign = "left";
+            ctx.textBaseline = "top";
+
+            // Time - with Microsoft YaHei (bold)
+            ctx.font = `bold ${coords.time.fontSize}px "Microsoft YaHei", "微软雅黑", Arial, sans-serif`;
+            ctx.fillText(document.getElementById('timeInput').value, coords.time.x, coords.time.y);
+
+            // Date (keep original font)
+            ctx.font = `${coords.date.fontSize}px Arial`;
+            ctx.fillText(document.getElementById('dateInput').value, coords.date.x, coords.date.y);
+
+            // UTR (keep original font)
+            ctx.font = `${coords.utr.fontSize}px Arial`;
+            ctx.fillText(document.getElementById('utrInput').value, coords.utr.x, coords.utr.y);
+        }
+
+        // Show temporary popup
+        function showPopup() {
+            copyPopup.classList.add('show');
+            setTimeout(() => {
+                copyPopup.classList.remove('show');
+            }, 1500); // Hide after 1.5 seconds
+        }
+
+        async function copyImage() {
+            try {
+                canvas.toBlob(async (blob) => {
+                    try {
+                        await navigator.clipboard.write([
+                            new ClipboardItem({ 'image/png': blob })
+                        ]);
+                        showPopup(); // Show smart popup instead of alert
+                    } catch (err) {
+                        alert("Failed to copy: " + err);
+                    }
                 });
-            });
-
-            // Add tooltip for mobile
-            if (window.innerWidth <= 768) {
-                toolCards.forEach(card => {
-                    const tooltip = document.createElement('div');
-                    tooltip.className = 'tooltip-mobile';
-                    tooltip.textContent = card.querySelector('.tool-description').textContent;
-                    card.appendChild(tooltip);
-
-                    card.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        document.querySelectorAll('.tooltip-mobile').forEach(t => t.style.display = 'none');
-                        tooltip.style.display = 'block';
-
-                        // Navigate after delay if clicked again
-                        if (card.dataset.clicked) {
-                            window.location.href = card.href;
-                        } else {
-                            card.dataset.clicked = true;
-                            setTimeout(() => {
-                                card.dataset.clicked = false;
-                            }, 300);
-                        }
-                    });
-                });
+            } catch (err) {
+                alert("Your browser doesn't support this feature. Please take a screenshot instead.");
             }
-        });
+        }
     </script>
+
 </body>
 
 </html>
