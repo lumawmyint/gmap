@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" style="font-size: 1.3rem;">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Smart QR Reader</title>
-  <link rel="icon" href="https://play-lh.googleusercontent.com/9USIsGCON48iyOuE2_Zl11cktWegJIgzXaonInB6WSqvEx3UBzQuGD7c7yH6VUTHl3Y" type="image/png">
+  <link rel="icon"
+    href="https://play-lh.googleusercontent.com/9USIsGCON48iyOuE2_Zl11cktWegJIgzXaonInB6WSqvEx3UBzQuGD7c7yH6VUTHl3Y"
+    type="image/png">
   <style>
     :root {
       --primary: #4a6bff;
@@ -16,7 +19,7 @@
       --card-bg: #ffffff;
       --border: #e0e0e0;
     }
-    
+
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: var(--light-bg);
@@ -24,27 +27,28 @@
       padding: 20px;
       line-height: 1.6;
     }
-    
+
     h1 {
       color: var(--primary);
       text-align: center;
     }
-    
+
     .container {
       display: flex;
       gap: 20px;
       max-width: 1200px;
       margin: 0 auto;
     }
-    
-    .left-panel, .right-panel {
+
+    .left-panel,
+    .right-panel {
       flex: 1;
       padding: 20px;
       background: var(--card-bg);
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     }
-    
+
     #pasteArea {
       width: 100%;
       height: 280px;
@@ -60,7 +64,7 @@
       position: relative;
       overflow: hidden;
     }
-    
+
     #pasteArea:hover {
       border-color: var(--primary);
       background-color: #f8faff;
@@ -69,28 +73,28 @@
     .far fa-copy {
       font-size: 50px;
     }
-    
+
     #pasteArea i {
       font-size: 48px;
       color: var(--primary);
       margin-bottom: 15px;
       opacity: 0.7;
     }
-    
+
     #pasteArea p {
       color: #666;
       text-align: center;
       margin: 0;
       font-size: 16px;
     }
-    
+
     #qrImage {
       max-width: 100%;
       max-height: 100%;
       display: none;
       border-radius: 4px;
     }
-    
+
     #loading {
       display: none;
       position: absolute;
@@ -102,7 +106,7 @@
       border-radius: 8px;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     }
-    
+
     .result-section h2 {
       font-size: 25px;
       margin-top: 0;
@@ -111,11 +115,11 @@
       display: flex;
       align-items: center;
     }
-    
+
     .result-section h2 i {
       margin-right: 10px;
     }
-    
+
     #result {
       padding: 15px;
       background-color: #f8f9fa;
@@ -128,45 +132,46 @@
     }
 
     .big-copy-icon {
-      font-size: 1.5rem; /* Adjust as needed */
+      font-size: 1.5rem;
+      /* Adjust as needed */
     }
-    
+
     .upi-details {
       margin-top: 5px;
     }
-    
+
     .detail-row {
       display: flex;
       justify-content: space-between;
       padding: 12px 0;
       border-bottom: 1px solid var(--border);
     }
-    
+
     .detail-row:last-child {
       border-bottom: none;
     }
-    
+
     .detail-label {
       font-weight: 500;
       color: #555;
       display: flex;
       align-items: center;
     }
-    
+
     .detail-label i {
       margin-right: 8px;
       color: var(--primary);
       width: 20px;
       text-align: center;
     }
-    
+
     .detail-value {
       font-weight: 500;
       text-align: right;
       max-width: 60%;
       word-break: break-all;
     }
-    
+
     .copy-btn {
       background: none;
       border: none;
@@ -176,12 +181,12 @@
       margin-left: 8px;
       transition: all 0.2s;
     }
-    
+
     .copy-btn:hover {
       color: #3a56d4;
       transform: scale(1.1);
     }
-    
+
     .qr-type-badge {
       display: inline-block;
       padding: 3px 8px;
@@ -192,53 +197,62 @@
       font-weight: 500;
       margin-left: 10px;
     }
-    
+
     .mobikwik-badge {
       background-color: #f0e6ff;
       color: #6a1b9a;
     }
-    
+
     .success-badge {
       background-color: #e6f7ee;
       color: var(--success);
     }
-    
+
     .warning-badge {
       background-color: #fff3e0;
       color: var(--warning);
     }
-    
+
     .error-badge {
       background-color: #ffebee;
       color: var(--error);
     }
 
     .home-button {
-        /* position: fixed; /* or 'absolute' depending on your needs */ 
-            top: 20px;
-            left: 20px;
-            background: #3498db;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            font-size: 25px;
-            cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-        }
+      /* position: fixed; /* or 'absolute' depending on your needs */
+      top: 20px;
+      left: 20px;
+      background: #3498db;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 25px;
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
 
-        .home-button:hover {
-            background: #2980b9;
-            transform: scale(1.1);
-            box-shadow: 0 3px 8px rgba(0,0,0,0.3);
-        }
-    
+    .home-button:hover {
+      background: #2980b9;
+      transform: scale(1.1);
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .bank-badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 500;
+      margin-left: 10px;
+    }
+
     .toast {
       position: fixed;
       bottom: 30px;
@@ -255,20 +269,20 @@
       display: flex;
       align-items: center;
     }
-    
+
     .toast.show {
       opacity: 1;
     }
-    
+
     .toast i {
       margin-right: 8px;
     }
-    
+
     @media (max-width: 768px) {
       .container {
         flex-direction: column;
       }
-      
+
       #pasteArea {
         height: 240px;
       }
@@ -276,6 +290,7 @@
   </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
 <body>
   <div class="tab-buttons">
     <button onclick="window.location.href='index.html'" class="home-button">
@@ -289,7 +304,7 @@
         <h1><i class="fas fa-qrcode"></i> Smart UPI QR Reader</h1>
         <p>Paste any UPI QR code to extract payment details</p>
       </div>
-      
+
       <div class="card">
         <div id="pasteArea">
           <i class="fas fa-camera"></i>
@@ -299,14 +314,14 @@
         </div>
       </div>
     </div>
-    
+
     <!-- Right Panel - Results -->
     <div class="right-panel">
       <div class="result-section">
         <h2><i class="fas fa-info-circle"></i> Raw QR Content</h2>
         <div id="result">No QR code pasted yet...</div>
       </div>
-      
+
       <hr>
       <div class="result-section">
         <h2><i class="fas fa-list-ul"></i> UPI Payment Details</h2>
@@ -482,7 +497,105 @@
       });
     }
 
-    // QR Parsers (keep all existing parser functions exactly as they were)
+    // Function to identify bank/app from UPI ID suffix
+    function identifyUPIProvider(upiId) {
+      if (!upiId) return null;
+
+      const suffix = upiId.split('@')[1]?.toLowerCase();
+      if (!suffix) return null;
+
+      // Comprehensive list of UPI suffixes and their corresponding providers
+      const providerMap = {
+        // PhonePe
+        'ybl': 'PhonePe',
+        'axl': 'PhonePe',
+        'ibl': 'PhonePe',
+        'sbi': 'PhonePe',
+        'okbiz': 'PhonePe',
+        'okicici': 'PhonePe',
+
+        // Paytm
+        'paytm': 'Paytm Payments Bank',
+        'ptsbi': 'Paytm',
+        'ptyes': 'Paytm',
+        'ptaxis': 'Paytm',
+        'pticici': 'Paytm',
+        'ptkotak': 'Paytm',
+        'pthdfc': 'Paytm',
+
+        // Google Pay
+        'okhdfcbank': 'Google Pay',
+        'oksbi': 'Google Pay',
+        'okaxis': 'Google Pay',
+        'okicici': 'Google Pay',
+        'okbob': 'Google Pay',
+
+        // MobiKwik
+        'mbk': 'MobiKwik',
+        'mobikwik': 'MobiKwik',
+
+        //
+        'superyes' : 'Super Money',
+
+        // Amazon Pay
+        'apl': 'Amazon Pay',
+
+        // Navi
+        'naviaxis': 'Navi',
+
+        // Banks
+        'dbs': 'DBS Bank',
+        'kotak': 'Kotak Mahindra Bank',
+        'hdfc': 'HDFC Bank',
+        'axis': 'Axis Bank',
+        'axisbank': 'Axis Bank',
+        'icici': 'ICICI Bank',
+        'sbi': 'State Bank of India',
+        'yesbank': 'Yes Bank',
+        'indus': 'IndusInd Bank',
+        'rbl': 'RBL Bank',
+        'federal': 'Federal Bank',
+        'pnb': 'Punjab National Bank',
+        'idfc': 'IDFC First Bank',
+        'citi': 'Citibank',
+        'hsbc': 'HSBC Bank',
+        'barodampay': 'Baroda MPay',
+        'bandhan': 'Bandhan Bank',
+        'canara': 'Canara Bank',
+        'centralbank': 'Central Bank of India',
+        'iob': 'Indian Overseas Bank',
+        'uco': 'UCO Bank',
+        'unionbank': 'Union Bank of India',
+        'vijaya': 'Vijaya Bank',
+        'yesbankltd': 'Yes Bank',
+
+        // Others
+        'airtel': 'Airtel Payments Bank',
+        'jio': 'Jio Payments Bank',
+        'upi': 'NPCI UPI',
+        'postbank': 'India Post Payments Bank',
+        'nsdl': 'NSDL Payments Bank',
+        'fbl': 'Freecharge (Federal Bank)',
+        'lime': 'Lime (DCB Bank)',
+        'wa': 'WhatsApp Pay (ICICI Bank)',
+        'cmsidfc': 'CMS IDFC'
+      };
+
+      // Find the provider
+      const provider = providerMap[suffix];
+      if (provider) return provider;
+
+      // Check for partial matches (like suffixes containing bank names)
+      for (const [key, value] of Object.entries(providerMap)) {
+        if (suffix.includes(key)) {
+          return value;
+        }
+      }
+
+      return null;
+    }
+
+    // QR Parsers
     function parseMobiKwikQR(qrData) {
       try {
         let decodedData = qrData;
@@ -496,12 +609,13 @@
             const jsonData = JSON.parse(decodedData.substring(jsonStart, jsonEnd));
             const upiId = jsonData.vpa || jsonData.payeeVPA || jsonData.upiId;
             if (upiId) {
+              const provider = identifyUPIProvider(upiId);
               return {
                 upiId,
                 name: jsonData.name || 'MobiKwik User',
                 amount: jsonData.amount ? '₹' + jsonData.amount : 'Not specified',
                 note: jsonData.note || null,
-                type: 'MobiKwik'
+                type: provider || 'MobiKwik'
               };
             }
           } catch (e) { }
@@ -511,7 +625,10 @@
         const upiUriMatch = decodedData.match(/upi:\/\/pay\?[^"}]+/i);
         if (upiUriMatch) {
           const upiDetails = parseStandardUPI(upiUriMatch[0]);
-          if (upiDetails) return { ...upiDetails, type: 'Valid UPI' };
+          if (upiDetails) {
+            const provider = identifyUPIProvider(upiDetails.upiId);
+            return { ...upiDetails, type: provider || 'Valid UPI' };
+          }
         }
 
         // Check MobiKwik patterns
@@ -525,12 +642,13 @@
         for (const pattern of mobikwikPatterns) {
           const match = decodedData.match(pattern);
           if (match && match[1]) {
+            const provider = identifyUPIProvider(match[1]);
             return {
               upiId: match[1],
               name: 'MobiKwik User',
               amount: decodedData.match(/(?:amount)[":= ]*(\d+)/i)?.[1] ? '₹' + decodedData.match(/(?:amount)[":= ]*(\d+)/i)[1] : 'Not specified',
               note: decodedData.match(/(?:note)[":= ]*([^"]+)/i)?.[1] || null,
-              type: 'MobiKwik'
+              type: provider || 'MobiKwik'
             };
           }
         }
@@ -561,11 +679,12 @@
               upiId = `${match[1]}@${match[2]}`;
             }
 
+            const provider = identifyUPIProvider(upiId);
             return {
               upiId: upiId,
               name: qrData.match(/name=([^&]+)/i)?.[1] || "PhonePe User",
               amount: qrData.match(/amount=(\d+)/i)?.[1] ? '₹' + qrData.match(/amount=(\d+)/i)[1] : 'Not specified',
-              type: 'PhonePe',
+              type: provider || 'PhonePe',
               isPhonePe: true
             };
           }
@@ -575,11 +694,12 @@
         if (qrData.toLowerCase().includes('phonepe')) {
           const vpaMatch = qrData.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9]+)/i);
           if (vpaMatch) {
+            const provider = identifyUPIProvider(vpaMatch[1]);
             return {
               upiId: vpaMatch[1],
               name: "PhonePe User",
               amount: 'Not specified',
-              type: 'PhonePe (Fallback)',
+              type: provider || 'PhonePe (Fallback)',
               isPhonePe: true
             };
           }
@@ -605,13 +725,14 @@
         const merchantCode = params.get('mc');
 
         if (upiId) {
+          const provider = identifyUPIProvider(upiId);
           return {
             upiId: decodeURIComponent(upiId),
             name: name ? decodeURIComponent(name) : 'Not specified',
             amount: amount ? '₹' + amount : 'Not specified',
             note: note ? decodeURIComponent(note) : null,
             merchantCode: merchantCode,
-            type: 'Standard UPI'
+            type: provider || 'Standard UPI'
           };
         }
       }
@@ -630,11 +751,12 @@
             amount = amountMatch[1] + (amountMatch[2] ? '.' + amountMatch[2] : '');
           }
 
+          const provider = identifyUPIProvider(upiId);
           return {
             upiId: upiId,
             name: qrData.match(/59([^0-9]{3,})/)?.[1]?.trim() || 'Not specified',
             amount: amount ? '₹' + amount : 'Not specified',
-            type: 'BharatQR/NPCI'
+            type: provider || 'BharatQR/NPCI'
           };
         }
       }
@@ -644,11 +766,12 @@
     function parseSimpleVPA(qrData) {
       const vpaMatch = qrData.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9]+)/i);
       if (vpaMatch) {
+        const provider = identifyUPIProvider(vpaMatch[1]);
         return {
           upiId: vpaMatch[1],
           name: 'Not specified',
           amount: 'Not specified',
-          type: 'Simple VPA'
+          type: provider || 'Simple VPA'
         };
       }
       return null;
@@ -690,12 +813,24 @@
     function displayUPIDetails(details) {
       const copyButton = `<button class="copy-btn" title="Copy UPI ID" data-upiid="${details.upiId}"><i class="far fa-copy big-copy-icon"></i></button>`;
 
+      // Determine badge colors based on provider
+      let providerBadgeClass = '';
+      if (details.type.includes('PhonePe')) {
+        providerBadgeClass = 'mobikwik-badge'; // Reusing the purple color for PhonePe
+      } else if (details.type.includes('Paytm')) {
+        providerBadgeClass = 'warning-badge'; // Orange for Paytm
+      } else if (details.type.includes('Google Pay')) {
+        providerBadgeClass = 'error-badge'; // Red for Google Pay
+      } else if (details.type.includes('MobiKwik')) {
+        providerBadgeClass = 'mobikwik-badge'; // Purple for MobiKwik
+      }
+
       let html = `
           <div class="detail-row">
             <div class="detail-label"><i class="fas fa-check-circle"></i>Status</div>
             <div class="detail-value">
               <span class="success-badge qr-type-badge">Valid UPI QR</span>
-              <span class="qr-type-badge ${details.type.includes('MobiKwik') ? 'mobikwik-badge' : ''}">${details.type}</span>
+              <span class="qr-type-badge ${providerBadgeClass}">${details.type}</span>
             </div>
           </div>
           <div class="detail-row">
@@ -825,4 +960,5 @@
     }
   </script>
 </body>
+
 </html>
