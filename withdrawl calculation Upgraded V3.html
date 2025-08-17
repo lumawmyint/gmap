@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <link rel="icon" href="withdrawlogo.jpg" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -15,7 +17,7 @@
             padding: 20px;
             color: #333;
         }
-        
+
         .container {
             max-width: 900px;
             margin: 0 auto;
@@ -24,27 +26,34 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             padding: 30px;
         }
-        
+
         .header {
-            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 30px;
             border-bottom: 1px solid #e1e5eb;
             padding-bottom: 20px;
+            position: relative;
         }
-        
+
+        .header-content {
+            flex: 1;
+        }
+
         .header h1 {
             color: #2c3e50;
             margin: 0;
             font-size: 24px;
         }
-        
+
         .header .institution {
             color: #7f8c8d;
             font-weight: normal;
             font-size: 16px;
             margin-top: 5px;
         }
-        
+
         .user-info {
             background-color: #f8f9fa;
             padding: 15px;
@@ -52,46 +61,65 @@
             margin-bottom: 25px;
             font-size: 20px;
         }
-        
+
         .user-info strong {
             color: #2c3e50;
         }
-        
+
         table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 30px;
             table-layout: fixed;
         }
-        
-        th, td {
+
+        th,
+        td {
             padding: 12px 15px;
             border-bottom: 1px solid #e1e5eb;
             font-size: 20px;
             vertical-align: middle;
         }
-        
+
         th {
-            background-color: #3498db; /* Blue background color */
-            color: white; /* White text color */
-            text-align: left; /* Default alignment */
-            padding: 12px 15px; /* Consistent padding */
-            font-weight: 500; /* Medium font weight */
-            position: sticky; /* Optional: makes headers stick when scrolling */
-            top: 0; /* Required for sticky positioning */
+            background-color: #3498db;
+            color: white;
+            text-align: left;
+            padding: 12px 15px;
+            font-weight: 500;
+            position: sticky;
+            top: 0;
         }
 
         /* Column width adjustments */
-        th:nth-child(1), td:nth-child(1) { width: 25%; }
-        th:nth-child(2), td:nth-child(2) { width: 25%; text-align: center; }
-        th:nth-child(3), td:nth-child(3) { width: 20%; text-align: center; }
-        th:nth-child(4), td:nth-child(4) { width: 30%; text-align: right; }
+        th:nth-child(1),
+        td:nth-child(1) {
+            width: 25%;
+        }
+
+        th:nth-child(2),
+        td:nth-child(2) {
+            width: 25%;
+            text-align: center;
+        }
+
+        th:nth-child(3),
+        td:nth-child(3) {
+            width: 20%;
+            text-align: center;
+        }
+
+        th:nth-child(4),
+        td:nth-child(4) {
+            width: 30%;
+            text-align: right;
+        }
 
         /* Specific alignment for content */
         .amount {
             text-align: right;
             font-family: 'Courier New', monospace;
-            padding-right: 25px; /* Added padding for better alignment */
+            padding-right: 25px;
         }
 
         .percentage {
@@ -126,61 +154,59 @@
         }
 
         .total-row td:last-child {
-            padding-right: 25px; /* Match amount column padding */
+            padding-right: 25px;
         }
-        
+
         tr:nth-child(even) {
             background-color: #f8f9fa;
         }
-        
+
         tr:hover {
             background-color: #e8f4fc;
         }
-        
+
         .total-row {
             font-weight: bold;
             background-color: #ecf0f1 !important;
         }
-        
+
         .percentage {
             color: #3498db;
         }
-        
+
         .amount {
             text-align: right;
             font-family: 'Courier New', monospace;
         }
-        
+
         [contenteditable="true"] {
-            /*background-color: #ffffff;*/
-            /*border: 1px solid #757c70;*/
             border-radius: 3px;
             padding: 5px;
             outline: none;
         }
-        
+
         [contenteditable="true"]:focus {
             background-color: white;
             border-color: #3498db;
             box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
         }
-        
+
         .footer {
             text-align: right;
             font-size: 14px;
             color: #7f8c8d;
             margin-top: 20px;
         }
-        
+
         .logo {
             text-align: center;
             margin-bottom: 20px;
         }
-        
+
         .logo img {
-            height: 90px;
+            height: 130px;
         }
-        
+
         /* Styles for email editing */
         .user-info-edit {
             margin-top: 20px;
@@ -188,7 +214,7 @@
             background-color: #f8f9fa;
             border-radius: 6px;
         }
-        
+
         .user-info-edit input {
             padding: 8px;
             border: 1px solid #ddd;
@@ -196,7 +222,7 @@
             margin-right: 10px;
             width: 300px;
         }
-        
+
         .save-btn {
             padding: 8px 15px;
             background-color: #3498db;
@@ -205,23 +231,22 @@
             border-radius: 4px;
             cursor: pointer;
         }
-        
+
         .save-btn:hover {
             background-color: #2980b9;
         }
-        
+
         .editable-email {
             cursor: pointer;
-            /*text-decoration: underline;*/
             color: #3498db;
         }
-        
+
         /* Delete button styles */
         .delete-btn-container {
             text-align: center;
             margin-top: 20px;
         }
-        
+
         .delete-btn {
             padding: 10px 20px;
             background-color: #e74c3c;
@@ -241,7 +266,7 @@
             cursor: pointer;
             font-weight: bold;
         }
-        
+
         .delete-btn:hover {
             background-color: #c0392b;
         }
@@ -251,7 +276,6 @@
         }
 
         .home-button {
-        /* position: fixed; /* or 'absolute' depending on your needs */ 
             top: 20px;
             left: 20px;
             background: #3498db;
@@ -262,9 +286,8 @@
             height: 50px;
             font-size: 25px;
             cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
             transition: all 0.3s ease;
-            /*display: flex;*/
             align-items: center;
             justify-content: center;
             z-index: 1000;
@@ -273,11 +296,10 @@
         .home-button:hover {
             background: #2980b9;
             transform: scale(1.1);
-            box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
         }
 
         .screenshot-button {
-            /*display: block; */
             margin: 15px auto;
             padding: 10px 20px;
             font-size: 16px;
@@ -297,7 +319,7 @@
             border: none;
         }
 
-        .refund-row td:nth-child(1) {            
+        .refund-row td:nth-child(1) {
             border: none;
         }
 
@@ -307,8 +329,23 @@
             border: none;
         }
 
+        /* QR Code Styles */
+        .qr-code-container {
+            width: 120px;
+            height: 120px;
+            margin-left: 20px;
+            border: 1px solid #e1e5eb;
+            padding: 5px;
+            background: white;
+        }
+
+        #qrCode {
+            width: 100%;
+            height: 100%;
+        }
     </style>
 </head>
+
 <body>
 
     <button onclick="window.location.href='index.html'" class="home-button">
@@ -316,7 +353,8 @@
     </button>
 
     <button class="screenshot-button" onclick="captureMain()">📸 Capture SS </button>
-    <div id="notification" style="display: none; position: fixed; top: 20px; right: 20px; background: #3f47b4; color: white; padding: 15px; border-radius: 5px; z-index: 1000;">
+    <div id="notification"
+        style="display: none; position: fixed; top: 20px; right: 20px; background: #3f47b4; color: white; padding: 15px; border-radius: 5px; z-index: 1000;">
         Image copied to clipboard!
     </div>
 
@@ -324,21 +362,27 @@
         <div class="logo">
             <img src="Ameriprise.jpg" alt="">
         </div>
-        
+
         <div class="header">
-            <h1>Withdrawal Amount</h1>
-            <div class="institution">Ameriprise Financial Center</div>
+            <div class="header-content">
+                <h1>Withdrawal Amount</h1>
+                <div class="institution">Ameriprise Financial Center</div>
+            </div>
+            <div class="qr-code-container">
+                <canvas id="qrCode"></canvas>
+            </div>
         </div>
-        
+
         <div class="user-info" id="userInfoDisplay">
-            <strong>User account:</strong> <span id="user-email" class="editable-email">clickheretoreplace@gmail.com</span>
+            <strong>User account:</strong> <span id="user-email"
+                class="editable-email">clickheretoreplace@gmail.com</span>
             <div class="user-info-edit" id="userInfoEdit" style="display: none;">
                 <input type="email" id="emailInput" placeholder="Enter email address">
                 <button class="save-btn" id="saveEmailBtn">Save</button>
             </div>
         </div>
-    
-        
+
+
         <table id="withdrawalTable">
             <thead>
                 <tr>
@@ -371,68 +415,68 @@
                     <td colspan="3">Total Withdraw Amount</td>
                     <td class="amount" id="totalWithdraw" style="text-align: right;">3900.00</td>
                 </tr>
-              
-                <tr class="refund-row">  
+
+                <tr class="refund-row">
                     <td style="font-size: 25px;"> Refund Code &nbsp; : </td>
-                    <td contenteditable="true" class="refund" id ='refundCode'> DD5428</td>
+                    <td contenteditable="true" class="refund" id='refundCode'> DD5428</td>
                 </tr>
             </tbody>
         </table>
-        
+
         <div class="footer">
             <p>Calculated on <span id="currentDate">June 17, 2025</span></p>
         </div>
     </div>
 
-    
-
     <div class="delete-btn-container">
         <button class="delete-btn" id="deleteThirdOrderBtn">Delete Third Order</button>
         <button class="change-btn" onclick="changeRefundCode()">Change Code</button>
-        
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const table = document.getElementById('withdrawalTable');
-            
+
+            // Initialize QR code
+            updateQRCode();
+
             // Calculate total withdrawal amount
             function calculateTotal() {
                 const amounts = document.querySelectorAll('.withdraw-amount');
                 let total = 0;
-                
+
                 amounts.forEach(amountCell => {
                     const value = parseFloat(amountCell.textContent.replace(/[^0-9.-]/g, '')) || 0;
                     total += value;
                 });
-                
+
                 document.getElementById('totalWithdraw').textContent = total.toFixed(2);
             }
-            
+
             // Calculate withdraw amount based on paid amount and percentage
             function calculateWithdrawAmount(row) {
                 const paidAmount = parseFloat(row.querySelector('.amount').textContent.replace(/[^0-9.-]/g, '')) || 0;
                 const percentage = parseFloat(row.querySelector('.percentage').textContent.replace(/[^0-9.-]/g, '')) || 0;
                 const withdrawAmountCell = row.querySelector('.withdraw-amount');
-                
+
                 if (percentage > 0) {
                     const withdrawAmount = paidAmount * (1 + (percentage / 100));
                     withdrawAmountCell.textContent = withdrawAmount.toFixed(2);
                 } else {
                     withdrawAmountCell.textContent = paidAmount.toFixed(2);
                 }
-                
+
                 calculateTotal();
             }
-            
+
             // Set up event listeners for editable cells
             table.querySelectorAll('[contenteditable="true"]').forEach(cell => {
-                cell.addEventListener('focus', function() {
+                cell.addEventListener('focus', function () {
                     // Store original value when cell is focused
                     this.dataset.originalValue = this.textContent;
                 });
-                
-                cell.addEventListener('blur', function() {
+
+                cell.addEventListener('blur', function () {
                     // Clean up percentage values
                     if (this.classList.contains('percentage')) {
                         let value = this.textContent.replace(/[^0-9.-]/g, '');
@@ -441,39 +485,39 @@
                         }
                         this.textContent = value;
                     }
-                    
+
                     // Clean up amount values
                     if (this.classList.contains('amount')) {
                         let value = parseFloat(this.textContent.replace(/[^0-9.-]/g, ''));
                         this.textContent = isNaN(value) ? '0.00' : value.toFixed(2);
                     }
-                    
+
                     // If paid amount or percentage changed, recalculate withdraw amount
                     const row = this.closest('tr');
                     if (row && (this.classList.contains('amount') || this.classList.contains('percentage'))) {
                         calculateWithdrawAmount(row);
                     }
-                    
+
                     // If withdraw amount changed, just update total
                     if (this.classList.contains('withdraw-amount')) {
                         calculateTotal();
                     }
                 });
-                
-                cell.addEventListener('keydown', function(e) {
+
+                cell.addEventListener('keydown', function (e) {
                     // Allow only numbers, decimal point, and % for percentage cells
                     if (this.classList.contains('percentage')) {
-                        if (!/[0-9%.-]/.test(e.key) && e.key !== 'Backspace' && e.key !== 'Delete' && 
+                        if (!/[0-9%.-]/.test(e.key) && e.key !== 'Backspace' && e.key !== 'Delete' &&
                             e.key !== 'ArrowLeft' && e.key !== 'ArrowRight' && e.key !== 'Tab') {
                             e.preventDefault();
                         }
                     } else if (this.classList.contains('amount')) {
-                        if (!/[0-9.-]/.test(e.key) && e.key !== 'Backspace' && e.key !== 'Delete' && 
+                        if (!/[0-9.-]/.test(e.key) && e.key !== 'Backspace' && e.key !== 'Delete' &&
                             e.key !== 'ArrowLeft' && e.key !== 'ArrowRight' && e.key !== 'Tab') {
                             e.preventDefault();
                         }
                     }
-                    
+
                     // Save on Enter key
                     if (e.key === 'Enter') {
                         e.preventDefault();
@@ -487,22 +531,22 @@
             const userInfoEdit = document.getElementById('userInfoEdit');
             const emailInput = document.getElementById('emailInput');
             const saveEmailBtn = document.getElementById('saveEmailBtn');
-            
-            userEmail.addEventListener('click', function() {
+
+            userEmail.addEventListener('click', function () {
                 emailInput.value = userEmail.textContent;
                 userInfoEdit.style.display = 'block';
             });
-            
-            saveEmailBtn.addEventListener('click', function() {
+
+            saveEmailBtn.addEventListener('click', function () {
                 const newEmail = emailInput.value.trim();
                 if (newEmail) {
                     userEmail.textContent = newEmail;
                     userInfoEdit.style.display = 'none';
                 }
             });
-            
+
             // Also allow saving with Enter key
-            emailInput.addEventListener('keydown', function(e) {
+            emailInput.addEventListener('keydown', function (e) {
                 if (e.key === 'Enter') {
                     saveEmailBtn.click();
                 }
@@ -511,23 +555,23 @@
             // Delete third order functionality
             const deleteThirdOrderBtn = document.getElementById('deleteThirdOrderBtn');
             const thirdOrderRow = document.getElementById('thirdOrderRow');
-            
-            deleteThirdOrderBtn.addEventListener('click', function() {
+
+            deleteThirdOrderBtn.addEventListener('click', function () {
                 if (thirdOrderRow) {
                     thirdOrderRow.remove();
                     calculateTotal(); // Recalculate total after deletion
                 }
             });
-            
+
             // Initialize calculations
             calculateTotal();
-            
+
             // Function to format the current date and time
             function updateCurrentDateTime() {
                 const now = new Date();
-                const options = { 
-                    year: 'numeric', 
-                    month: 'long', 
+                const options = {
+                    year: 'numeric',
+                    month: 'long',
                     day: 'numeric',
                     hour: '2-digit',
                     minute: '2-digit',
@@ -535,21 +579,44 @@
                 };
                 document.getElementById('currentDate').textContent = now.toLocaleDateString('en-US', options);
             }
-            
+
             // Update date and time on load
             updateCurrentDateTime();
-            
+
             // Update date and time every minute (optional)
             setInterval(updateCurrentDateTime, 60000);
         });
 
+        function updateQRCode() {
+            const refundCode = document.getElementById('refundCode').innerText.trim();
+            let qrText = '';
+
+            if (refundCode === 'DD5428') {
+                qrText = 'Total Withdraw Amount = 1300 for task 6';
+            } else if (refundCode === 'MZ5428') {
+                qrText = 'Total Withdraw Amount = 3900 for task 12';
+            }
+
+            QRCode.toCanvas(document.getElementById('qrCode'), qrText, {
+                width: 120,
+                margin: 1,
+                color: {
+                    dark: '#000000',
+                    light: '#ffffff'
+                }
+            }, function (error) {
+                if (error) console.error(error);
+            });
+        }
+
         function changeRefundCode() {
             const refundCell = document.getElementById('refundCode');
             if (refundCell.innerText.trim() === 'DD5428') {
-            refundCell.innerText = 'MZ5428';
+                refundCell.innerText = 'MZ5428';
             } else {
-            refundCell.innerText = 'DD5428'; // Optional toggle back
+                refundCell.innerText = 'DD5428';
             }
+            updateQRCode();
         }
 
         // Improved screenshot functions
@@ -559,7 +626,7 @@
                 const permissionStatus = await navigator.permissions.query({
                     name: 'clipboard-write'
                 });
-                
+
                 if (permissionStatus.state === 'granted' || permissionStatus.state === 'prompt') {
                     const element = document.querySelector('.container');
                     await captureElement(element, ' ');
@@ -586,9 +653,9 @@
 
             try {
                 const canvas = await html2canvas(element, {
-                    backgroundColor: "#24282e", // Match your container's background
-                    scale: 1, // Start with 1 for better compatibility
-                    logging: true, // Enable to see console logs
+                    backgroundColor: "#24282e",
+                    scale: 1,
+                    logging: true,
                     useCORS: true,
                     allowTaint: true,
                     scrollX: 0,
@@ -632,11 +699,12 @@
             const toast = document.getElementById('notification');
             toast.textContent = message;
             toast.style.display = 'block';
-            
+
             setTimeout(() => {
                 toast.style.display = 'none';
             }, 3000);
         }
     </script>
 </body>
+
 </html>
