@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="https://cdn1.iconfinder.com/data/icons/smartphone-flat-design/512/Smartphone_icon_11_Calculator-512.png" type="image/x-icon">
     <title>Merchant Payment Receipt</title>
     <style>
         body {
@@ -16,43 +19,62 @@
             padding: 20px;
             color: #333;
         }
+
         h2 {
             color: #2c3e50;
             border-bottom: 2px solid #3498db;
             padding-bottom: 10px;
         }
+
         .invoice-header {
             margin-bottom: 30px;
         }
+
         .invoice-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
             margin-bottom: 20px;
+            position: relative;
         }
+
+        .details-text {
+            flex: 1;
+        }
+
         .divider {
             border-top: 1px dashed #ccc;
             margin: 20px 0;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
             margin: 20px 0;
         }
-        th, td {
+
+        th,
+        td {
             padding: 12px;
             text-align: left;
             border-bottom: 1px solid #ddd;
         }
+
         th {
             background-color: #f2f2f2;
         }
+
         .total-row {
             font-weight: bold;
             background-color: #f9f9f9;
         }
+
         .footer {
             margin-top: 30px;
             font-style: italic;
             color: #666;
         }
+
         .input-field {
             padding: 8px;
             width: 200px;
@@ -61,37 +83,33 @@
         }
 
         .home-button {
-       /* position: fixed; /* or 'absolute' depending on your needs */ 
-        top: 20px;
-        left: 20px;
-        background: #3498db;
-        color: white;
-        border: none;
-        border-radius: 50%;
-        width: 50px;
-        height: 50px;
-        font-size: 25px;
-        cursor: pointer;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        transition: all 0.3s ease;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 1000;
-    }
+            top: 20px;
+            left: 20px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 25px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
 
-    .home-button:hover {
-        background: #2980b9;
-        transform: scale(1.1);
-        box-shadow: 0 3px 8px rgba(0,0,0,0.3);
-    }
+        .home-button:hover {
+            background: #2980b9;
+            transform: scale(1.1);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+        }
 
         .header {
             text-align: center;
-            
         }
 
-        /* To make the values bold too */
         .invoice-details p span {
             font-weight: bold;
         }
@@ -100,13 +118,11 @@
             max-width: 750px;
             margin: 0 auto;
             background-color: white;
-            /*border-radius: 8px;*/
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             padding: 30px;
         }
 
         .screenshot-button {
-            /*display: block; */
             margin: 15px auto;
             padding: 10px 20px;
             font-size: 16px;
@@ -120,12 +136,134 @@
             transition: all 0.3s;
         }
 
+        .qrcode-container {
+            border-radius: 18px;
+            margin-top: 20px;
+            margin-left: 20px;
+            padding: 12px;
+            border: 1px solid #eee;
+            background: white;
+            /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); */
+        }
+
+        .qrcode-container canvas {
+            display: block;
+            width: 150px;
+            height: 150px;
+        }
+
+        /* New styles for task buttons */
+        .task-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .task-button {
+            padding: 10px 15px;
+            font-size: 16px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .task-button:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .task-button.active {
+            background-color: #2c3e50;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Toggle button styles */
+        .toggle-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+            gap: 10px;
+        }
+
+        .toggle-label {
+            font-size: 16px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #3498db;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: #2c3e50;
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+
+        /* Bonus toggle styles */
+        .bonus-toggle-container {
+            display: none; /* Hidden by default */
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+            gap: 10px;
+        }
+
+        .bonus-toggle-label {
+            font-size: 16px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
     </style>
 </head>
+
 <body>
     <button onclick="window.location.href='index.html'" class="home-button">
         <i class="fas fa-home"></i>
     </button>
+    
 
     <button class="screenshot-button" onclick="captureMain()">📸 Capture SS </button>
     <div id="notification"
@@ -133,32 +271,61 @@
         Image copied to clipboard!
     </div>
 
+    <!-- Toggle Button for Amount Switching -->
+    <div class="toggle-container">
+        <span class="toggle-label">₹1300</span>
+        <label class="toggle-switch">
+            <input type="checkbox" id="amount-toggle">
+            <span class="toggle-slider"></span>
+        </label>
+        <span class="toggle-label">₹3900</span>
+    </div>
+
+    <!-- Bonus Toggle Button -->
+    <div class="bonus-toggle-container" id="bonus-toggle-container">
+        <span class="bonus-toggle-label">₹100 Bonus | OFF</span>
+        <label class="toggle-switch">
+            <input type="checkbox" id="bonus-toggle">
+            <span class="toggle-slider"></span>
+        </label>
+        <span class="bonus-toggle-label">ON</span>
+    </div>
+
+    <!-- Task Selection Buttons -->
+    <div class="task-buttons">
+        <button class="task-button" onclick="updateTable('123')">1/2/3</button>
+        <button class="task-button" onclick="updateTable('4567')">4/5/6/7</button>
+        <button class="task-button" onclick="updateTable('8910')">8/9/10</button>
+        <button class="task-button" onclick="updateTable('11121314')">11/12/13/14</button>
+        <button class="task-button" onclick="updateTable('15161718')">15/16/17/18</button>
+    </div>
 
     <div class="container">
         <div class="header">
             <div class="company-info">
-        
             </div>
-            <img src="Ameriprise.jpg" alt="Company Logo" class="logo">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Ameriprise_Financial_logo.svg" width="400" height=auto alt="Company Logo" class="logo">
         </div>
-        
+
         <div class="invoice-header">
             <h2 style="color:rgb(14, 52, 109)">Merchant Payment Receipt</h2>
         </div>
-        
+
         <div class="invoice-details">
-            <p><strong>Receipt No:</strong><br>
-                <span id="invoice-number"></span>
-            </p>
-        
-            <p><strong>Date:</strong><br>
-                <span id="invoice-date"></span>
-            </p>
-        
+            <div class="details-text">
+                <p><strong>Receipt No:</strong><br>
+                    <span id="invoice-number"></span>
+                </p>
+
+                <p><strong>Date:</strong><br>
+                    <span id="invoice-date"></span>
+                </p>
+            </div>
+            <div id="qrcode" class="qrcode-container"></div>
         </div>
-        
+
         <div class="divider"></div>
-        
+
         <h2>Task Particulars</h2>
         <table>
             <thead>
@@ -169,148 +336,310 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>Commission of Tasks 4/5/6</td>
-                    <td>₹150</td>
+                    <td id="task-description-1" contenteditable="true">Commission of Tasks 4/5/6</td>
+                    <td id="amount-1" contenteditable="true">₹150</td>
                 </tr>
                 <tr>
-                    <td>Commission of Task 6</td>
-                    <td contenteditable="true">₹1300</td>
+                    <td id="task-description-2" contenteditable="true">Commission of Task 6</td>
+                    <td id="amount-2" contenteditable="true">₹1300</td>
+                </tr>
+                <!-- Bonus row (initially hidden) -->
+                <tr id="bonus-row" style="display: none;">
+                    <td>Bonus for completing 7 consecutive tasks</td>
+                    <td>₹100</td>
                 </tr>
                 <tr class="total-row">
                     <td>Total</td>
-                    <td contenteditable="true">₹1450</td>
+                    <td id="total-amount" contenteditable="true">₹1450</td>
                 </tr>
             </tbody>
         </table>
-        
+
         <div class="footer">
             <p>This is a system-generated receipt. Please contact your reception to complete the next tasks.</p>
         </div>
     </div>
 
-    
-
     <script>
+        // Global variables
+        let currentTaskSet = '4567'; // Default task set
+        let isHighAmount = false; // Default to ₹1300
+        let isBonusEnabled = false; // Default bonus is off
 
         // Improved screenshot functions
-            async function captureMain() {
-                try {
-                    // Check if clipboard-write permission is granted
-                    const permissionStatus = await navigator.permissions.query({
-                        name: 'clipboard-write'
-                    });
+        async function captureMain() {
+            try {
+                const permissionStatus = await navigator.permissions.query({
+                    name: 'clipboard-write'
+                });
 
-                    if (permissionStatus.state === 'granted' || permissionStatus.state === 'prompt') {
-                        const element = document.querySelector('.container');
-                        await captureElement(element, ' ');
-                    } else {
-                        showToast('❌ Clipboard permission not granted');
-                    }
-                } catch (err) {
-                    console.error('Permission check failed:', err);
-                    // Fallback to trying anyway
+                if (permissionStatus.state === 'granted' || permissionStatus.state === 'prompt') {
                     const element = document.querySelector('.container');
                     await captureElement(element, ' ');
+                } else {
+                    showToast('❌ Clipboard permission not granted');
                 }
+            } catch (err) {
+                console.error('Permission check failed:', err);
+                const element = document.querySelector('.container');
+                await captureElement(element, ' ');
+            }
+        }
+
+        async function captureElement(element, sectionName = '') {
+            if (!element) {
+                alert('Element not found for screenshot');
+                return;
             }
 
-            // Generic capture function with improved error handling
-            async function captureElement(element, sectionName = '') {
-                if (!element) {
-                    alert('Element not found for screenshot');
-                    return;
-                }
+            const originalBoxShadow = element.style.boxShadow;
+            element.style.boxShadow = 'none';
 
-                const originalBoxShadow = element.style.boxShadow;
-                element.style.boxShadow = 'none';
+            try {
+                const canvas = await html2canvas(element, {
+                    backgroundColor: "#24282e",
+                    scale: 1,
+                    logging: true,
+                    useCORS: true,
+                    allowTaint: true,
+                    scrollX: 0,
+                    scrollY: 0,
+                    windowWidth: element.scrollWidth,
+                    windowHeight: element.scrollHeight
+                });
 
-                try {
-                    const canvas = await html2canvas(element, {
-                        backgroundColor: "#24282e", // Match your container's background
-                        scale: 1, // Start with 1 for better compatibility
-                        logging: true, // Enable to see console logs
-                        useCORS: true,
-                        allowTaint: true,
-                        scrollX: 0,
-                        scrollY: 0,
-                        windowWidth: element.scrollWidth,
-                        windowHeight: element.scrollHeight
-                    });
-
-                    // Convert canvas to blob
-                    canvas.toBlob(async (blob) => {
-                        try {
-                            await navigator.clipboard.write([
-                                new ClipboardItem({ 'image/png': blob })
-                            ]);
-                            showToast(`📋 ${sectionName} Screenshot copied to clipboard!`);
-                        } catch (err) {
-                            console.error('Clipboard write failed:', err);
-                            // Fallback to saving as image file
-                            saveAsImage(canvas, sectionName);
-                        }
-                    }, 'image/png');
-                } catch (err) {
-                    console.error('Screenshot failed:', err);
-                    showToast(`❌ Failed to capture ${sectionName}: ${err.message}`);
-                } finally {
-                    element.style.boxShadow = originalBoxShadow;
-                }
+                canvas.toBlob(async (blob) => {
+                    try {
+                        await navigator.clipboard.write([
+                            new ClipboardItem({ 'image/png': blob })
+                        ]);
+                        showToast(`📋 ${sectionName} Screenshot copied to clipboard!`);
+                    } catch (err) {
+                        console.error('Clipboard write failed:', err);
+                        saveAsImage(canvas, sectionName);
+                    }
+                }, 'image/png');
+            } catch (err) {
+                console.error('Screenshot failed:', err);
+                showToast(`❌ Failed to capture ${sectionName}: ${err.message}`);
+            } finally {
+                element.style.boxShadow = originalBoxShadow;
             }
+        }
 
-            // Fallback function to save as image file
-            function saveAsImage(canvas, name) {
-                const link = document.createElement('a');
-                link.download = `${name || 'screenshot'}-${new Date().toISOString()}.png`;
-                link.href = canvas.toDataURL('image/png');
-                link.click();
-                showToast(`📋 ${name} screenshot saved as file (clipboard not available)`);
-            }
+        function saveAsImage(canvas, name) {
+            const link = document.createElement('a');
+            link.download = `${name || 'screenshot'}-${new Date().toISOString()}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            showToast(`📋 ${name} screenshot saved as file (clipboard not available)`);
+        }
 
-            // Toast notification function
-            function showToast(message) {
-                const toast = document.getElementById('notification');
-                toast.textContent = message;
-                toast.style.display = 'block';
+        function showToast(message) {
+            const toast = document.getElementById('notification');
+            toast.textContent = message;
+            toast.style.display = 'block';
 
-                setTimeout(() => {
-                    toast.style.display = 'none';
-                }, 3000);
-            }
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 3000);
+        }
 
-
-        // Function to format date as mm/dd/yyyy
         function formatDate(date) {
             const month = date.getMonth() + 1;
             const day = date.getDate();
             const year = date.getFullYear();
-            
+
             return `${month}/${day}/${year}`;
         }
 
-        // Function to generate invoice number in the format YYYYDDMMXXX
-        function generateInvoiceNumber(date) {
+        function generateInvoiceNumber(date, isHighAmount = false) {
             const year = date.getFullYear();
             const day = String(date.getDate()).padStart(2, '0');
             const month = String(date.getMonth() + 1).padStart(2, '0');
-            /*const randomDigits = String(Math.floor(Math.random() * 1000)).padStart(3, '0'); // Random 3-digit number  */
-            const randomDigits = '048'; // Using fixed 048 as requested
             
-            return `${year}${day}${month}${randomDigits}`;
+            // Base receipt number
+            let baseNumber = `${year}${day}${month}048`;
+            
+            // If high amount, generate a higher receipt number
+            if (isHighAmount) {
+                // Generate a random number between 100 and 999 to add to the base
+                const randomAddition = Math.floor(Math.random() * 900) + 100;
+                baseNumber = `${year}${day}${month}${String(parseInt('048') + randomAddition).padStart(3, '0')}`;
+            }
+            
+            return baseNumber;
         }
 
-        // Set today's date
-        const today = new Date();
-        
-        // Display date and invoice number
-        document.getElementById('invoice-date').textContent = formatDate(today);
-        document.getElementById('invoice-number').textContent = generateInvoiceNumber(today);
+        function generateQRCode(invoiceNumber) {
+            const qrcodeContainer = document.getElementById('qrcode');
+            qrcodeContainer.innerHTML = ''; // Clear previous QR code if any
 
-        // Optional: Save username if needed
-        document.getElementById('username').addEventListener('change', function() {
-            // You could save this to localStorage or send to server
-            console.log('Username entered:', this.value);
-        });
+            QRCode.toCanvas(invoiceNumber, {
+                width: 130, // This should match your canvas CSS width
+                margin: 1,
+                color: {
+                    dark: '#000000',
+                    light: '#ffffff'
+                }
+            }, function (error, canvas) {
+                if (error) {
+                    console.error('QR Code generation error:', error);
+                    qrcodeContainer.innerHTML = '<p>QR Code Error</p>';
+                } else {
+                    // Ensure canvas has proper dimensions
+                    canvas.style.width = '130px';
+                    canvas.style.height = '130px';
+                    qrcodeContainer.appendChild(canvas);
+                }
+            });
+        }
+
+        // Function to update table content based on selected task set
+        function updateTable(taskSet) {
+            const taskButtons = document.querySelectorAll('.task-button');
+            taskButtons.forEach(button => {
+                button.classList.remove('active');
+            });
+            
+            // Highlight the active button
+            event.target.classList.add('active');
+            
+            currentTaskSet = taskSet;
+            updateTableContent();
+        }
+
+        // Function to update table content based on current task set and amount toggle
+        function updateTableContent() {
+            // Get table elements
+            const taskDescription1 = document.getElementById('task-description-1');
+            const amount1 = document.getElementById('amount-1');
+            const taskDescription2 = document.getElementById('task-description-2');
+            const amount2 = document.getElementById('amount-2');
+            const totalAmount = document.getElementById('total-amount');
+            const bonusRow = document.getElementById('bonus-row');
+            const bonusToggleContainer = document.getElementById('bonus-toggle-container');
+            
+            // Determine the second amount based on toggle
+            const secondAmount = isHighAmount ? 3900 : 1300;
+            
+            // Show/hide bonus toggle and row based on amount selection
+            if (isHighAmount) {
+                bonusToggleContainer.style.display = 'flex';
+                if (isBonusEnabled) {
+                    bonusRow.style.display = '';
+                } else {
+                    bonusRow.style.display = 'none';
+                }
+            } else {
+                bonusToggleContainer.style.display = 'none';
+                bonusRow.style.display = 'none';
+                isBonusEnabled = false; // Reset bonus when switching to 1300
+                document.getElementById('bonus-toggle').checked = false;
+            }
+            
+            // Calculate base total
+            let baseTotal = 0;
+            
+            // Update table based on selected task set
+            switch(currentTaskSet) {
+                case '123':
+                    taskDescription1.textContent = 'Commission of Tasks 1/2/3';
+                    amount1.textContent = '₹150';
+                    taskDescription2.textContent = 'Commission of Task 3';
+                    amount2.textContent = `₹${secondAmount}`;
+                    baseTotal = 150 + secondAmount;
+                    break;
+                    
+                case '4567':
+                    taskDescription1.textContent = 'Commission of Tasks 4/5/6/7';
+                    amount1.textContent = '₹200';
+                    taskDescription2.textContent = 'Commission of Task 7';
+                    amount2.textContent = `₹${secondAmount}`;
+                    baseTotal = 200 + secondAmount;
+                    break;
+                    
+                case '8910':
+                    taskDescription1.textContent = 'Commission of Tasks 8/9/10';
+                    amount1.textContent = '₹150';
+                    taskDescription2.textContent = 'Commission of Task 10';
+                    amount2.textContent = `₹${secondAmount}`;
+                    baseTotal = 150 + secondAmount;
+                    break;
+                    
+                case '11121314':
+                    taskDescription1.textContent = 'Commission of Tasks 11/12/13/14';
+                    amount1.textContent = '₹200';
+                    taskDescription2.textContent = 'Commission of Task 14';
+                    amount2.textContent = `₹${secondAmount}`;
+                    baseTotal = 200 + secondAmount;
+                    break;
+                    
+                case '15161718':
+                    taskDescription1.textContent = 'Commission of Tasks 15/16/17/18';
+                    amount1.textContent = '₹200';
+                    taskDescription2.textContent = 'Commission of Task 18';
+                    amount2.textContent = `₹${secondAmount}`;
+                    baseTotal = 200 + secondAmount;
+                    break;
+                    
+                default:
+                    // Default values
+                    taskDescription1.textContent = 'Commission of Tasks 4/5/6';
+                    amount1.textContent = '₹150';
+                    taskDescription2.textContent = 'Commission of Task 6';
+                    amount2.textContent = `₹${secondAmount}`;
+                    baseTotal = 150 + secondAmount;
+            }
+            
+            // Add bonus if enabled
+            if (isBonusEnabled) {
+                baseTotal += 100;
+            }
+            
+            // Update total
+            totalAmount.textContent = `₹${baseTotal}`;
+            
+            // Update receipt number and QR code
+            updateReceiptNumber();
+        }
+
+        // Function to update receipt number and QR code
+        function updateReceiptNumber() {
+            const today = new Date();
+            const invoiceNumber = generateInvoiceNumber(today, isHighAmount);
+            document.getElementById('invoice-number').textContent = invoiceNumber;
+            generateQRCode(invoiceNumber);
+        }
+
+        // Initialize the page
+        function initializePage() {
+            // Set today's date
+            const today = new Date();
+            document.getElementById('invoice-date').textContent = formatDate(today);
+            
+            // Set default task set as active
+            document.querySelector('.task-button:nth-child(2)').classList.add('active');
+            
+            // Update table with default values
+            updateTableContent();
+            
+            // Add event listener for amount toggle button
+            document.getElementById('amount-toggle').addEventListener('change', function() {
+                isHighAmount = this.checked;
+                updateTableContent();
+            });
+            
+            // Add event listener for bonus toggle button
+            document.getElementById('bonus-toggle').addEventListener('change', function() {
+                isBonusEnabled = this.checked;
+                updateTableContent();
+            });
+        }
+
+        // Initialize the page when loaded
+        window.onload = initializePage;
     </script>
 </body>
+
 </html>
