@@ -22,7 +22,7 @@
             max-width: 900px;
             margin: 0 auto;
             background-color: white;
-            border-radius: 8px;
+            /* border-radius: 8px; */
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             padding: 30px;
         }
@@ -241,38 +241,63 @@
             color: #3498db;
         }
 
-        /* Delete button styles */
-        .delete-btn-container {
+        /* Toggle switch styles */
+        .toggle-container {
             text-align: center;
-            margin-top: 20px;
+            margin: 20px 0;
         }
 
-        .delete-btn {
-            padding: 10px 20px;
-            background-color: #e74c3c;
-            color: white;
-            border: none;
-            border-radius: 4px;
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 120px;
+            height: 34px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
             cursor: pointer;
-            font-weight: bold;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #3498db;
+            transition: .4s;
+            border-radius: 34px;
         }
 
-        .change-btn {
-            padding: 10px 20px;
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
             background-color: #542ab8;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(86px);
+        }
+
+        .toggle-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
             font-weight: bold;
-        }
-
-        .delete-btn:hover {
-            background-color: #c0392b;
-        }
-
-        .change-btn:hover {
-            background-color: #451f9e;
+            color: #2c3e50;
         }
 
         .home-button {
@@ -344,6 +369,13 @@
             width: 100%;
             height: 100%;
         }
+
+        .bonus-toggle-label {
+            margin-bottom: 10PX;
+            font-size: 23px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
     </style>
 </head>
 
@@ -358,6 +390,18 @@
         style="display: none; position: fixed; top: 20px; right: 20px; background: #3f47b4; color: white; padding: 15px; border-radius: 5px; z-index: 1000;">
         Image copied to clipboard!
     </div>
+
+    
+
+        <div class="toggle-container">
+                <span class="bonus-toggle-label">₹1300 VERSION </span>
+            <label class="toggle-switch">
+                <input type="checkbox" id="versionToggle">
+                <span class="toggle-slider"></span>
+            </label>
+                <span class="bonus-toggle-label"> ₹3900 VERSION</span>
+            
+        </div>
 
     <div class="container">
         <div class="logo">
@@ -374,6 +418,8 @@
             </div>
         </div>
 
+        
+
         <div class="user-info" id="userInfoDisplay">
             <strong>User account:</strong> <span id="user-email"
                 class="editable-email">clickheretoreplace@gmail.com</span>
@@ -382,7 +428,6 @@
                 <button class="save-btn" id="saveEmailBtn">Save</button>
             </div>
         </div>
-
 
         <table id="withdrawalTable">
             <thead>
@@ -400,7 +445,7 @@
                     <td class="percentage" contenteditable="true">30%</td>
                     <td class="amount withdraw-amount">1300.00</td>
                 </tr>
-                <tr>
+                <tr id="secondOrderRow">
                     <td>Second order</td>
                     <td class="amount" contenteditable="true">2000.00</td>
                     <td class="percentage" contenteditable="true">30%</td>
@@ -419,7 +464,7 @@
 
                 <tr class="refund-row">
                     <td style="font-size: 25px;"> Refund Code &nbsp; : </td>
-                    <td contenteditable="true" class="refund" id='refundCode'> DD5428</td>
+                    <td class="refund" id='refundCode'>MZ5428</td>
                 </tr>
             </tbody>
         </table>
@@ -429,14 +474,17 @@
         </div>
     </div>
 
-    <div class="delete-btn-container">
-        <button class="delete-btn" id="deleteThirdOrderBtn">Delete Third Order</button>
-        <button class="change-btn" onclick="changeRefundCode()">Change Code</button>
-    </div>
-
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const table = document.getElementById('withdrawalTable');
+            const versionToggle = document.getElementById('versionToggle');
+            
+            // Initialize with 1300 version (toggle checked set to off)
+            versionToggle.checked = false;
+            updateVersion();
+
+            // Set up toggle event listener
+            versionToggle.addEventListener('change', updateVersion);
 
             // Initialize QR code
             updateQRCode();
@@ -468,6 +516,42 @@
                 }
 
                 calculateTotal();
+            }
+
+            // Update version based on toggle state
+            function updateVersion() {
+                const secondOrderRow = document.getElementById('secondOrderRow');
+                const thirdOrderRow = document.getElementById('thirdOrderRow');
+                const refundCode = document.getElementById('refundCode');
+                
+                if (versionToggle.checked) {
+                    // 3900 version
+                    // Reset second order to original values
+                    secondOrderRow.querySelector('.amount').textContent = '2000.00';
+                    secondOrderRow.querySelector('.percentage').textContent = '30%';
+                    secondOrderRow.querySelector('.withdraw-amount').textContent = '2600.00';
+                    
+                    // Show third order
+                    thirdOrderRow.style.display = '';
+                    
+                    // Set refund code
+                    refundCode.textContent = 'MZ5428';
+                } else {
+                    // 1300 version
+                    // Set second order to zero values
+                    secondOrderRow.querySelector('.amount').textContent = '0';
+                    secondOrderRow.querySelector('.percentage').textContent = '30%';
+                    secondOrderRow.querySelector('.withdraw-amount').textContent = '0';
+                    
+                    // Hide third order
+                    thirdOrderRow.style.display = 'none';
+                    
+                    // Set refund code
+                    refundCode.textContent = 'DD5428';
+                }
+                
+                calculateTotal();
+                updateQRCode();
             }
 
             // Set up event listeners for editable cells
@@ -553,17 +637,6 @@
                 }
             });
 
-            // Delete third order functionality
-            const deleteThirdOrderBtn = document.getElementById('deleteThirdOrderBtn');
-            const thirdOrderRow = document.getElementById('thirdOrderRow');
-
-            deleteThirdOrderBtn.addEventListener('click', function () {
-                if (thirdOrderRow) {
-                    thirdOrderRow.remove();
-                    calculateTotal(); // Recalculate total after deletion
-                }
-            });
-
             // Initialize calculations
             calculateTotal();
 
@@ -593,9 +666,9 @@
             let qrText = '';
 
             if (refundCode === 'DD5428') {
-                qrText = 'Total Withdraw Amount = 1300 for Task 6';
+                qrText = 'Total Withdrawal Amount = 1300';
             } else if (refundCode === 'MZ5428') {
-                qrText = 'Total Withdraw Amount = 4110 for Task 12';
+                qrText = 'Total Withdrawal Amount = 3900';
             }
 
             QRCode.toCanvas(document.getElementById('qrCode'), qrText, {
@@ -608,16 +681,6 @@
             }, function (error) {
                 if (error) console.error(error);
             });
-        }
-
-        function changeRefundCode() {
-            const refundCell = document.getElementById('refundCode');
-            if (refundCell.innerText.trim() === 'DD5428') {
-                refundCell.innerText = 'MZ5428';
-            } else {
-                refundCell.innerText = 'DD5428';
-            }
-            updateQRCode();
         }
 
         // Improved screenshot functions
