@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Person Data Filter</title>
+    <link rel="icon" href="https://www.clipartmax.com/png/middle/258-2582267_circled-user-male-skin-type-1-2-icon-male-user-icon.png" type="image/png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+        }
+        
+        .panel-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .input-panel, .output-panel {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .panel-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .panel-title i {
+            color: #3498db;
+        }
+        
+        textarea {
+            width: 100%;
+            height: 300px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            resize: vertical;
+            font-family: monospace;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+        
+        .button-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .person-btn {
+            padding: 10px 15px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .person-btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        .person-btn.active {
+            background: #2c3e50;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .output-area {
+            flex: 1;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #f8f9fa;
+            font-family: monospace;
+            white-space: pre-wrap;
+            overflow-y: auto;
+            min-height: 300px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+        
+        .output-area:hover {
+            background: #f0f3f5;
+        }
+        
+        .output-area:active {
+            transform: scale(0.995);
+        }
+        
+        .number-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .number-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            background: white;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .number-item:hover {
+            background: #f0f7ff;
+        }
+        
+        .number-item.recently-copied {
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            box-shadow: 0 2px 8px rgba(33, 150, 243, 0.3);
+            transform: translateY(-1px);
+        }
+        
+        .number-checkbox {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        
+        .number-text {
+            flex: 1;
+            font-size: 14px;
+            font-family: monospace;
+        }
+        
+        .number-text.strikethrough {
+            text-decoration: line-through;
+            color: #95a5a6;
+        }
+        
+        .copy-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            color: #7f8c8d;
+        }
+        
+        .copy-btn:hover {
+            background: #e3f2fd;
+            color: #3498db;
+        }
+        
+        .copy-btn:active {
+            transform: scale(0.95);
+        }
+        
+        .stats {
+            margin-top: 15px;
+            padding: 10px;
+            background: #e8f4fc;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            color: #2c3e50;
+        }
+        
+        .instructions {
+            margin-top: 30px;
+            padding: 15px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .instructions h3 {
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        
+        .instructions ul {
+            padding-left: 20px;
+        }
+        
+        .instructions li {
+            margin-bottom: 8px;
+        }
+        
+        .copy-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(46, 204, 113, 0.95);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            font-weight: 600;
+            z-index: 1000;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.3s ease;
+            pointer-events: none;
+            max-width: 300px;
+        }
+        
+        .copy-notification.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .copy-notification.error {
+            background: rgba(231, 76, 60, 0.95);
+        }
+        
+        .copied-number {
+            font-family: monospace;
+            font-size: 14px;
+            font-weight: bold;
+            display: block;
+            margin-top: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 4px 8px;
+            border-radius: 4px;
+            word-break: break-all;
+        }
+        
+        @media (max-width: 768px) {
+            .panel-container {
+                flex-direction: column;
+            }
+            
+            .input-panel, .output-panel {
+                min-width: 100%;
+            }
+            
+            .copy-notification {
+                right: 10px;
+                left: 10px;
+                max-width: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Person Data Filter System</h1>
+        <p class="subtitle">Filter and view data by person with a single click</p>
+        
+        <div class="panel-container">
+            <div class="input-panel">
+                <div class="panel-title">
+                    <i>📥</i> Input Data
+                </div>
+                <textarea id="inputData" placeholder="Paste your data here (e.g., from Excel)">
+</textarea>
+                <button id="processBtn" class="person-btn" style="margin-top: 15px; width: 100%;">Process Data</button>
+            </div>
+            
+            <div class="output-panel">
+                <div class="panel-title">
+                    <i>📤</i> Output
+                </div>
+                <div class="button-container" id="buttonContainer">
+                    <!-- Person buttons will be generated here -->
+                </div>
+                <div class="output-area" id="outputArea">
+                    <div class="number-list" id="numberList">
+                        Processed data will appear here
+                    </div>
+                </div>
+                <div class="stats" id="stats">
+                    No data processed yet
+                </div>
+            </div>
+        </div>
+        
+        <div class="instructions">
+            <h3>How to use:</h3>
+            <ul>
+                <li>Paste your data in the left panel (format: Name TAB Number TAB ... TAB Fifth Column)</li>
+                <li>Click "Process Data" to analyze the input</li>
+                <li>Only entries with fifth column value "1" will be displayed</li>
+                <li>Click on person buttons to view their associated numbers</li>
+                <li>Check/uncheck numbers to mark them with strike-through</li>
+                <li>Double-click on the output area to copy only non-struck-through numbers to clipboard</li>
+                <li>Click the copy icon next to each number to copy individual numbers</li>
+                <li>The system automatically detects different persons and creates buttons for each</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Copy notification element -->
+    <div class="copy-notification" id="copyNotification">
+        <span>Copied successfully!</span>
+        <span class="copied-number" id="copiedNumber"></span>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputData = document.getElementById('inputData');
+            const processBtn = document.getElementById('processBtn');
+            const buttonContainer = document.getElementById('buttonContainer');
+            const outputArea = document.getElementById('outputArea');
+            const numberList = document.getElementById('numberList');
+            const stats = document.getElementById('stats');
+            const copyNotification = document.getElementById('copyNotification');
+            const copiedNumber = document.getElementById('copiedNumber');
+            
+            let personsData = {};
+            let currentPerson = '';
+            let strikeThroughState = {}; // Track strike-through state for each person's numbers
+            let lastCopiedItem = null; // Track the last copied number item
+            
+            processBtn.addEventListener('click', function() {
+                processData();
+            });
+            
+            // Add double-click event listener to output area
+            outputArea.addEventListener('dblclick', function() {
+                copyToClipboard();
+            });
+            
+            function processData() {
+                const inputText = inputData.value.trim();
+                if (!inputText) {
+                    numberList.innerHTML = '<div class="number-item">Please enter some data to process.</div>';
+                    stats.textContent = 'No data to process';
+                    return;
+                }
+                
+                // Reset data
+                personsData = {};
+                strikeThroughState = {};
+                buttonContainer.innerHTML = '';
+                lastCopiedItem = null;
+                
+                // Split by lines and process each line
+                const lines = inputText.split('\n');
+                let totalEntries = 0;
+                let filteredEntries = 0;
+                
+                lines.forEach(line => {
+                    const trimmedLine = line.trim();
+                    if (!trimmedLine) return;
+                    
+                    totalEntries++;
+                    
+                    // Split by tab
+                    const parts = trimmedLine.split('\t');
+                    if (parts.length >= 5) {
+                        const person = parts[0].trim();
+                        const number = parts[1].trim();
+                        const fifthColumn = parts[4].trim();
+                        
+                        // Only process if fifth column has value "1"
+                        if (person && number && fifthColumn === '1') {
+                            filteredEntries++;
+                            
+                            if (!personsData[person]) {
+                                personsData[person] = [];
+                                strikeThroughState[person] = {};
+                            }
+                            personsData[person].push(number);
+                            // Initialize all numbers as not struck through
+                            strikeThroughState[person][number] = false;
+                        }
+                    }
+                });
+                
+                // Create buttons for each person
+                const personNames = Object.keys(personsData);
+                
+                if (personNames.length === 0) {
+                    numberList.innerHTML = '<div class="number-item">No valid data found with fifth column value "1".</div>';
+                    stats.textContent = `Filtered: ${filteredEntries} of ${totalEntries} entries`;
+                    return;
+                }
+                
+                personNames.forEach(person => {
+                    const button = document.createElement('button');
+                    button.className = 'person-btn';
+                    button.textContent = `${person} (${personsData[person].length})`;
+                    button.dataset.person = person;
+                    
+                    button.addEventListener('click', function() {
+                        // Remove active class from all buttons
+                        document.querySelectorAll('.person-btn').forEach(btn => {
+                            btn.classList.remove('active');
+                        });
+                        
+                        // Add active class to clicked button
+                        this.classList.add('active');
+                        
+                        // Display data for this person
+                        displayPersonData(person);
+                    });
+                    
+                    buttonContainer.appendChild(button);
+                });
+                
+                // Auto-select first person
+                if (personNames.length > 0) {
+                    const firstButton = buttonContainer.querySelector('.person-btn');
+                    firstButton.classList.add('active');
+                    displayPersonData(personNames[0]);
+                }
+                
+                // Update stats
+                const totalNumbers = Object.values(personsData).reduce((sum, numbers) => sum + numbers.length, 0);
+                stats.textContent = `Found ${personNames.length} person(s) with ${totalNumbers} numbers (Filtered: ${filteredEntries} of ${totalEntries} entries)`;
+            }
+            
+            function displayPersonData(person) {
+                currentPerson = person;
+                if (personsData[person]) {
+                    // Clear the number list
+                    numberList.innerHTML = '';
+                    
+                    // Create number items with checkboxes and copy buttons
+                    personsData[person].forEach(number => {
+                        const numberItem = document.createElement('div');
+                        numberItem.className = 'number-item';
+                        
+                        const checkbox = document.createElement('input');
+                        checkbox.type = 'checkbox';
+                        checkbox.className = 'number-checkbox';
+                        checkbox.checked = strikeThroughState[person][number];
+                        checkbox.addEventListener('change', function() {
+                            // Update strike-through state
+                            strikeThroughState[person][number] = this.checked;
+                            
+                            // Update the number text
+                            numberText.classList.toggle('strikethrough', this.checked);
+                        });
+                        
+                        const numberText = document.createElement('span');
+                        numberText.className = 'number-text';
+                        numberText.textContent = number;
+                        numberText.classList.toggle('strikethrough', strikeThroughState[person][number]);
+                        
+                        const copyBtn = document.createElement('button');
+                        copyBtn.className = 'copy-btn';
+                        copyBtn.innerHTML = '📋';
+                        copyBtn.title = 'Copy this number';
+                        copyBtn.addEventListener('click', function(e) {
+                            e.stopPropagation(); // Prevent triggering the double-click event
+                            copySingleNumber(number, numberItem);
+                        });
+                        
+                        numberItem.appendChild(checkbox);
+                        numberItem.appendChild(numberText);
+                        numberItem.appendChild(copyBtn);
+                        numberList.appendChild(numberItem);
+                    });
+                } else {
+                    numberList.innerHTML = '<div class="number-item">No data found for this person.</div>';
+                }
+            }
+            
+            function copySingleNumber(number, numberItem) {
+                // Remove highlight from previously copied item
+                if (lastCopiedItem) {
+                    lastCopiedItem.classList.remove('recently-copied');
+                }
+                
+                // Add highlight to the current copied item
+                numberItem.classList.add('recently-copied');
+                lastCopiedItem = numberItem;
+                
+                // Use the Clipboard API to copy text
+                navigator.clipboard.writeText(number)
+                    .then(() => {
+                        // Show success notification with the specific number
+                        copyNotification.querySelector('span').textContent = 'Copied successfully!';
+                        copiedNumber.textContent = number;
+                        copyNotification.classList.remove('error');
+                        copyNotification.classList.add('show');
+                        
+                        // Hide notification after 1.5 seconds
+                        setTimeout(() => {
+                            copyNotification.classList.remove('show');
+                        }, 1500);
+                    })
+                    .catch(err => {
+                        console.error('Failed to copy: ', err);
+                        // Fallback for older browsers
+                        fallbackCopySingleNumber(number, numberItem);
+                    });
+            }
+            
+            function fallbackCopySingleNumber(number, numberItem) {
+                const textArea = document.createElement('textarea');
+                textArea.value = number;
+                
+                // Avoid scrolling to bottom
+                textArea.style.top = '0';
+                textArea.style.left = '0';
+                textArea.style.position = 'fixed';
+                
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                
+                try {
+                    const successful = document.execCommand('copy');
+                    if (successful) {
+                        // Remove highlight from previously copied item
+                        if (lastCopiedItem) {
+                            lastCopiedItem.classList.remove('recently-copied');
+                        }
+                        
+                        // Add highlight to the current copied item
+                        numberItem.classList.add('recently-copied');
+                        lastCopiedItem = numberItem;
+                        
+                        // Show success notification with the specific number
+                        copyNotification.querySelector('span').textContent = 'Copied successfully!';
+                        copiedNumber.textContent = number;
+                        copyNotification.classList.remove('error');
+                        copyNotification.classList.add('show');
+                        
+                        setTimeout(() => {
+                            copyNotification.classList.remove('show');
+                        }, 1500);
+                    }
+                } catch (err) {
+                    console.error('Fallback: Oops, unable to copy', err);
+                }
+                
+                document.body.removeChild(textArea);
+            }
+            
+            function copyToClipboard() {
+                if (!currentPerson || !personsData[currentPerson]) {
+                    return;
+                }
+                
+                // Filter out struck-through numbers
+                const numbersToCopy = personsData[currentPerson].filter(number => 
+                    !strikeThroughState[currentPerson][number]
+                );
+                
+                if (numbersToCopy.length === 0) {
+                    copyNotification.querySelector('span').textContent = 'No numbers to copy (all are struck through)!';
+                    copiedNumber.textContent = '';
+                    copyNotification.classList.add('error', 'show');
+                    
+                    setTimeout(() => {
+                        copyNotification.classList.remove('show');
+                    }, 1500);
+                    return;
+                }
+                
+                const textToCopy = numbersToCopy.join('\n');
+                
+                // Use the Clipboard API to copy text
+                navigator.clipboard.writeText(textToCopy)
+                    .then(() => {
+                        // Show success notification with person name
+                        copyNotification.querySelector('span').textContent = `Copied ${numbersToCopy.length} numbers successfully!`;
+                        copiedNumber.textContent = `Person: ${currentPerson}`;
+                        copyNotification.classList.remove('error');
+                        copyNotification.classList.add('show');
+                        
+                        // Hide notification after 1.5 seconds
+                        setTimeout(() => {
+                            copyNotification.classList.remove('show');
+                        }, 1500);
+                    })
+                    .catch(err => {
+                        console.error('Failed to copy: ', err);
+                        // Fallback for older browsers
+                        fallbackCopyTextToClipboard(textToCopy);
+                    });
+            }
+            
+            // Fallback method for older browsers
+            function fallbackCopyTextToClipboard(text) {
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                
+                // Avoid scrolling to bottom
+                textArea.style.top = '0';
+                textArea.style.left = '0';
+                textArea.style.position = 'fixed';
+                
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                
+                try {
+                    const successful = document.execCommand('copy');
+                    if (successful) {
+                        const numbersToCopy = personsData[currentPerson].filter(number => 
+                            !strikeThroughState[currentPerson][number]
+                        );
+                        copyNotification.querySelector('span').textContent = `Copied ${numbersToCopy.length} numbers successfully!`;
+                        copiedNumber.textContent = `Person: ${currentPerson}`;
+                        copyNotification.classList.remove('error');
+                        copyNotification.classList.add('show');
+                        
+                        setTimeout(() => {
+                            copyNotification.classList.remove('show');
+                        }, 1500);
+                    }
+                } catch (err) {
+                    console.error('Fallback: Oops, unable to copy', err);
+                }
+                
+                document.body.removeChild(textArea);
+            }
+            
+            // Process the example data on page load
+            processData();
+        });
+    </script>
+</body>
+</html>
