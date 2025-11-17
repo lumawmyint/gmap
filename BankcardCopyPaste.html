@@ -143,111 +143,6 @@
             resize: vertical;
         }
 
-        .amount-options {
-            display: flex;
-            gap: 0.75rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .amount-btn {
-            padding: 0.75rem 1.5rem;
-            background-color: #f1f5f9;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: var(--transition);
-            font-size: 1rem;
-            color: var(--gray);
-        }
-
-        .amount-btn.active {
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: var(--shadow);
-        }
-
-        .amount-btn:hover:not(.active) {
-            background-color: #e2e8f0;
-            color: var(--dark);
-        }
-
-        button {
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
-            color: white;
-            border: none;
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            cursor: pointer;
-            font-size: 1.1rem;
-            font-weight: 500;
-            transition: var(--transition);
-            width: 100%;
-            height: fit-content;
-            align-self: flex-end;
-        }
-
-        button:hover {
-            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-hover);
-        }
-
-        .output-container {
-            position: relative;
-            overflow: hidden;
-            margin-top: 0;
-            border-radius: var(--border-radius-sm);
-            border: 1px dashed #cbd5e1;
-            transition: var(--transition);
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .output-container:hover {
-            border-color: var(--primary);
-        }
-
-        .output {
-            padding: 1.5rem;
-            background-color: var(--light);
-            white-space: pre-wrap;
-            cursor: pointer;
-            position: relative;
-            transition: var(--transition);
-            flex: 1;
-            border-radius: var(--border-radius-sm);
-            min-height: 200px;
-        }
-
-        .output:hover {
-            background-color: #f1f5f9;
-        }
-
-        .textarea-btn {
-            background: var(--primary);
-            color: white;
-            border: noe;
-            border-radius: 4px;
-            padding: 6px 12px;
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: 500;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            box-shadow: var(--shadow);
-        }
-
-        .textarea-btn:hover {
-            background: var(--primary-dark);
-            transform: translateY(-1px);
-            box-shadow: var(--shadow-hover);
-        }
-
         .error {
             color: var(--error);
             margin-top: 0.5rem;
@@ -490,6 +385,87 @@
             color: var(--dark);
             font-size: 0.9rem;
         }
+        
+        .output-container {
+            position: relative;
+            overflow: hidden;
+            margin-top: 0;
+            border-radius: var(--border-radius-sm);
+            border: 1px dashed #cbd5e1;
+            transition: var(--transition);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .output-container:hover {
+            border-color: var(--primary);
+        }
+
+        .output {
+            padding: 1.5rem;
+            background-color: var(--light);
+            white-space: pre-wrap;
+            cursor: pointer;
+            position: relative;
+            transition: var(--transition);
+            flex: 1;
+            border-radius: var(--border-radius-sm);
+            min-height: 200px;
+        }
+
+        .output:hover {
+            background-color: #f1f5f9;
+        }
+
+        .textarea-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 6px 12px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            box-shadow: var(--shadow);
+        }
+
+        .textarea-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .status-processing {
+            background-color: #f59e0b;
+            animation: pulse 1.5s infinite;
+        }
+        
+        .status-ready {
+            background-color: #10b981;
+        }
+        
+        .status-error {
+            background-color: #ef4444;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
     </style>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -515,7 +491,7 @@
                 <div class="form-group">
                     <label for="bankDetails">Bank Details (any format):</label>
                     <div class="textarea-container">
-                        <textarea id="bankDetails" ></textarea>
+                        <textarea id="bankDetails" placeholder="Paste your bank details here..."></textarea>
                         <div class="textarea-buttons">
                             <button class="textarea-btn" id="clearBtn">
                                 <i class="fas fa-times"></i> Clear
@@ -525,30 +501,20 @@
                 </div>
 
                 <div class="form-row">
-                    <div class="form-group-small">
+                    <div class="form-group">
                         <label for="codeNumber">Code Number:</label>
                         <input type="text" id="codeNumber" placeholder="ABCD1234">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Amount:</label>
-                        <div class="amount-options">
-                            <button type="button" class="amount-btn active" data-amount="100">100</button>
-                            <button type="button" class="amount-btn" data-amount="150">150</button>
-                            <button type="button" class="amount-btn" data-amount="210">210</button>
-                        </div>
                     </div>
                 </div>
 
                 <div id="error" class="error"></div>
-
-                <div class="form-group-small">
-                    <button id="generateBtn">Generate</button>
-                </div>
             </div>
 
             <div class="output-section">
-                <div class="output-label">Output:</div>
+                <div class="output-label">
+                    <span id="statusIndicator" class="status-indicator status-processing"></span>
+                    Output (auto-generated):
+                </div>
                 <div class="output-container">
                     <div id="output" class="output"></div>
                     <div class="copy-hint">Double-click to copy</div>
@@ -563,16 +529,16 @@
         document.addEventListener('DOMContentLoaded', function () {
             const bankDetailsTextarea = document.getElementById('bankDetails');
             const codeNumberInput = document.getElementById('codeNumber');
-            const amountButtons = document.querySelectorAll('.amount-btn');
-            const generateBtn = document.getElementById('generateBtn');
             const outputDiv = document.getElementById('output');
             const errorDiv = document.getElementById('error');
             const notification = document.getElementById('notification');
             const outputContainer = document.querySelector('.output-container');
             const particlesContainer = document.getElementById('particles');
             const clearBtn = document.getElementById('clearBtn');
+            const statusIndicator = document.getElementById('statusIndicator');
 
-            let selectedAmount = '100';
+            const selectedAmount = '100'; // Always 100 by default
+            let autoGenerateTimeout;
 
             // Create floating particles
             function createParticles() {
@@ -601,24 +567,62 @@
             // Clear textarea content
             clearBtn.addEventListener('click', function () {
                 bankDetailsTextarea.value = '';
+                codeNumberInput.value = '';
+                outputDiv.textContent = '';
+                errorDiv.textContent = '';
+                updateStatusIndicator('processing');
                 bankDetailsTextarea.focus();
             });
 
-            // Amount selection
-            amountButtons.forEach(button => {
-                button.addEventListener('click', function () {
-                    amountButtons.forEach(btn => btn.classList.remove('active'));
-                    this.classList.add('active');
-                    selectedAmount = this.dataset.amount;
+            // Auto-generate output when inputs change
+            function setupAutoGeneration() {
+                // Listen for input events on both fields
+                bankDetailsTextarea.addEventListener('input', debounce(generateOutput, 500));
+                codeNumberInput.addEventListener('input', debounce(generateOutput, 500));
+                
+                // Also listen for paste events for immediate response
+                bankDetailsTextarea.addEventListener('paste', function() {
+                    setTimeout(generateOutput, 100);
                 });
-            });
+                codeNumberInput.addEventListener('paste', function() {
+                    setTimeout(generateOutput, 100);
+                });
+            }
+
+            // Debounce function to prevent too many rapid calls
+            function debounce(func, wait) {
+                return function() {
+                    clearTimeout(autoGenerateTimeout);
+                    autoGenerateTimeout = setTimeout(func, wait);
+                };
+            }
+
+            // Update status indicator
+            function updateStatusIndicator(status) {
+                statusIndicator.className = 'status-indicator';
+                if (status === 'processing') {
+                    statusIndicator.classList.add('status-processing');
+                } else if (status === 'ready') {
+                    statusIndicator.classList.add('status-ready');
+                } else if (status === 'error') {
+                    statusIndicator.classList.add('status-error');
+                }
+            }
 
             // Generate output
-            generateBtn.addEventListener('click', function () {
+            function generateOutput() {
                 errorDiv.textContent = '';
+                updateStatusIndicator('processing');
 
                 const inputText = bankDetailsTextarea.value;
                 const codeNumber = codeNumberInput.value.trim();
+
+                // If either field is empty, clear output and show processing status
+                if (!inputText || !codeNumber) {
+                    outputDiv.textContent = '';
+                    updateStatusIndicator('processing');
+                    return;
+                }
 
                 // Extract details from text
                 let bankName = '';
@@ -721,30 +725,28 @@
                 // If IFSC is missing or invalid, show error
                 if (!ifsc || !validateIFSC(ifsc)) {
                     errorDiv.textContent = 'Error: Invalid or missing IFSC code. Please check your input.';
+                    updateStatusIndicator('error');
                     return;
                 }
 
                 // If bank name is missing, show error
                 if (!bankName) {
                     errorDiv.textContent = 'Error: Could not determine bank name. Please provide bank name.';
+                    updateStatusIndicator('error');
                     return;
                 }
 
                 // If account holder name is missing, show error
                 if (!accountHolderName) {
                     errorDiv.textContent = 'Error: Account holder name is missing.';
+                    updateStatusIndicator('error');
                     return;
                 }
 
                 // If account number is missing, show error
                 if (!accountNumber) {
                     errorDiv.textContent = 'Error: Account number is missing.';
-                    return;
-                }
-
-                // If code number is missing, show error
-                if (!codeNumber) {
-                    errorDiv.textContent = 'Error: Code number is missing.';
+                    updateStatusIndicator('error');
                     return;
                 }
 
@@ -752,7 +754,8 @@
                 const output = `/js\n${accountHolderName}\n${bankName}\n${ifsc}\n${accountNumber}\n${selectedAmount}\n${codeNumber}`;
 
                 outputDiv.textContent = output;
-            });
+                updateStatusIndicator('ready');
+            }
 
             // Copy to clipboard on double-click with animation
             outputDiv.addEventListener('dblclick', function () {
@@ -876,11 +879,15 @@
                     'VARA': 'Varachha Co-operative Bank',
                     'VIJX': 'Vijaya Bank',
                     'WBSC': 'West Bengal State Co-operative Bank',
-                    'YESX': 'Yes Bank'
+                    'YESX': 'Yes Bank',
+                    'NESF': 'North East Small Finance Bank'
                 };
 
                 return bankPrefixMap[bankPrefix] || null;
             }
+
+            // Initialize auto-generation
+            setupAutoGeneration();
         });
     </script>
 </body>
